@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="FindVacancies:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="FindVacancies.war">
+      <element id="artifact" artifact-name="FindVacancies:war exploded" />
+    </root>
+  </artifact>
+</component>
