@@ -11,12 +11,15 @@ import javax.validation.constraints.Pattern;
  * Created by AnGo on 24.07.2017.
  */
 public class SearchParams {
-    @NotBlank(message = "Enter words for search!")
+//    @NotBlank(message = "Enter words for search!")
+    @NotBlank(message = "{searchParams.SearchLine.Blank}")
     private String searchLine;
 
-    @NotBlank(message="Enter days amount for search!")
+//    @NotBlank(message="Enter days amount for search!")
+    @NotBlank(message="{searchParams.Days.Blank}")
     //@DecimalMin(value = "0", message = "The day value must be an integer and not an empty!")
-    @Min(value = 0, message = "The day value must be an integer!")
+//    @Min(value = 0, message = "The day value must be an integer!")
+    @Min(value = 0, message = "{searchParams.Days.MinValue}")
     private String days;
 
     public SearchParams() {

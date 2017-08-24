@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ua.findvacancies.mvc.export.XMLDocument;
 import ua.findvacancies.mvc.model.VacancyModel;
@@ -29,7 +30,7 @@ import java.util.List;
  * Created by AnGo on 24.06.2017.
  */
 @Controller
-//@RequestMapping("/FindVacancies")
+@RequestMapping({"/FindVacancies","/"})
 public class MVCController {
     private static final String DEFAULT_SEARCH = "Java developer";
     private static final int DEFAULT_DAYS = 30;

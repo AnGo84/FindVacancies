@@ -48,7 +48,6 @@ public class ExcelDocument extends AbstractXlsView {
                     row.createCell(3).setCellValue(vacancy.getCity());
                     row.createCell(4).setCellValue(vacancy.getCompanyName());
                     row.createCell(5).setCellValue(vacancy.getSiteName());
-
                     row.createCell(6).setCellValue(vacancy.getDate());
                 }
             }
