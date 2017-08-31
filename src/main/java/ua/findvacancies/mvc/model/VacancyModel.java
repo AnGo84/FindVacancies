@@ -22,13 +22,14 @@ public class VacancyModel {
         Provider providerHH = new Provider(new HHStrategy());
         Provider providerRabota = new Provider(new RabotaUAStrategy());
         Provider providerWork = new Provider(new WorkUAStrategy());
-        providers = new Provider[]{providerHH,providerRabota, providerWork};
+        Provider providerDOU = new Provider(new DOUStrategy());
+        providers = new Provider[]{providerHH, providerRabota, providerWork, providerDOU};
 //        providers = new Provider[]{providerWork};
     }
 
     public VacancyModel(Provider[] providers) {
         if (providers == null || providers.length == 0)
-            throw new IllegalArgumentException("Wrong data!");
+            throw new IllegalArgumentException("Wrong data");
         this.providers = providers;
     }
 

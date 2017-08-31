@@ -15,6 +15,7 @@ public class Test
 {
     public static void main(String[] args)
     {
+//        Provider provider = new Provider(new DOUStrategy());
         Provider provider = new Provider(new HHStrategy());
 //        Provider provider = new Provider(new RabotaUAStrategy());
 //        Provider provider = new Provider(new WorkUAStrategy());

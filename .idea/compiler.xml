@@ -12,7 +12,6 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="FindVacancies" target="1.8" />
-      <module name="FindVacation" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

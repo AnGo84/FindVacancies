@@ -6,7 +6,8 @@ package ua.findvacancies.mvc.model;
 public enum Site {
     HEADHUNTER("HH"),
     RABOTAUA("RabotaUA"),
-    WORKUA("WorkUA");
+    WORKUA("WorkUA"),
+    DOU("DOU");
 
     private final String displayName;
 

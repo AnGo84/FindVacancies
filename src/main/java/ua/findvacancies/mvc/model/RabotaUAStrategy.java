@@ -35,6 +35,9 @@ public class RabotaUAStrategy implements Strategy {
         simpleDateFormat.setDateFormatSymbols(dateFormatSymbols);
     }
 
+    private static final String DATE_NUMBER_FORMAT = "dd.MM.yyyy";
+    private static final SimpleDateFormat simpleDateNumberFormat = new SimpleDateFormat(DATE_NUMBER_FORMAT);
+
     @Override
     public List<Vacancy> getVacancies(String words, int days) {
         List<Vacancy> vacancies = new ArrayList<>();
@@ -130,13 +133,23 @@ public class RabotaUAStrategy implements Strategy {
             Document doc = StrategyDocument.getDocument(searchString);
             if (doc != null) {
                 Element element = doc.getElementsByClass("f-vacancy-header-wrapper").first();
+                //Element element = doc.getElementById("d-date");
                 if (element != null) {
 
                     Element dateElement = element.getElementsByClass("f-date-holder").first();
                     if (dateElement != null) {
                         //System.out.println("DateElem");
-                        //System.out.println("String: " + dateElement.text() + " | " + vacationDate);
+                        //System.out.println("String1: " + dateElement.text() + " | " + vacationDate);
                         vacationDate = simpleDateFormat.parse(dateElement.text());
+                        //System.out.println("Parse: " + vacationDate);
+                    }
+                }
+                else if ((element = doc.getElementById("d-date"))!=null ){
+                    Element dateElement = element.getElementsByClass("d-ph-value").first();
+                    if (dateElement != null) {
+                        //System.out.println("DateElem");
+                        //System.out.println("String2: " + dateElement.text() + " | " + vacationDate);
+                        vacationDate = simpleDateNumberFormat.parse(dateElement.text());
                         //System.out.println("Parse: " + vacationDate);
                     }
                 }
