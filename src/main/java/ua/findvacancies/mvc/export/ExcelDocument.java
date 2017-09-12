@@ -67,7 +67,7 @@ public class ExcelDocument extends AbstractXlsView {
         header.getCell(3).setCellStyle(styleHeader);
         header.createCell(4).setCellValue("Company Name");
         header.getCell(4).setCellStyle(styleHeader);
-        header.createCell(5).setCellValue("Site Name");
+        header.createCell(5).setCellValue("String Name");
         header.getCell(5).setCellStyle(styleHeader);
         header.createCell(6).setCellValue("Date");
         header.getCell(6).setCellStyle(styleHeader);

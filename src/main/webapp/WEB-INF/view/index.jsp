@@ -26,7 +26,7 @@
 
     <link href="../resources/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
     <link href="../resources/css/dataTables.bootstrap.min.css" rel="stylesheet" media="screen"/>
-    <%--<link href="../resources/css/bootstrap-select.css" rel="stylesheet" media="screen"/>--%>
+    <link href="../resources/css/bootstrap-select.css" rel="stylesheet" media="screen"/>
 
 
     <script src="../resources/js/jquery_latest.js">
@@ -43,8 +43,8 @@
     </script>
     <script src="../resources/js/dataTables.bootstrap.min.js">
     </script>
-    <%--<script src="../resources/js/bootstrap-select.js">--%>
-    <%--</script>--%>
+    <script src="../resources/js/bootstrap-select.js">
+    </script>
 
 </head>
 <body>
@@ -111,7 +111,7 @@
                     <%--<p> Today is <strong>--%>
                     <p><spring:message code="content.todayIsText"/> <strong>
                         <%--<fmt:formatDate value="${now}"  searchLine="yyyy MMMM dd"/>--%>
-                        <fmt:formatDate value="${now}" type="date" pattern="yyyy MMMM dd"/>
+                        <fmt:formatDate value="${now}" type="date" pattern="dd MMMM yyyy"/>
                     </strong>
                     </p>
                     <%--<p>"${searchWords}" </p>--%>
@@ -129,66 +129,77 @@
         <%--<form role="form" action="/searchVacancies" method="post" commandName="searchParams">--%>
         <form:form method="post" action="/FindVacancies/searchVacancies" commandName="searchParams">
             <div class="form-group row">
-                <div class="col-xs-6">
-                    <span class="error"><form:errors path="searchLine"/></span>
-                </div>
-                <div class="col-xs-6">
-                    <span class="error"><form:errors path="days"/></span>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-xs-6">
-                    <form:input path="searchLine" id="searchInput" class="form-control" placeholder="Search by words"/>
-                        <%--<h6 style="color:  #c0c0c0">For exclude word set "-" before it. For example "Java Developer -Senior"</h6>--%>
-                    <h6 style="color:  #c0c0c0"><spring:message code="content.explanetionText"/></h6>
-                </div>
-                <div class="col-xs-4">
+                <div class="col-xs-10">
                     <div class="form-group row">
-                        <div class="col-xs-1">
+                        <div class="col-xs-7">
+                            <span class="error"><form:errors path="searchLine"/></span>
                         </div>
-                            <%--<label class="col-xs-6 control-label text-right" for="daysInput">Vacancies for the last</label>--%>
-                        <label class="col-xs-6 control-label text-right" for="daysInput"><spring:message
-                                code="content.vacanciesLastTest"/></label>
-                        <div class="col-xs-3">
-                            <form:input path="days" id="daysInput" class="form-control"/>
+                        <div class="col-xs-5">
+                            <span class="error"><form:errors path="days"/></span>
                         </div>
-                            <%--<label class="col-xs-2 control-label" for="daysInput">days</label>--%>
-                        <label class="col-xs-2 control-label" for="daysInput"><spring:message
-                                code="content.daysText"/></label>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-xs-7">
+                            <form:input path="searchLine" id="searchInput" class="form-control"
+                                        placeholder="Search by words"/>
+                                <%--<h6 style="color:  #c0c0c0">For exclude word set "-" before it. For example "Java Developer -Senior"</h6>--%>
+                            <h6 style="color:  #c0c0c0"><spring:message code="content.explanetionText"/></h6>
+                        </div>
+                        <div class="col-xs-5">
+                            <div class="form-group row">
+                                <%--<div class="col-xs-1">--%>
+                                <%--</div>--%>
+                                    <%--<label class="col-xs-6 control-label text-right" for="daysInput">Vacancies for the last</label>--%>
+                                <label class="col-xs-6 control-label text-right" for="daysInput"><spring:message
+                                        code="content.vacanciesLastTest"/></label>
+                                <div class="col-xs-3">
+                                    <form:input path="days" id="daysInput" class="form-control"/>
+                                </div>
+                                    <%--<label class="col-xs-2 control-label" for="daysInput">days</label>--%>
+                                <label class="col-xs-2 control-label" for="daysInput"><spring:message
+                                        code="content.daysText"/></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-xs-2 right">
+                            <button class="btn btn-default" type="submit"
+                                    data-toggle="modal" data-target="#waitModalDialog"
+                                    data-backdrop="static" data-keyboard="false">
+                                <span class="glyphicon glyphicon-search"></span>
+                                <spring:message code="content.button.FiendVacancies"/>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="col-xs-2">
-                    <button class="btn btn-default" type="submit"
-                            data-toggle="modal" data-target="#waitModalDialog"
-                            data-backdrop="static" data-keyboard="false">
-                        <span class="glyphicon glyphicon-search"></span>
-                        <spring:message code="content.button.FiendVacancies"/>
-                    </button>
+                    <div class="form-group row">
+                        <div class="has-error">
+                                <%--<form:errors path="sites"/>--%>
+                            <span class="error"><form:errors path="sites"/></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xs control-lable" for="sites"><spring:message
+                                code="content.selectSites"/></label>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-xs">
+                            <form:select path="sites" items="${sites}" multiple="true" itemValue="displayName"
+                                         itemLabel="displayName" class="form-control input-sm"/>
+
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </form:form>
-        <%--</form>--%>
-        <!-- /Search-->
+
     </div>
 
-    <%--<div class="col-xs-5">--%>
-    <%--&lt;%&ndash;data-width="auto"&ndash;%&gt;--%>
-    <%--<select class="selectpicker" multiple data-actions-box="true" data-width="auto" title="Choose one of the following..."--%>
-    <%--id="selectedSites">--%>
-    <%--<option>HH</option>--%>
-    <%--<option>RabotaUA</option>--%>
-    <%--<option>WorkUA</option>--%>
-    <%--&lt;%&ndash;<option form:each="state : ${T(ua.findvacantion.mvc.model.Site).values()}"&ndash;%&gt;--%>
-    <%--&lt;%&ndash;form:value="${site}"&ndash;%&gt;--%>
-    <%--&lt;%&ndash;form:text="${site}">&ndash;%&gt;--%>
-    <%--&lt;%&ndash;</option>&ndash;%&gt;--%>
-
-    <%--</select>--%>
-    <%--</div>--%>
-    <%--</div>--%>
-    <%--</div>--%>
+    <br>
     <%--<br>--%>
+
 
     <div class="container bg-0 ">
         <table id="vacanciesTable" class="table table-striped table-bordered dataTable table-hover table-condensed"
@@ -325,7 +336,7 @@
 </script>
 
 <%--<script>--%>
-    <%--$('.selectpicker').selectpicker();--%>
+<%--$('.selectpicker').selectpicker();--%>
 <%--</script>--%>
 
 </body>

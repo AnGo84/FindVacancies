@@ -7,11 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ua.findvacancies.mvc.export.XMLDocument;
+import ua.findvacancies.mvc.model.Site;
 import ua.findvacancies.mvc.model.VacancyModel;
 import ua.findvacancies.mvc.utils.StringUtils;
 import ua.findvacancies.mvc.vo.SearchParams;
@@ -55,14 +56,14 @@ public class MVCController {
         mav.setViewName("/index");
         //mav.addObject("searchWords", DEFAULT_SEARCH);
         //mav.addObject("searchDays", DEFAULT_DAYS);
-        mav.addObject("searchParams", new SearchParams(DEFAULT_SEARCH, String.valueOf(DEFAULT_DAYS)));
+        mav.addObject("searchParams", new SearchParams(DEFAULT_SEARCH, java.lang.String.valueOf(DEFAULT_DAYS),null) );
         return mav;
     }
 
 
     @RequestMapping(value = "/searchVacancies", method = RequestMethod.GET)
-    public String searchVacanciesByWords(Model model) {
-        SearchParams searchParams = new SearchParams(DEFAULT_SEARCH, String.valueOf(DEFAULT_DAYS));
+    public java.lang.String searchVacanciesByWords(Model model) {
+        SearchParams searchParams = new SearchParams(DEFAULT_SEARCH, java.lang.String.valueOf(DEFAULT_DAYS));
         //SearchParams searchParams = new SearchParams(DEFAULT_SEARCH,DEFAULT_DAYS);
         model.addAttribute("searchParams", searchParams);
         return "/index";
@@ -70,7 +71,7 @@ public class MVCController {
 
     @RequestMapping(value = "/searchVacancies", method = RequestMethod.POST)
     //public String searchVacanciesByWords(@RequestParam(value = "searchLine") String searchLine, @RequestParam(value = "days") String daysText,
-    public String searchVacanciesByWords(Model m, @Valid final SearchParams searchParams, final BindingResult result) {
+    public java.lang.String searchVacanciesByWords(Model m, @Valid final SearchParams searchParams, final BindingResult result) {
         //System.out.println("searchLine1= " + searchLine + " | days1= " + daysText + " | " + "searchLine2= " + searchParams.getSearchLine() + " | days2= " + searchParams.getDays());
         rootLogger.info("New search:" + searchParams);
         if (result.hasErrors()) {
@@ -80,10 +81,10 @@ public class MVCController {
             //m.addAttribute("message", "Error!!!!!!!!!!!");
             return "/index";
         }
-        int days = StringUtils.getDaysFromText(searchParams.getDays());
-        //vacancyList = model.getVacancyList(searchLine, -days);
-
-        vacancyList = model.getVacancyList(searchParams.getSearchLine(), -days);
+        //int days = StringUtils.getDaysFromText(searchParams.getDays());
+        ////vacancyList = model.getVacancyList(searchLine, -days);
+        //vacancyList = model.getVacancyList(searchParams.getSearchLine(), -days);
+        vacancyList = model.getVacancyList(searchParams);
         m.addAttribute("resultVacanciesList", vacancyList);
         return "/index";
     }
@@ -118,5 +119,10 @@ public class MVCController {
             rootLogger.error("Export to XML error: " + e.getMessage());
         }
 
+    }
+
+    @ModelAttribute("sites")
+    public Object initializeProfiles() {
+        return Site.values();
     }
 }

@@ -10,7 +10,7 @@
 
     <mvc:annotation-driven/>
 
-    <!-- ViewResolver bean config for mapping strings to jsp views -->
+    <!-- ViewResolver bean config for mapping sites to jsp views -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <!-- Example: a logical view name of 'showMessage' is mapped to '/WEB-INF/jsp/showMessage.jsp' -->
         <property name="order" value="1"/>
