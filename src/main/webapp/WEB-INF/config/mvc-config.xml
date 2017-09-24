@@ -41,7 +41,8 @@
     <!-- Locale -->
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/*"/>
+            <!--<mvc:mapping path="/*"/>-->
+            <mvc:mapping path="/FindVacancies/*"/>
             <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
                 <property name="paramName" value="languageVar"/>
             </bean>

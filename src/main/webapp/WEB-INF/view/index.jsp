@@ -17,6 +17,7 @@
 <head>
     <meta charset=utf-8>
 
+    <%--<title>Find Vacancies</title>--%>
     <title>Find Vacancies</title>
 
     <%--<spring:url value="resources/css/bootstrap.css" var="bootstrap"/>--%>
@@ -25,6 +26,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="../resources/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+    <link href="../resources/css/theme.css" rel="stylesheet" media="screen"/>
     <link href="../resources/css/dataTables.bootstrap.min.css" rel="stylesheet" media="screen"/>
     <link href="../resources/css/bootstrap-select.css" rel="stylesheet" media="screen"/>
 
@@ -49,8 +51,6 @@
 </head>
 <body>
 
-<%--<c:url var="excelController" value="/excelExport"/>--%>
-<%--<c:url var="xmlController" value="/xmlExport"/>--%>
 <c:url var="excelController" value="/FindVacancies/excelExport"/>
 <c:url var="xmlController" value="/FindVacancies/xmlExport"/>
 
@@ -58,6 +58,8 @@
 
 <c:set var="searchWords" value="${searchWords}"/>
 <c:set var="searchDays" value="${searchDays}"/>
+
+<c:set var="vacanciesList" value="${resultVacanciesList}"/>
 
 <nav class="navbar navbar-default">
     <div class="container">
@@ -107,7 +109,7 @@
     <div class="container bg-0 ">
         <div class="row">
             <div class="col-12 text-center">
-                <h2>
+                <h3>
                     <%--<p> Today is <strong>--%>
                     <p><spring:message code="content.todayIsText"/> <strong>
                         <%--<fmt:formatDate value="${now}"  searchLine="yyyy MMMM dd"/>--%>
@@ -116,7 +118,7 @@
                     </p>
                     <%--<p>"${searchWords}" </p>--%>
                     <%--<p>"${searchDays}" </p>--%>
-                </h2>
+                </h3>
             </div>
         </div>
 
@@ -131,32 +133,32 @@
             <div class="form-group row">
                 <div class="col-xs-10">
                     <div class="form-group row">
-                        <div class="col-xs-7">
+                        <div class="col-xs-8">
                             <span class="error"><form:errors path="searchLine"/></span>
                         </div>
-                        <div class="col-xs-5">
+                        <div class="col-xs-4">
                             <span class="error"><form:errors path="days"/></span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-xs-7">
+                        <div class="col-xs-8">
                             <form:input path="searchLine" id="searchInput" class="form-control"
                                         placeholder="Search by words"/>
                                 <%--<h6 style="color:  #c0c0c0">For exclude word set "-" before it. For example "Java Developer -Senior"</h6>--%>
                             <h6 style="color:  #c0c0c0"><spring:message code="content.explanetionText"/></h6>
                         </div>
-                        <div class="col-xs-5">
+                        <div class="col-xs-4">
                             <div class="form-group row">
-                                <%--<div class="col-xs-1">--%>
-                                <%--</div>--%>
+                                    <%--<div class="col-xs-1">--%>
+                                    <%--</div>--%>
                                     <%--<label class="col-xs-6 control-label text-right" for="daysInput">Vacancies for the last</label>--%>
-                                <label class="col-xs-6 control-label text-right" for="daysInput"><spring:message
+                                <label class="col-xs-7 control-label text-right" for="daysInput"><spring:message
                                         code="content.vacanciesLastTest"/></label>
-                                <div class="col-xs-3">
+                                <div class="col-xs-2">
                                     <form:input path="days" id="daysInput" class="form-control"/>
                                 </div>
                                     <%--<label class="col-xs-2 control-label" for="daysInput">days</label>--%>
-                                <label class="col-xs-2 control-label" for="daysInput"><spring:message
+                                <label class="col-xs-3 control-label" for="daysInput"><spring:message
                                         code="content.daysText"/></label>
                             </div>
                         </div>
@@ -197,9 +199,7 @@
 
     </div>
 
-    <br>
     <%--<br>--%>
-
 
     <div class="container bg-0 ">
         <table id="vacanciesTable" class="table table-striped table-bordered dataTable table-hover table-condensed"
@@ -238,34 +238,39 @@
             </thead>
 
             <tbody>
-            <c:if test="${not empty resultVacanciesList}">
-
-                <c:forEach var="vacList" items="#{resultVacanciesList}" varStatus="loop">
+            <c:if test="${not empty vacanciesList}">
+                <%--<c:forEach var="vacancy" items="#{vacanciesList}"  varStatus="loop">--%>
+                <c:set var="num" scope="page" value='0'/>
+                <c:set var="vacanciesList" value="${resultVacanciesList}"/>
+                <%--<c:forEach var="vacancy" items="#{vacanciesList}"  varStatus="loop">--%>
+                <c:forEach var="vacancy" items="#{vacanciesList}">
                     <tr>
                         <td>
-                            <c:out value="${loop.index+1}"/>
+                                <%--<c:out value="${loop.count}"/>--%>
+                            <c:set var="num" value="${num + 1}" scope="page"/>
+                            <c:out value="${num}"/>
                         </td>
                         <td>
-                            <a href="${vacList.url}" target="_blank"> "${vacList.title}" </a>
+                            <a href="${vacancy.url}" target="_blank"> "${vacancy.title}" </a>
                         </td>
 
                         <td>
-                            <c:out value="${vacList.salary}"/>
+                            <c:out value="${vacancy.salary}"/>
                                 <%--<fmt:formatNumber type="number" value="${vacList.salary}"/>--%>
                         </td>
                         <td>
-                            <c:out value="${vacList.city}"/>
+                            <c:out value="${vacancy.city}"/>
                         </td>
                         <td>
-                            <c:out value="${vacList.companyName}"/>
+                            <c:out value="${vacancy.companyName}"/>
                         </td>
                         <td>
                                 <%--<c:out value="${vacList.siteName}"/>--%>
-                            <a href="${vacList.siteName}" target="_blank"> "${vacList.siteName}" </a>
+                            <a href="${vacancy.siteName}" target="_blank"> "${vacancy.siteName}" </a>
                         </td>
                         <td>
                                 <%--<c:out value="${vacList.date}"/>--%>
-                            <fmt:formatDate value="${vacList.date}" pattern="yyyy.MM.dd"/>
+                            <fmt:formatDate value="${vacancy.date}" pattern="yyyy.MM.dd"/>
                         </td>
                     </tr>
                 </c:forEach>
@@ -291,14 +296,14 @@
                 <%--<a href="${excelController}">Excel</a>--%>
                 <%--<a class="btn btn-default" href="${excelController}" role="button">Excel</a>--%>
                 <a class="btn btn-default" href="${excelController}" role="button"><img
-                        src="../../resources/images/icon_file-xls_48_48.png" height="20" align="middle"/>
+                        src="../../resources/images/icon_file-xls_48_48.png" height="15" width="35" align="middle"/>
                 </a>
                 <%--<button class="btn btn-default" href="${excelController}">--%>
                 <%--<img src="../../resources/images/icon_file-xls_48_48.png" height="20" align="middle"/>--%>
                 <%--</button>--%>
                 <%--<a class="btn btn-default" href="${xmlController}" role="button">XML</a>--%>
                 <a class="btn btn-default" href="${xmlController}" role="button"><img
-                        src="../../resources/images/icon_file-xml_48_48.png" height="20" align="middle"/>
+                        src="../../resources/images/icon_file-xml_48_48.png" height="15" width="35" align="middle"/>
                 </a>
 
             </div>
@@ -306,15 +311,6 @@
         </div>
     </div>
     <br><br><br><br>
-    <%--<div class="navbar-fixed-bottom row-fluid">--%>
-    <%--<div class="navbar-inner">--%>
-    <%--<div class="container">--%>
-    <%--<div class="row">--%>
-    <%----%>
-    <%--</div>--%>
-    <%--</div>--%>
-    <%--</div>--%>
-    <%--</div>--%>
 
 
 </div>
@@ -323,15 +319,35 @@
     <div class="panel-footer">
         <%--<a href="<%=request.getContextPath()%>?languageVar=en">EN</a>--%>
         <%--<a href="<%=request.getContextPath()%>?languageVar=ru">RU</a>--%>
-        Developed by AnGo 2017
+        <%--Developed by AnGo 2017--%>
+        <spring:message code="footer.copyRight"/>
     </div>
 
 </footer>
 
 <script>
     $(document).ready(function () {
-//        $('#vacanciesTable').DataTable({"iDisplayLength": 50});
-        $('#vacanciesTable').DataTable();
+        // DataTable
+        $('#vacanciesTable').DataTable(
+            {
+                "language": {
+                    //"lengthMenu": "Display _MENU_ records per page",
+                    "lengthMenu": '<spring:message code="table.lengthMenu" javaScriptEscape="true" />',
+                    "zeroRecords": '<spring:message code="table.zeroRecords" javaScriptEscape="true"/>',
+                    "info": '<spring:message code="table.info" javaScriptEscape="true"/>',
+                    "infoEmpty": '<spring:message code="table.infoEmpty" javaScriptEscape="true"/>',
+                    "infoFiltered": '<spring:message code="table.infoFiltered" javaScriptEscape="true"/>',
+                    "search": '<spring:message code="table.search" javaScriptEscape="true"/>',
+                    "first": '<spring:message code="table.first" javaScriptEscape="true"/>',
+                    "last": '<spring:message code="table.last" javaScriptEscape="true"/>',
+                    "next": '<spring:message code="table.next" javaScriptEscape="true"/>',
+                    "previous": '<spring:message code="table.previous" javaScriptEscape="true"/>'
+                },
+                "lengthMenu": [[10, 15, 20, 25, 50, -1], [10, 15, 20, 25, 50, "All"]],
+                "iDisplayLength": 15
+            }
+        );
+
     });
 </script>
 

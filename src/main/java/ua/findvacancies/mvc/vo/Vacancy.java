@@ -21,6 +21,17 @@ public class Vacancy {
     private String url;
     private Date date;
 
+
+    public Vacancy() {
+        this.title = "";
+        this.salary = "";
+        this.city = "";
+        this.companyName = "";
+        this.siteName = "";
+        this.url = "";
+        this.date = new Date();
+    }
+
     @XmlElement(name = "Title")
     public String getTitle() {
         return title;

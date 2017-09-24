@@ -49,13 +49,10 @@ public class MVCController {
 
     @RequestMapping(value = "/")
     public ModelAndView homePage() {
-        //System.out.println("Home ok! ");
         rootLogger.info("Start");
 
         ModelAndView mav = new ModelAndView();
         mav.setViewName("/index");
-        //mav.addObject("searchWords", DEFAULT_SEARCH);
-        //mav.addObject("searchDays", DEFAULT_DAYS);
         mav.addObject("searchParams", new SearchParams(DEFAULT_SEARCH, java.lang.String.valueOf(DEFAULT_DAYS),null) );
         return mav;
     }
