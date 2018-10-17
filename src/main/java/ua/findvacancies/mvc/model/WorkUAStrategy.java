@@ -50,19 +50,33 @@ public class WorkUAStrategy implements Strategy {
                 }
 
                 for (Element element : elements) {
-                    if (element.getElementsByClass("row").first() != null || element.getElementsByClass("logotype-slides").first() != null || element.getElementsByClass("clearfix").first() != null) {
+                    if (element.getElementsByClass("row").first() != null || element.getElementsByClass("logotype-slides").first()
+                            != null || element.getElementsByClass("clearfix").first() != null) {
                         continue;
                     }
 
                     // title
-                    Element titleElement = element.getElementsByTag("h2").first();
+                    Element titleElement = element.getElementsByClass("card").first();
+                    //System.out.println("TITLE: " + titleElement);
+                    if (titleElement == null){
+                        continue;
+                    }
+                    titleElement = titleElement.getElementsByTag("h2").first();
+                    //System.out.println("TITLE2: " + titleElement);
+                    if (titleElement == null){
+                        continue;
+                    }
+
+                    if(titleElement.getElementsByTag("a").first()==null){
+                        continue;
+                    }
                     String title = titleElement.getElementsByTag("a").first().text();
                     if (StringUtils.isStringIncludeWords(title, excludeWords)){
                         continue;
                     }
 
                     // url
-                    String url = HTTPS_WORK_UA + element.getElementsByTag("a").attr("href");
+                    String url = HTTPS_WORK_UA + titleElement.getElementsByTag("a").attr("href");
 
                     // date
                     Date date = getVacationDate(url);
@@ -84,10 +98,14 @@ public class WorkUAStrategy implements Strategy {
                     String companyName = nextToTitle.getElementsByTag("span").first().text();
 
                     // city (it's important)
-                    String line = nextToTitle.getElementsByClass("text-muted").first().nextElementSibling().getElementsByTag("span").first().text();
-                    String[] lines = line.split(" · ");
-                    String city = lines[0];
+                    String city = "";
+                    if(nextToTitle.getElementsByClass("text-muted").first()!=null && nextToTitle.getElementsByClass("text-muted").first().nextElementSibling()!=null
+                            && nextToTitle.getElementsByClass("text-muted").first().nextElementSibling().getElementsByTag("span").first().text()!=null) {
+                        String line = nextToTitle.getElementsByClass("text-muted").first().nextElementSibling().getElementsByTag("span").first().text();
 
+                        String[] lines = line.split(" · ");
+                        city = lines[0];
+                    }
                     // site
                     String siteName = HTTPS_WORK_UA;
 
@@ -102,11 +120,13 @@ public class WorkUAStrategy implements Strategy {
                     vacancy.setDate(date);
                     vacancies.add(vacancy);
 
+                    //System.out.println("WORK_UA: " + vacancy.getUrl());
                 }
             }
 
-        } catch (IOException e) {
-//            e.printStackTrace();
+        } catch (IOException|NullPointerException e) {
+            e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
         }
 
         return vacancies;

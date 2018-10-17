@@ -116,6 +116,7 @@ public class RabotaUAStrategy implements Strategy {
                     vacancy.setDate(date);
                     vacancies.add(vacancy);
 
+                    //System.out.println("RABOTA_UA: " + vacancy.getUrl());
                 }
             }
 

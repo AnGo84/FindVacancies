@@ -93,6 +93,8 @@ public class HHStrategy implements Strategy {
                     vacancy.setDate(date);
 
                     vacancies.add(vacancy);
+
+                    //System.out.println("HH: " + vacancy.getUrl());
                 }
             }
 

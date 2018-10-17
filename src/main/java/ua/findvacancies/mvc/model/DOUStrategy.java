@@ -99,7 +99,7 @@ public class DOUStrategy implements Strategy {
                     vacancy.setUrl(url);
                     vacancy.setDate(date);
                     vacancies.add(vacancy);
-
+                    //System.out.println("DOU: " + vacancy.getUrl());
                 }
 
                 break;

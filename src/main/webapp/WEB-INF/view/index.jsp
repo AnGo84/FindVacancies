@@ -22,37 +22,42 @@
 
     <%--<spring:url value="resources/css/bootstrap.css" var="bootstrap"/>--%>
 
-    <link rel="shortcut icon" href="../../resources/images/logo_16.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="<c:url value="/resources/images/logo_16.ico"/>" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="../resources/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
-    <link href="../resources/css/theme.css" rel="stylesheet" media="screen"/>
-    <link href="../resources/css/dataTables.bootstrap.min.css" rel="stylesheet" media="screen"/>
-    <link href="../resources/css/bootstrap-select.css" rel="stylesheet" media="screen"/>
+    <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet" media="screen"/>
+    <link href="<c:url value="/resources/css/theme.css"/>" rel="stylesheet" media="screen"/>
+    <link href="<c:url value="/resources/css/dataTables.bootstrap.min.css"/>" rel="stylesheet" media="screen"/>
+    <link href="<c:url value="/resources/css/bootstrap-select.css"/>" rel="stylesheet" media="screen"/>
 
 
-    <script src="../resources/js/jquery_latest.js">
+    <script src="<c:url value="/resources/js/jquery_latest.js"/>">
         <%--<script src="resources/js/jquery-1.12.4.js">--%>
     </script>
 
-    <script src="../resources/js/bootstrap.js">
+    <script src="<c:url value="/resources/js/bootstrap.js"/>">
     </script>
 
     <%--Table--%>
     <%--<script src="resources/js/jquery-1.12.4.js">--%>
     <%--</script>--%>
-    <script src="../resources/js/jquery.dataTables.min.js">
+    <script src="<c:url value="/resources/js/jquery.dataTables.min.js"/>">
     </script>
-    <script src="../resources/js/dataTables.bootstrap.min.js">
+    <script src="<c:url value="/resources/js/dataTables.bootstrap.min.js"/>">
     </script>
-    <script src="../resources/js/bootstrap-select.js">
+    <script src="<c:url value="/resources/js/bootstrap-select.js"/>">
     </script>
 
 </head>
 <body>
-
+<%--
 <c:url var="excelController" value="/FindVacancies/excelExport"/>
 <c:url var="xmlController" value="/FindVacancies/xmlExport"/>
+--%>
+<c:url var="excelController" value="/excelExport"/>
+<c:url var="xmlController" value="/xmlExport"/>
+
+<c:url var="searchVacancies_url"  value="/searchVacancies" />
 
 <c:set var="now" value="<%=new java.util.Date()%>"/>
 
@@ -66,7 +71,7 @@
         <div class="navbar-header">
             <%--<a class="navbar-brand" href="/">Find Vacancies</a>--%>
             <%--<a class="navbar-brand" href="/FindVacancies/">Find Vacancies</a>--%>
-            <a class="navbar-brand" href="/FindVacancies/"><spring:message code="navMenu.home"/></a>
+            <a class="navbar-brand" href="/"><spring:message code="navMenu.home"/></a>
         </div>
         <ul class="nav navbar-nav">
             <li class="dropdown">
@@ -128,8 +133,12 @@
         </c:if>
         <%--<c:if test="${not empty messageErrore}"><div>${messageErrore}</div></c:if>--%>
 
-        <%--<form role="form" action="/searchVacancies" method="post" commandName="searchParams">--%>
+        <%--<form role="form" action="/searchVacancies" method="post" commandName="searchParams">
         <form:form method="post" action="/FindVacancies/searchVacancies" commandName="searchParams">
+        modelAttribute="searchParams"
+        --%>
+
+        <form:form method="post" action="${searchVacancies_url}" commandName="searchParams">
             <div class="form-group row">
                 <div class="col-xs-10">
                     <div class="form-group row">
@@ -166,7 +175,8 @@
 
                     <div class="form-group row">
                         <div class="col-xs-2 right">
-                            <button class="btn btn-default" type="submit"
+                            <button class="btn btn-info" type="submit"
+
                                     data-toggle="modal" data-target="#waitModalDialog"
                                     data-backdrop="static" data-keyboard="false">
                                 <span class="glyphicon glyphicon-search"></span>
@@ -296,14 +306,14 @@
                 <%--<a href="${excelController}">Excel</a>--%>
                 <%--<a class="btn btn-default" href="${excelController}" role="button">Excel</a>--%>
                 <a class="btn btn-default" href="${excelController}" role="button"><img
-                        src="../../resources/images/icon_file-xls_48_48.png" height="15" width="35" align="middle"/>
+                        src="<c:url value="/resources/images/icon_file-xls_48_48.png"/>" height="15" width="35" align="middle"/>
                 </a>
                 <%--<button class="btn btn-default" href="${excelController}">--%>
                 <%--<img src="../../resources/images/icon_file-xls_48_48.png" height="20" align="middle"/>--%>
                 <%--</button>--%>
                 <%--<a class="btn btn-default" href="${xmlController}" role="button">XML</a>--%>
                 <a class="btn btn-default" href="${xmlController}" role="button"><img
-                        src="../../resources/images/icon_file-xml_48_48.png" height="15" width="35" align="middle"/>
+                        src="<c:url value="/resources/images/icon_file-xml_48_48.png"/>" height="15" width="35" align="middle"/>
                 </a>
 
             </div>
@@ -373,7 +383,7 @@
                 <%--<p style="text-align:center;">Data is loading</p>--%>
                 <p style="text-align:center;"><spring:message code="content.modalData"/></p>
                 <p style="text-align:center;">
-                    <img src="../../resources/gif/loading_apple.gif" alt="Waiting animated GIF" align="middle"
+                    <img src="<c:url value="/resources/gif/loading_apple.gif"/>" alt="Waiting animated GIF" align="middle"
                          style="width:256px;height:256px;">
                 </p>
                 <%--<img src="path/to/animated.gif" alt="This will display an animated GIF" />--%>

@@ -1,17 +1,14 @@
 package ua.findvacancies.mvc.vo;
 
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.Date;
 
 /**
  * Created by AnGo on 04.05.2016.
  */
-@XmlType(propOrder = {"title", "url", "salary","companyName", "city", "siteName", "date"})
+@XmlType(propOrder = {"title", "url", "salary", "companyName", "city", "siteName", "date"})
 public class Vacancy {
     private String title;
     private String salary;

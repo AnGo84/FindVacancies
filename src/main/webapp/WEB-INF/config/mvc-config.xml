@@ -29,7 +29,6 @@
         <mvc:resources mapping="/resources/**" location="/resources/themeGreen" />
      -->
 
-
     <!--Export xml view configuration -->
     <bean class="org.springframework.web.servlet.view.XmlViewResolver">
         <property name="order" value="0"/>
@@ -41,8 +40,8 @@
     <!-- Locale -->
     <mvc:interceptors>
         <mvc:interceptor>
-            <!--<mvc:mapping path="/*"/>-->
-            <mvc:mapping path="/FindVacancies/*"/>
+            <mvc:mapping path="/*"/>
+            <!-- <mvc:mapping path="/FindVacancies/*"/> -->
             <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
                 <property name="paramName" value="languageVar"/>
             </bean>

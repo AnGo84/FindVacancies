@@ -22,6 +22,10 @@ public class Provider
         this.strategy = strategy;
     }
 
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
     public List<Vacancy> getJavaVacancies(String words, int days){
         return strategy.getVacancies(words, days);
     }

@@ -1,4 +1,4 @@
-package ua.findvacancies.mvc;
+package ua.findvacancies.mvc.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,7 +31,8 @@ import java.util.List;
  * Created by AnGo on 24.06.2017.
  */
 @Controller
-@RequestMapping({"/FindVacancies","/"})
+//@RequestMapping({"/FindVacancies","/"})
+//@RequestMapping({"/"})
 public class MVCController {
     private static final String DEFAULT_SEARCH = "Java developer";
     private static final int DEFAULT_DAYS = 30;
@@ -68,6 +69,7 @@ public class MVCController {
 
     @RequestMapping(value = "/searchVacancies", method = RequestMethod.POST)
     //public String searchVacanciesByWords(@RequestParam(value = "searchLine") String searchLine, @RequestParam(value = "days") String daysText,
+    //@ModelAttribute("searchParams")
     public java.lang.String searchVacanciesByWords(Model m, @Valid final SearchParams searchParams, final BindingResult result) {
         //System.out.println("searchLine1= " + searchLine + " | days1= " + daysText + " | " + "searchLine2= " + searchParams.getSearchLine() + " | days2= " + searchParams.getDays());
         rootLogger.info("New search:" + searchParams);
