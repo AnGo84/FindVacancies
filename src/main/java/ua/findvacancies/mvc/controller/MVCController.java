@@ -50,7 +50,7 @@ public class MVCController {
 
     @RequestMapping(value = "/")
     public ModelAndView homePage() {
-        rootLogger.info("Start");
+        //rootLogger.info("Start");
 
         ModelAndView mav = new ModelAndView();
         mav.setViewName("/index");

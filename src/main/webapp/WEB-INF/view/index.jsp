@@ -58,6 +58,7 @@
 <c:url var="xmlController" value="/xmlExport"/>
 
 <c:url var="searchVacancies_url"  value="/searchVacancies" />
+<c:url var="main_url"  value="/" />
 
 <c:set var="now" value="<%=new java.util.Date()%>"/>
 
@@ -71,7 +72,7 @@
         <div class="navbar-header">
             <%--<a class="navbar-brand" href="/">Find Vacancies</a>--%>
             <%--<a class="navbar-brand" href="/FindVacancies/">Find Vacancies</a>--%>
-            <a class="navbar-brand" href="/"><spring:message code="navMenu.home"/></a>
+            <a class="navbar-brand" href="${main_url}"><spring:message code="navMenu.home"/></a>
         </div>
         <ul class="nav navbar-nav">
             <li class="dropdown">
