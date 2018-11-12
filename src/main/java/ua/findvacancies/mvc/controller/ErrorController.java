@@ -12,7 +12,7 @@ public class ErrorController {
     //https://www.journaldev.com/2651/spring-mvc-exception-handling-controlleradvice-exceptionhandler-handlerexceptionresolver
     @RequestMapping(value = "errors", method = RequestMethod.GET)
     public ModelAndView renderErrorPage(HttpServletRequest httpRequest, Exception ex) {
-        System.out.println("Get error");
+        //System.out.println("Get error");
         ModelAndView errorPage = new ModelAndView("/errors/error");
         //System.out.println("Get view status:" + errorPage.getStatus() + " " + errorPage.getViewName());
         String errorInfo = "";
