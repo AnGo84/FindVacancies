@@ -7,7 +7,7 @@ import java.util.Set;
  * Created by AnGo on 27.06.2017.
  */
 public class StringUtils {
-    public static String getKeyWordsLine(String wordsLine) {
+    public static String getKeyWordsLine(String wordsLine, String wordsSeparator) {
         if (wordsLine == null || wordsLine.equals("")) {
             return "";
         }
@@ -18,7 +18,7 @@ public class StringUtils {
                 if (keyWords.equals("")) {
                     keyWords = word;
                 } else {
-                    keyWords += "+" + word;
+                    keyWords += wordsSeparator + word;
                 }
             }
         }

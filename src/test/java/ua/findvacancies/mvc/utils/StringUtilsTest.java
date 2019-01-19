@@ -31,8 +31,8 @@ public class StringUtilsTest {
 
     @Test
     public void getKeyWordsLine() throws Exception {
-        assertEquals("Java+developer", StringUtils.getKeyWordsLine("Java developer -senior"));
-        assertEquals("", StringUtils.getKeyWordsLine(null));
+        assertEquals("Java+developer", StringUtils.getKeyWordsLine("Java developer -senior","+"));
+        assertEquals("", StringUtils.getKeyWordsLine(null,""));
     }
 
     @Test

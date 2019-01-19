@@ -21,11 +21,10 @@ public class Test
         Provider provider = new Provider(new WorkUAStrategy());
         String keyWords = "Java developer -senior";
 
-        System.out.println("KeyLine: "+ StringUtils.getKeyWordsLine(keyWords));
+        System.out.println("KeyLine: "+ StringUtils.getKeyWordsLine(keyWords, " "));
         System.out.println("Exclude: "  + StringUtils.getExcludeWordsSet(keyWords));
 
-        List<Vacancy> vacancies =provider.getJavaVacancies(keyWords, -10);
-
+        List<Vacancy> vacancies =provider.getJavaVacancies(keyWords, -3);
 
         for (Vacancy vacancy : vacancies)
         {

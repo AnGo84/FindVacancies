@@ -114,6 +114,12 @@
 
 <br class="container-fluid bg-1">
 <div class="container bg-0 ">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h5 style="color:  #c0c0c0"><spring:message code="content.aboutText"/></h5>
+        </div>
+    </div>
     <div class="row">
         <div class="col-12 text-center">
             <h3>

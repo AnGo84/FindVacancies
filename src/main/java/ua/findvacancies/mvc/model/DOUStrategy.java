@@ -19,6 +19,7 @@ import java.util.*;
 public class DOUStrategy implements Strategy {
     private static final String URL_FORMAT = "https://jobs.dou.ua/vacancies/?category=Java&search=%s&city=Киев";
     private static final String HTTPS_DOU_UA = "https://dou.ua/";
+    private static final String WORD_SEPARATOR = "+";
 
     private static final String DATE_FORMAT = "dd MMMM yyyy";
 
@@ -46,7 +47,7 @@ public class DOUStrategy implements Strategy {
             //int pageCount = 1;
             //while (true) {
             while (true) {
-                String keyWords = StringUtils.getKeyWordsLine(words);
+                String keyWords = StringUtils.getKeyWordsLine(words, WORD_SEPARATOR);
                 Set<String> excludeWords = StringUtils.getExcludeWordsSet(words);
 
                 //Document doc = StrategyDocument.getDocument(String.format(URL_FORMAT, keyWords, pageCount++));
@@ -75,8 +76,6 @@ public class DOUStrategy implements Strategy {
                     if (date.compareTo(DateUtils.addDaysToDate(new Date(), days)) == -1) {
                         continue;
                     }
-
-
                     // company
                     String companyName = element.getElementsByClass("company").first().text();
 

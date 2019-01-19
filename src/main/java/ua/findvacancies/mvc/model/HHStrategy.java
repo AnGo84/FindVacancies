@@ -21,8 +21,11 @@ import java.util.*;
 public class HHStrategy implements Strategy {
     public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
     public static final String DATE_FORMAT_SHORT = "dd MMMM";
+    private static final String WORD_SEPARATOR = "+";
+
     //private static final String URL_FORMAT = "http://hh.ua/search/vacancy?text=java+%s&page=%d";
     private static final String URL_FORMAT = "https://hh.ua/search/vacancy?text=%s&enable_snippets=true&clusters=true&currency_code=UAH&area=115&page=%d";
+
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 
     private static final String[] months = {
@@ -46,7 +49,7 @@ public class HHStrategy implements Strategy {
         try {
             int pageCount = 0;
             while (true) {
-                String keyWords = StringUtils.getKeyWordsLine(words);
+                String keyWords = StringUtils.getKeyWordsLine(words,WORD_SEPARATOR);
                 Set<String> excludeWords = StringUtils.getExcludeWordsSet(words);
 
                 Document doc = StrategyDocument.getDocument(String.format(URL_FORMAT, keyWords, pageCount++));
