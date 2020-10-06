@@ -105,6 +105,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="<%=request.getContextPath()%>?languageVar=en">EN</a></li>
                     <li><a href="<%=request.getContextPath()%>?languageVar=ru">RU</a></li>
+                    <li><a href="<%=request.getContextPath()%>?languageVar=uk">UA</a></li>
                 </ul>
             </li>
         </ul>

@@ -11,9 +11,10 @@ To search, you must select one or more sites, set the last days period and enter
 If necessary, some results may be excluded for some words. Just put the ** "-" ** in front of them. For example, to exclude senior positions for vacancies for "java developer", keywords line will be "java developer -senior".
 
 Results table can be exporting to **XML** or **XLS** files.
-You can [visit site](https://findvacancies.herokuapp.com/).
 
-#### Screenshot of working program
+[Visit site](https://findvacancies.herokuapp.com/)
+
+#### Screenshot with example
 ![](src/main/resources/images/FindVacancies_screen.jpg)
 
 ## **For work need:**
