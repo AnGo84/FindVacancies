@@ -4,10 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by AnGo on 27.06.2017.
- */
-public class DateUtils {
+public class AppDateUtils {
     public static Date addDaysToDate(Date date, int days) {
         if (date == null) {
             throw new NullPointerException("Wrong parameter Date!");
@@ -44,4 +41,5 @@ public class DateUtils {
         calendar.set(Calendar.YEAR, year);
         return calendar.getTime();
     }
+
 }

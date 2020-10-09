@@ -1,13 +1,12 @@
 package ua.findvacancies.mvc.model;
 
 
-import org.apache.poi.ss.usermodel.DateUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import ua.findvacancies.mvc.utils.DateUtils;
-import ua.findvacancies.mvc.utils.StringUtils;
-import ua.findvacancies.mvc.vo.Vacancy;
+import ua.findvacancies.mvc.utils.AppDateUtils;
+import ua.findvacancies.mvc.utils.AppStringUtils;
+import ua.findvacancies.mvc.viewdata.Vacancy;
 
 import java.io.IOException;
 import java.text.DateFormatSymbols;
@@ -44,13 +43,13 @@ public class HHStrategy implements Strategy {
 
 
     @Override
-    public List<Vacancy> getVacancies(String words, int days) {
+    //public List<Vacancy> getVacancies(String words, int days) {
+    public List<Vacancy> getVacancies(SearchParam searchParam) {
         List<Vacancy> vacancies = new ArrayList<>();
         try {
             int pageCount = 0;
             while (true) {
-                String keyWords = StringUtils.getKeyWordsLine(words,WORD_SEPARATOR);
-                Set<String> excludeWords = StringUtils.getExcludeWordsSet(words);
+                String keyWords = searchParam.getKeyWordsSearchLine();
 
                 Document doc = StrategyDocument.getDocument(String.format(URL_FORMAT, keyWords, pageCount++));
                 if (doc == null) break;
@@ -60,7 +59,7 @@ public class HHStrategy implements Strategy {
                 for (Element element : elements) {
                     // title
                     String title = element.select("[data-qa=vacancy-serp__vacancy-title]").first().text();
-                    if (StringUtils.isStringIncludeWords(title, excludeWords)) {
+                    if (AppStringUtils.isStringIncludeWords(title, searchParam.getExcludeWords())) {
                         continue;
                     }
 
@@ -69,7 +68,7 @@ public class HHStrategy implements Strategy {
 
                     // date
                     Date date = getVacationDate(element.select("[data-qa=vacancy-serp__vacancy-date]").first());
-                    if (date.compareTo(DateUtils.addDaysToDate(new Date(), days)) == -1) {
+                    if (date.compareTo(AppDateUtils.addDaysToDate(new Date(), searchParam.getDays())) == -1) {
                         continue;
                     }
 
@@ -120,10 +119,10 @@ public class HHStrategy implements Strategy {
                 vacationDate = simpleDateShortFormat.parse(stringDate);
                 //System.out.println("Parse: " + vacationDate);
 
-                vacationDate = DateUtils.changeDateYear(vacationDate, DateUtils.getYearFromDate(now));
+                vacationDate = AppDateUtils.changeDateYear(vacationDate, AppDateUtils.getYearFromDate(now));
                 //System.out.println("Change year: " + vacationDate);
                 if (vacationDate.compareTo(now)==1){
-                    vacationDate = DateUtils.changeDateYear(vacationDate, DateUtils.getYearFromDate(now)-1);
+                    vacationDate = AppDateUtils.changeDateYear(vacationDate, AppDateUtils.getYearFromDate(now)-1);
                     //System.out.println("Change year2: " + vacationDate);
                 }
 

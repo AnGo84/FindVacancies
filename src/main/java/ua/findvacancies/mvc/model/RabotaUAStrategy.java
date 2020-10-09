@@ -4,9 +4,9 @@ package ua.findvacancies.mvc.model;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import ua.findvacancies.mvc.utils.DateUtils;
-import ua.findvacancies.mvc.utils.StringUtils;
-import ua.findvacancies.mvc.vo.Vacancy;
+import ua.findvacancies.mvc.utils.AppDateUtils;
+import ua.findvacancies.mvc.utils.AppStringUtils;
+import ua.findvacancies.mvc.viewdata.Vacancy;
 
 import java.io.IOException;
 import java.text.DateFormatSymbols;
@@ -41,16 +41,15 @@ public class RabotaUAStrategy implements Strategy {
     }
 
     @Override
-    public List<Vacancy> getVacancies(String words, int days) {
+    //public List<Vacancy> getVacancies(String words, int days) {
+    public List<Vacancy> getVacancies(SearchParam searchParam) {
         List<Vacancy> vacancies = new ArrayList<>();
 
         try {
             int pageCount = 0;
             boolean hasData = true;
             while (hasData) {
-                String keyWords = StringUtils.getKeyWordsLine(words, WORD_SEPARATOR);
-                Set<String> excludeWords = StringUtils.getExcludeWordsSet(words);
-                String searchPageURL = String.format(URL_FORMAT, keyWords, ++pageCount);
+                String searchPageURL = String.format(URL_FORMAT, searchParam.getKeyWordsSearchLine(), ++pageCount);
                 System.out.println("Page " + pageCount + ", URL: " + searchPageURL);
                 Document doc = StrategyDocument.getDocument(searchPageURL);
 
@@ -84,14 +83,14 @@ public class RabotaUAStrategy implements Strategy {
                             ", isHot: " + (hotElement == null) + ", added: " + agoTime);
                     boolean isJustAdd = (agoTime.contains("минут") || agoTime.contains("час") || hotElement != null);
 
-                    if (StringUtils.isStringIncludeWords(title, excludeWords)) {
+                    if (AppStringUtils.isStringIncludeWords(title, searchParam.getExcludeWords())) {
                         continue;
                     }
 
 
                     // date
                     Date date = getVacationDate(vacancyURL);
-                    if (date.compareTo(DateUtils.addDaysToDate(new Date(), days)) == -1 && !isJustAdd) {
+                    if (date.compareTo(AppDateUtils.addDaysToDate(new Date(), searchParam.getDays())) == -1 && !isJustAdd) {
                         hasData = false;
                         break;
                     }

@@ -3,9 +3,9 @@ package ua.findvacancies.mvc.model;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import ua.findvacancies.mvc.utils.DateUtils;
-import ua.findvacancies.mvc.utils.StringUtils;
-import ua.findvacancies.mvc.vo.Vacancy;
+import ua.findvacancies.mvc.utils.AppDateUtils;
+import ua.findvacancies.mvc.utils.AppStringUtils;
+import ua.findvacancies.mvc.viewdata.Vacancy;
 
 import java.io.IOException;
 import java.text.DateFormatSymbols;
@@ -17,7 +17,7 @@ import java.util.*;
  * Created by AnGo on 31.08.2017.
  */
 public class DOUStrategy implements Strategy {
-    private static final String URL_FORMAT = "https://jobs.dou.ua/vacancies/?category=Java&search=%s&city=Киев";
+    private static final String URL_FORMAT = "https://jobs.dou.ua/vacancies/?search=%s&city=Киев";
     private static final String HTTPS_DOU_UA = "https://dou.ua/";
     private static final String WORD_SEPARATOR = "+";
 
@@ -40,18 +40,22 @@ public class DOUStrategy implements Strategy {
     }
 
     @Override
-    public List<Vacancy> getVacancies(String words, int days) {
+    //public List<Vacancy> getVacancies(String words, int days) {
+    public List<Vacancy> getVacancies(SearchParam searchParam) {
         List<Vacancy> vacancies = new ArrayList<>();
-
+        System.out.println("SearchParam: " + searchParam);
+        System.out.println("SearchLine: " + searchParam.getKeyWordsSearchLine());
         try {
             //int pageCount = 1;
             //while (true) {
+            String keyWords = searchParam.getKeyWordsSearchLine();
             while (true) {
-                String keyWords = StringUtils.getKeyWordsLine(words, WORD_SEPARATOR);
-                Set<String> excludeWords = StringUtils.getExcludeWordsSet(words);
+
 
                 //Document doc = StrategyDocument.getDocument(String.format(URL_FORMAT, keyWords, pageCount++));
-                Document doc = StrategyDocument.getDocument(String.format(URL_FORMAT, keyWords));
+                String documentURL = String.format(URL_FORMAT, searchParam.getKeyWordsSearchLine());
+                System.out.println("documentURL: "+ documentURL);
+                Document doc = StrategyDocument.getDocument(documentURL);
                 //getDocument(searchString, pageCount++);
                 if (doc == null) break;
 
@@ -64,7 +68,7 @@ public class DOUStrategy implements Strategy {
                     Element titleElement = element.getElementsByClass("vt").first();
                     String title = titleElement.text();
 
-                    if (StringUtils.isStringIncludeWords(title, excludeWords)) {
+                    if (AppStringUtils.isStringIncludeWords(title, searchParam.getExcludeWords())) {
                         continue;
                     }
 
@@ -73,7 +77,7 @@ public class DOUStrategy implements Strategy {
 
                     // date
                     Date date = getVacationDate(url);
-                    if (date.compareTo(DateUtils.addDaysToDate(new Date(), days)) == -1) {
+                    if (date.compareTo(AppDateUtils.addDaysToDate(new Date(), searchParam.getDays())) == -1) {
                         continue;
                     }
                     // company

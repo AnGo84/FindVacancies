@@ -142,12 +142,12 @@
     </c:if>
     <%--<c:if test="${not empty messageErrore}"><div>${messageErrore}</div></c:if>--%>
 
-    <%--<form role="form" action="/searchVacancies" method="post" commandName="searchParams">
-    <form:form method="post" action="/FindVacancies/searchVacancies" commandName="searchParams">
-    modelAttribute="searchParams"
+    <%--<form role="form" action="/searchVacancies" method="post" commandName="viewSearchParams">
+    <form:form method="post" action="/FindVacancies/searchVacancies" commandName="viewSearchParams">
+    modelAttribute="viewSearchParams"
     --%>
 
-    <form:form method="post" action="${searchVacancies_url}" commandName="searchParams">
+    <form:form method="post" action="${searchVacancies_url}" commandName="viewSearchParams">
 
         <div class="form-group row" style="margin-bottom: 0px;">
                 <%--Search line--%>
@@ -181,14 +181,12 @@
                 <div class="has-error">
                     <span class="error"><form:errors path="days"/></span>
                 </div>
-                <div class="form-group row" style="margin-bottom: 5px;">
-                    <label class="col-xs-5 control-label text-right" for="daysInput"><spring:message
-                            code="content.vacanciesLastTest"/></label>
+                <div class="form-group row" style="margin-bottom: 5px; display: flex; align-items: center">
+                    <label class="col-xs-5 control-label text-right" for="daysInput"><spring:message code="content.vacanciesLastTest"/></label>
                     <div class="col-xs-2">
                         <form:input path="days" id="daysInput" class="form-control"/>
                     </div>
-                    <label class="col-xs-3 control-label" for="daysInput"><spring:message
-                            code="content.daysText"/></label>
+                    <label class="col-xs-3 control-label" for="daysInput"><spring:message code="content.daysText"/></label>
                 </div>
             </div>
         </div>

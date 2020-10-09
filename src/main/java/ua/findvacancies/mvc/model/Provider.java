@@ -1,32 +1,33 @@
 package ua.findvacancies.mvc.model;
 
+public enum Provider {
+    DOU("DOU", new DOUStrategy()),
+    HEADHUNTER("HeadHunter", new HHStrategy()),
+    RABOTAUA("RabotaUA", new RabotaUAStrategy()),
+    WORKUA("WorkUA", new WorkUAStrategy());
 
-import ua.findvacancies.mvc.vo.Vacancy;
+    private final String displayName;
+    private final Strategy strategy;
 
-import java.util.List;
-
-/**
- * Created by AnGo on 04.05.2016.
- */
-public class Provider
-{
-    private Strategy strategy;
-
-    public Provider(Strategy strategy)
-    {
+    Provider(String displayName, Strategy strategy) {
+        this.displayName = displayName;
         this.strategy = strategy;
     }
 
-    public void setStrategy(Strategy strategy)
-    {
-        this.strategy = strategy;
+    public static boolean contains(String s) {
+        for (Provider provider : values())
+            if (provider.displayName.equalsIgnoreCase(s))
+                return true;
+        return false;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 
     public Strategy getStrategy() {
         return strategy;
     }
 
-    public List<Vacancy> getJavaVacancies(String words, int days){
-        return strategy.getVacancies(words, days);
-    }
 }
+

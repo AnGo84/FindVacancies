@@ -1,13 +1,9 @@
-package ua.findvacancies.mvc.vo;
-
+package ua.findvacancies.mvc.viewdata;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
 
-/**
- * Created by AnGo on 04.05.2016.
- */
 @XmlType(propOrder = {"title", "url", "salary", "companyName", "city", "siteName", "date"})
 public class Vacancy {
     private String title;
