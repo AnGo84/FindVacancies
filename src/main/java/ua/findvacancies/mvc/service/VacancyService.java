@@ -1,13 +1,11 @@
 package ua.findvacancies.mvc.service;
 
 import org.springframework.stereotype.Service;
-import sun.print.resources.serviceui;
 import ua.findvacancies.mvc.comparators.ComparatorVacanciesByDate;
 import ua.findvacancies.mvc.mappers.SearchParamMapper;
 import ua.findvacancies.mvc.model.Provider;
 import ua.findvacancies.mvc.model.ProviderCallable;
 import ua.findvacancies.mvc.model.SearchParam;
-import ua.findvacancies.mvc.utils.AppDateUtils;
 import ua.findvacancies.mvc.utils.ViewSearchParamsUtils;
 import ua.findvacancies.mvc.viewdata.Vacancy;
 import ua.findvacancies.mvc.viewdata.ViewSearchParams;
@@ -20,6 +18,9 @@ import java.util.concurrent.*;
 
 @Service
 public class VacancyService {
+    private static final String DEFAULT_SEARCH = "Java developer";
+    private static final int DEFAULT_DAYS = 7;
+
     private SearchParamMapper searchParamMapper = new SearchParamMapper();
 
     public VacancyService() {
@@ -35,11 +36,7 @@ public class VacancyService {
 
         for (Provider provider : providers) {
             Callable<List<Vacancy>> callable = new ProviderCallable(provider.getStrategy(), searchParam);
-            //сабмитим Callable таски, которые будут
-            //выполнены пулом потоков
             Future<List<Vacancy>> future = executor.submit(callable);
-            //добавляя Future в список,
-            //мы сможем получить результат выполнения
             list.add(future);
         }
 
@@ -78,5 +75,9 @@ public class VacancyService {
         Set<Provider> providers = ViewSearchParamsUtils.getProvidersSet(viewSearchParams);
 
         return getVacancyListByThreads(providers, searchParam);
+    }
+
+    public ViewSearchParams getDefaultViewSearchParams(){
+        return new ViewSearchParams(DEFAULT_SEARCH, java.lang.String.valueOf(DEFAULT_DAYS));
     }
 }

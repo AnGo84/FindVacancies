@@ -14,68 +14,59 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.findvacancies.mvc.export.XMLDocument;
 import ua.findvacancies.mvc.model.Provider;
 import ua.findvacancies.mvc.service.VacancyService;
-import ua.findvacancies.mvc.viewdata.ViewSearchParams;
 import ua.findvacancies.mvc.viewdata.Vacancy;
+import ua.findvacancies.mvc.viewdata.ViewSearchParams;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import javax.xml.bind.JAXBException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 
 @Controller
 public class MVCController {
-    private static final String DEFAULT_SEARCH = "Java developer";
-    private static final int DEFAULT_DAYS = 30;
 
     private List<Vacancy> vacancyList;
 
     private static final Logger rootLogger = LogManager.getRootLogger();
 
+    private VacancyService vacancyService;
+
     @Autowired
-    private VacancyService model;
+    public MVCController(VacancyService vacancyService) {
+        this.vacancyService = vacancyService;
+    }
 
     @RequestMapping(value = "/")
     public ModelAndView homePage() {
         //rootLogger.info("Start");
-
         ModelAndView mav = new ModelAndView();
         mav.setViewName("/index");
-        mav.addObject("viewSearchParams", new ViewSearchParams(DEFAULT_SEARCH, java.lang.String.valueOf(DEFAULT_DAYS),null) );
+        mav.addObject("viewSearchParams", vacancyService.getDefaultViewSearchParams() );
         return mav;
     }
 
 
     @RequestMapping(value = "/searchVacancies", method = RequestMethod.GET)
     public String searchVacanciesByWords(Model model) {
-        ViewSearchParams viewSearchParams = new ViewSearchParams(DEFAULT_SEARCH, java.lang.String.valueOf(DEFAULT_DAYS));
-        //SearchParams searchParams = new SearchParams(DEFAULT_SEARCH,DEFAULT_DAYS);
-        model.addAttribute("viewSearchParams", viewSearchParams);
+        model.addAttribute("viewSearchParams",  vacancyService.getDefaultViewSearchParams());
         return "/index";
     }
 
     @RequestMapping(value = "/searchVacancies", method = RequestMethod.POST)
-    //public String searchVacanciesByWords(@RequestParam(value = "searchLine") String searchLine, @RequestParam(value = "days") String daysText,
-    //@ModelAttribute("searchParams")
     public String searchVacanciesByWords(Model m, @Valid final ViewSearchParams viewSearchParams, final BindingResult result) {
-        //System.out.println("searchLine1= " + searchLine + " | days1= " + daysText + " | " + "searchLine2= " + searchParams.getSearchLine() + " | days2= " + searchParams.getDays());
         rootLogger.info("New search:" + viewSearchParams);
         if (result.hasErrors()) {
-            for (ObjectError objectError : result.getAllErrors()) {
-                rootLogger.error("Error on: " + objectError.getDefaultMessage());
-            }
-            //m.addAttribute("message", "Error!!!!!!!!!!!");
+            logErrors(result);
             return "/index";
         }
-        //int days = StringUtils.getDaysFromText(searchParams.getDays());
-        ////vacancyList = model.getVacancyList(searchLine, -days);
-        //vacancyList = model.getVacancyList(searchParams.getSearchLine(), -days);
-        vacancyList = model.getVacancyListByThreads(viewSearchParams);
+        vacancyList = vacancyService.getVacancyListByThreads(viewSearchParams);
         m.addAttribute("resultVacanciesList", vacancyList);
         return "/index";
+    }
+
+    private void logErrors(BindingResult result) {
+        for (ObjectError objectError : result.getAllErrors()) {
+            rootLogger.error("Error on: " + objectError.getDefaultMessage());
+        }
     }
 
     @RequestMapping(value = "/excelExport", method = RequestMethod.GET)

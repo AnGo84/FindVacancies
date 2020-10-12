@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.AbstractSet;
 import java.util.List;
 
 public class XMLDocument {
@@ -39,6 +38,7 @@ public class XMLDocument {
             rootLogger.error("Export to XML error: " + e.getMessage());
         }
     }
+
     private void writeVacanciesXMLFile(File file, List<Vacancy> vacancyList) throws JAXBException {
         if (file != null || vacancyList != null || !vacancyList.isEmpty()) {
 

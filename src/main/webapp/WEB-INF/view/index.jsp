@@ -8,19 +8,10 @@
 <!DOCTYPE html>
 <html>
 
-<style type="text/css">
-    span.error {
-        color: red;
-    }
-</style>
-
 <head>
     <meta charset=utf-8>
 
-    <%--<title>Find Vacancies</title>--%>
     <title>Find Vacancies</title>
-
-    <%--<spring:url value="resources/css/bootstrap.css" var="bootstrap"/>--%>
 
     <link rel="shortcut icon" href="<c:url value="/resources/images/logo_16.ico"/>" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,41 +24,31 @@
 
     <link rel="stylesheet" href="/resources/css/bootstrap-multiselect.css" type="text/css"/>
 
-    <script src="<c:url value="/resources/js/jquery_latest.js"/>">
-        <%--<script src="resources/js/jquery-1.12.4.js">--%>
-    </script>
+    <link rel="stylesheet" href="/resources/css/app.css" type="text/css"/>
 
-    <script src="<c:url value="/resources/js/bootstrap.js"/>">
-    </script>
+    <script src="<c:url value="/resources/js/jquery_latest.js"/>"></script>
+
+    <script src="<c:url value="/resources/js/bootstrap.js"/>"></script>
 
     <%--Table--%>
-    <%--<script src="resources/js/jquery-1.12.4.js">--%>
-    <%--</script>--%>
-    <script src="<c:url value="/resources/js/jquery.dataTables.min.js"/>">
-    </script>
-    <script src="<c:url value="/resources/js/dataTables.bootstrap.min.js"/>">
-    </script>
-    <script src="<c:url value="/resources/js/dataTables.responsive.min.js"/>">
-    </script>
-    <script src="<c:url value="/resources/js/bootstrap-select.js"/>">
-    </script>
-
+    <script src="<c:url value="/resources/js/jquery.dataTables.min.js"/>"></script>
+    <script src="<c:url value="/resources/js/dataTables.bootstrap.min.js"/>"></script>
+    <script src="<c:url value="/resources/js/dataTables.responsive.min.js"/>"></script>
+    <%--Select--%>
+    <script src="<c:url value="/resources/js/bootstrap-select.js"/>"></script>
     <script type="text/javascript" src="/resources/js/bootstrap-multiselect.js"></script>
 
 
 </head>
 <body>
-<%--
-<c:url var="excelController" value="/FindVacancies/excelExport"/>
-<c:url var="xmlController" value="/FindVacancies/xmlExport"/>
---%>
+
 <c:url var="excelController" value="/excelExport"/>
 <c:url var="xmlController" value="/xmlExport"/>
 
 <c:url var="searchVacancies_url" value="/searchVacancies"/>
 <c:url var="main_url" value="/"/>
 
-<c:set var="now" value="<%=new java.util.Date()%>"/>
+<c:set var="timeNow" value="<%=new java.util.Date()%>"/>
 
 <c:set var="searchWords" value="${searchWords}"/>
 <c:set var="searchDays" value="${searchDays}"/>
@@ -113,57 +94,47 @@
     </div>
 </nav>
 
-<br class="container-fluid bg-1">
 <div class="container bg-0 ">
 
-    <div class="row">
-        <div class="col-xs-12">
-            <h5 style="color:  #c0c0c0"><spring:message code="content.aboutText"/></h5>
+    <div class="row top-row">
+        <div class="col-xs-12 col-sm-8 col-md-6">
+            <h4><spring:message code="content.aboutText"/></h4>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-12 text-center">
-            <h3>
-                <%--<p> Today is <strong>--%>
-                <p><spring:message code="content.todayIsText"/> <strong>
-                    <%--<fmt:formatDate value="${now}"  searchLine="yyyy MMMM dd"/>--%>
-                    <fmt:formatDate value="${now}" type="date" pattern="dd MMMM yyyy"/>
-                </strong>
+        <div class="col-xs-12 col-sm-4 col-md-6 text-right">
+            <h6>
+                <p><spring:message code="content.todayIsText"/>
+                    <strong>
+                        <fmt:formatDate value="${timeNow}" type="date" pattern="dd MMMM yyyy"/>
+                    </strong>
                 </p>
-                <%--<p>"${searchWords}" </p>--%>
-                <%--<p>"${searchDays}" </p>--%>
-            </h3>
+            </h6>
         </div>
     </div>
 
     <%--<! Search>--%>
     <c:if test="${not empty message}">
+        <hr/>
         <div>${message}</div>
+        <hr/>
     </c:if>
     <%--<c:if test="${not empty messageErrore}"><div>${messageErrore}</div></c:if>--%>
 
-    <%--<form role="form" action="/searchVacancies" method="post" commandName="viewSearchParams">
-    <form:form method="post" action="/FindVacancies/searchVacancies" commandName="viewSearchParams">
-    modelAttribute="viewSearchParams"
-    --%>
-
     <form:form method="post" action="${searchVacancies_url}" commandName="viewSearchParams">
 
-        <div class="form-group row" style="margin-bottom: 0px;">
+        <div class="form-group row search-params">
                 <%--Search line--%>
-            <div class="col-xs-12 col-sm-12 col-md-6">
+            <div class="col-xs-12 col-lg-6">
                 <div class="has-error">
                     <span class="error"><form:errors path="searchLine"/></span>
                 </div>
-                <div class="col-xs-12">
+                <div class="col-xs-12 search-line">
                     <form:input path="searchLine" id="searchInput" class="form-control"
                                 placeholder="Search by words"/>
-                        <%--<h6 style="color:  #c0c0c0">For exclude word set "-" before it. For example "Java Developer -Senior"</h6>--%>
-                    <h6 style="color:  #c0c0c0"><spring:message code="content.explanetionText"/></h6>
+                    <h6 class="description"><spring:message code="content.explanetionText"/></h6>
                 </div>
             </div>
                 <%--Sites list--%>
-            <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 extra-small">
                 <div class="has-error">
                     <span class="error"><form:errors path="sites"/></span>
                 </div>
@@ -172,28 +143,27 @@
                         <form:select id="select_sites" path="sites" items="${sites}" multiple="true"
                                      itemValue="displayName"
                                      itemLabel="displayName" class="form-control input-sm"/>
-
                     </div>
                 </div>
             </div>
                 <%--Days--%>
-            <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 extra-small">
                 <div class="has-error">
                     <span class="error"><form:errors path="days"/></span>
                 </div>
-                <div class="form-group row" style="margin-bottom: 5px; display: flex; align-items: center">
-                    <label class="col-xs-5 control-label text-right" for="daysInput"><spring:message code="content.vacanciesLastTest"/></label>
-                    <div class="col-xs-2">
-                        <form:input path="days" id="daysInput" class="form-control"/>
-                    </div>
-                    <label class="col-xs-3 control-label" for="daysInput"><spring:message code="content.daysText"/></label>
+                <div class="form-group row search-days">
+                    <label class="control-label" for="daysInput"><spring:message
+                            code="content.vacanciesLastTest"/></label>
+                    <form:input path="days" id="daysInput" class="form-control"/>
+                    <label class="control-label" for="daysInput"><spring:message
+                            code="content.daysText"/></label>
                 </div>
             </div>
         </div>
 
         <div class="form-group row">
                 <%--Search button--%>
-            <div class="col-xs-12">
+            <div class="col-xs-12 col-md-4 col-lg-3">
                 <button class="btn btn-info" type="submit"
                         data-toggle="modal" data-target="#waitModalDialog"
                         data-backdrop="static" data-keyboard="false">
@@ -289,51 +259,30 @@
     </div>
 </div>
 <!-- End Table block -->
-
+<hr/>
 <div class="container bg-0 ">
-    <div class="form-group row">
-        <div class="col-xs-2 col-sm-1 text-right">
+    <div class="form-inline">
+        <div class="form-group">
             <p><strong>
-                <%--<h5>Export to</h5>--%>
-                <h5><spring:message code="content.exportToText"/></h5>
+                <h5><spring:message code="content.exportToText"/>: </h5>
             </strong></p>
-            <%--<p>--%>
-            <%--<h5>Export to</h5>--%>
-            <%--</p>--%>
         </div>
-        <div class="col-xs-10">
-            <%--<a href="${excelController}">Excel</a>--%>
-            <%--<a class="btn btn-default" href="${excelController}" role="button">Excel</a>--%>
-            <a class="btn btn-default" href="${excelController}" role="button"><img
-                    src="<c:url value="/resources/images/icon_file-xls_48_48.png"/>" height="15" width="35"
-                    align="middle"/>
-            </a>
-            <%--<button class="btn btn-default" href="${excelController}">--%>
-            <%--<img src="../../resources/images/icon_file-xls_48_48.png" height="20" align="middle"/>--%>
-            <%--</button>--%>
-            <%--<a class="btn btn-default" href="${xmlController}" role="button">XML</a>--%>
-            <a class="btn btn-default" href="${xmlController}" role="button"><img
-                    src="<c:url value="/resources/images/icon_file-xml_48_48.png"/>" height="15" width="35"
-                    align="middle"/>
-            </a>
-
-        </div>
+        <a class="btn btn-default export-button" href="${excelController}" role="button">
+            <img src="<c:url value="/resources/images/icon_file-xls_48_48.png"/>"/>
+        </a>
+        <a class="btn btn-default export-button" href="${xmlController}" role="button">
+            <img src="<c:url value="/resources/images/icon_file-xml_48_48.png"/>"/>
+        </a>
 
     </div>
 
-    </br>
-    </br>
     </br>
 </div>
 
 <footer id="footer" class="footer navbar-fixed-bottom">
     <div class="panel-footer">
-        <%--<a href="<%=request.getContextPath()%>?languageVar=en">EN</a>--%>
-        <%--<a href="<%=request.getContextPath()%>?languageVar=ru">RU</a>--%>
-        <%--Developed by AnGo 2017--%>
         <spring:message code="footer.copyRight"/>
     </div>
-
 </footer>
 
 <script>
@@ -359,14 +308,13 @@
                 responsive: true
             }
         );
-
     });
 </script>
 
 <script type="text/javascript">
     $(document).ready(function () {
         $('#select_sites').multiselect({
-            buttonWidth: '210px',
+            buttonWidth: '100%',
             includeSelectAllOption: true,
             selectAllText: '<spring:message code="sites.selectAllText" javaScriptEscape="true"/>',
             nonSelectedText: '<spring:message code="sites.nonSelectedText" javaScriptEscape="true"/>',
@@ -374,40 +322,27 @@
         });
     });
 </script>
-<%--<script>--%>
-<%--$('.selectpicker').selectpicker();--%>
-<%--</script>--%>
 
 </body>
 
 <!-- Modal -->
 <div class="modal fade" id="waitModalDialog" role="dialog" data-backdrop="static" key>
-    <%--<div class="modal-dialog modal-sm">--%>
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <%--<button type="button" class="close" data-dismiss="modal">&times;</button>--%>
-                <%--<h4 class="modal-title">Processing</h4>--%>
                 <h4 class="modal-title"><spring:message code="content.modalProcessing"/></h4>
             </div>
             <div class="modal-body">
                 <%--<p style="text-align:center;">Data is loading</p>--%>
-                <p style="text-align:center;"><spring:message code="content.modalData"/></p>
-                <p style="text-align:center;">
-                    <img src="<c:url value="/resources/gif/loading_apple.gif"/>" alt="Waiting animated GIF"
-                         align="middle"
-                         style="width:256px;height:256px;">
+                <p class="waiting-dialog-el"><spring:message code="content.modalData"/></p>
+                <p class="waiting-dialog-el">
+                    <img class="waiting-dialog-el" src="<c:url value="/resources/gif/loading_apple.gif"/>"
+                         alt="Waiting animated GIF">
                 </p>
-                <%--<img src="path/to/animated.gif" alt="This will display an animated GIF" />--%>
-                <%--<p style="text-align:center;">Please wait</p>--%>
-                <p style="text-align:center;"><spring:message code="content.modalWait"/></p>
+                <p class="waiting-dialog-el"><spring:message code="content.modalWait"/></p>
 
             </div>
-            <%--<div class="modal-footer">--%>
-            <%--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--%>
-            <%--</div>--%>
         </div>
 
     </div>
