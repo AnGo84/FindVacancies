@@ -20,7 +20,7 @@
         <jstl.version>1.2</jstl.version>
         <servlet.version>3.1.0</servlet.version>
         <log4j2.version>2.13.3</log4j2.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
 
         <!-- Spring -->
         <spring-framework.version>4.3.7.RELEASE</spring-framework.version>
