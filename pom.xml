@@ -10,7 +10,6 @@
 
     <packaging>war</packaging>
 
-
     <properties>
 
         <!-- Generic properties -->
@@ -19,8 +18,8 @@
         <jsp.version>2.2</jsp.version>
         <jstl.version>1.2</jstl.version>
         <servlet.version>3.1.0</servlet.version>
-        <log4j2.version>2.8.2</log4j2.version>
-        <junit.version>4.12</junit.version>
+        <log4j2.version>2.13.3</log4j2.version>
+        <junit.version>4.13.1</junit.version>
 
         <!-- Spring -->
         <spring-framework.version>4.3.7.RELEASE</spring-framework.version>
@@ -103,12 +102,6 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-        </dependency>
-
 
         <!-- Excel view -->
         <dependency>
@@ -117,11 +110,10 @@
             <version>3.16</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>5.4.1.Final</version>
+            <version>6.1.6.Final</version>
         </dependency>
-
 
     </dependencies>
     <build>
@@ -175,6 +167,5 @@
 
         </plugins>
     </build>
-
 
 </project>
