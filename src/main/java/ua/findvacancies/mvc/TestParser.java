@@ -1,10 +1,9 @@
-package ua.findvacancies.mvc.model;
-
+package ua.findvacancies.mvc;
 
 
 import ua.findvacancies.mvc.mappers.SearchParamMapper;
-import ua.findvacancies.mvc.utils.AppStringUtils;
-import ua.findvacancies.mvc.utils.ViewSearchParamsUtils;
+import ua.findvacancies.mvc.model.Provider;
+import ua.findvacancies.mvc.model.SearchParam;
 import ua.findvacancies.mvc.viewdata.Vacancy;
 import ua.findvacancies.mvc.viewdata.ViewSearchParams;
 
@@ -25,8 +24,8 @@ public class TestParser
         System.out.println("KeyLine: "+ searchParam.getKeyWordsSearchLine());
         System.out.println("Exclude: "  + searchParam.getExcludeWords());
 
-        List<Vacancy> vacancies =Provider.HEADHUNTER.getStrategy().getVacancies(searchParam);
-
+        List<Vacancy> vacancies = Provider.DOU.getStrategy().getVacancies(searchParam);
+        System.out.println("Find vacancies: "+vacancies.size());
         for (Vacancy vacancy : vacancies)
         {
             System.out.println(vacancy);
