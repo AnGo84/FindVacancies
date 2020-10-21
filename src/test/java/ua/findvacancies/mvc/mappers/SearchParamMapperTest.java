@@ -3,12 +3,9 @@ package ua.findvacancies.mvc.mappers;
 import org.junit.Test;
 import ua.findvacancies.mvc.TestUtils;
 import ua.findvacancies.mvc.model.SearchParam;
-import ua.findvacancies.mvc.utils.AppStringUtils;
-import ua.findvacancies.mvc.utils.StrategyUtils;
-import ua.findvacancies.mvc.viewdata.ViewSearchParams;
+import ua.findvacancies.mvc.model.viewdata.ViewSearchParams;
 
 import java.util.HashSet;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -60,7 +57,7 @@ public class SearchParamMapperTest {
 
     private SearchParam getSearchParams() {
         SearchParam searchParam = new SearchParam();
-        searchParam.setDays(-5);
+        searchParam.setDays(5);
         searchParam.setSearchLine("Search Line -with -exclude");
         searchParam.setKeyWords(Stream.of("search", "line")
                 .collect(Collectors.toCollection(HashSet::new)));

@@ -1,7 +1,12 @@
 package ua.findvacancies.mvc;
 
-import ua.findvacancies.mvc.viewdata.ViewSearchParams;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.springframework.core.io.ClassPathResource;
+import ua.findvacancies.mvc.model.SearchParam;
+import ua.findvacancies.mvc.model.viewdata.ViewSearchParams;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -26,5 +31,24 @@ public class TestUtils {
                 .collect(Collectors.toCollection(HashSet::new));
         viewSearchParams.setSites(sites);
         return viewSearchParams;
+    }
+
+    public static SearchParam getSearchParams() {
+        SearchParam searchParam = new SearchParam();
+        searchParam.setDays(5);
+        searchParam.setSearchLine("Search Line -with -exclude");
+        searchParam.setKeyWords(Stream.of("search", "line")
+                .collect(Collectors.toCollection(HashSet::new)));
+        searchParam.setExcludeWords(Stream.of("with", "exclude")
+                .collect(Collectors.toCollection(HashSet::new)));
+        return searchParam;
+    }
+
+    public static Document getDocumentByClassPath(String filePath) throws IOException {
+        return Jsoup.parse(new ClassPathResource(filePath).getFile(), "UTF-8");
+    }
+
+    public static Document getDocumentFromText(String text) throws IOException {
+        return Jsoup.parse(text, "UTF-8");
     }
 }

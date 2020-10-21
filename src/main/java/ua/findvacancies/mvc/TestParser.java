@@ -4,8 +4,8 @@ package ua.findvacancies.mvc;
 import ua.findvacancies.mvc.mappers.SearchParamMapper;
 import ua.findvacancies.mvc.model.Provider;
 import ua.findvacancies.mvc.model.SearchParam;
-import ua.findvacancies.mvc.viewdata.Vacancy;
-import ua.findvacancies.mvc.viewdata.ViewSearchParams;
+import ua.findvacancies.mvc.model.Vacancy;
+import ua.findvacancies.mvc.model.viewdata.ViewSearchParams;
 
 import java.util.List;
 
@@ -17,8 +17,9 @@ public class TestParser
 //        Provider provider = new Provider(new HHStrategy());
 //        Provider provider = new Provider(new RabotaUAStrategy());
 //        Provider provider = new Provider(new WorkUAStrategy());
-        String keyWords = "Java developer -senior";
-        ViewSearchParams viewSearchParams =new ViewSearchParams(keyWords, "-3");
+        //String keyWords = "Java developer -senior";
+        String keyWords = "Java developer";
+        ViewSearchParams viewSearchParams =new ViewSearchParams(keyWords, "30");
         SearchParam searchParam =  new SearchParamMapper().convert(viewSearchParams);
 
         System.out.println("KeyLine: "+ searchParam.getKeyWordsSearchLine());

@@ -2,7 +2,7 @@ package ua.findvacancies.mvc.utils;
 
 import org.springframework.util.CollectionUtils;
 import ua.findvacancies.mvc.model.Provider;
-import ua.findvacancies.mvc.viewdata.ViewSearchParams;
+import ua.findvacancies.mvc.model.viewdata.ViewSearchParams;
 
 import java.util.HashSet;
 import java.util.Set;

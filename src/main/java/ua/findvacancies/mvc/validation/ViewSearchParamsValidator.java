@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.findvacancies.mvc.viewdata.ViewSearchParams;
+import ua.findvacancies.mvc.model.viewdata.ViewSearchParams;
 
 @Component
 public class ViewSearchParamsValidator implements Validator {

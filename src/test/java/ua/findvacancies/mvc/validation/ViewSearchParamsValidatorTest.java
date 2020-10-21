@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.findvacancies.mvc.viewdata.ViewSearchParams;
+import ua.findvacancies.mvc.model.viewdata.ViewSearchParams;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import ua.findvacancies.mvc.export.XMLDocument;
 import ua.findvacancies.mvc.model.Provider;
+import ua.findvacancies.mvc.model.Vacancy;
+import ua.findvacancies.mvc.model.viewdata.ViewSearchParams;
 import ua.findvacancies.mvc.service.VacancyService;
-import ua.findvacancies.mvc.viewdata.Vacancy;
-import ua.findvacancies.mvc.viewdata.ViewSearchParams;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;

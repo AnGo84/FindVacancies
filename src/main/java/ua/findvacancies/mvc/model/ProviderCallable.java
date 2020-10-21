@@ -1,6 +1,6 @@
 package ua.findvacancies.mvc.model;
 
-import ua.findvacancies.mvc.viewdata.Vacancy;
+import ua.findvacancies.mvc.model.strategy.Strategy;
 
 import java.util.List;
 import java.util.concurrent.Callable;

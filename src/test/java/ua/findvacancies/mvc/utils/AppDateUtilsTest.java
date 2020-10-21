@@ -10,13 +10,13 @@ import static org.junit.Assert.*;
 public class AppDateUtilsTest {
 
     @Test
-    public void addDaysToDate() {
+    public void whenAddDaysToDate_thenOk() {
         Date now = new Date();
         assertEquals(now, AppDateUtils.addDaysToDate(now, 0));
     }
 
     @Test(expected = NullPointerException.class)
-    public void addDaysToDateNullDateParam() {
+    public void whenAddDaysToDateWithNullDateParam_thenThrowNPE() {
         AppDateUtils.addDaysToDate(null, 0);
     }
 
@@ -78,6 +78,43 @@ public class AppDateUtilsTest {
         assertEquals(1, AppDateUtils.compareDatesByDayAndMonth(testDate1, testDate2));
         testDate2 = TestUtils.createDate(2019, 3, 10);
         assertEquals(1, AppDateUtils.compareDatesByDayAndMonth(testDate1, testDate2));
+
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void whenCompareDatesByDayMonthYearAndNullParams_thenThrowNPE() {
+        AppDateUtils.compareDatesByDayMonthYear(null, null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void whenCompareDatesByDayMonthYearAndNullFirstParam_thenThrowNPE() {
+        AppDateUtils.compareDatesByDayMonthYear(null, new Date());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void whenCompareDatesByDayMonthYearAndNullSecondParam_thenThrowNPE() {
+        AppDateUtils.compareDatesByDayMonthYear(new Date(), null);
+    }
+
+    @Test
+    public void whenCompareDatesByDayMonthYear_thenReturnResult() {
+        Date testDate1 = TestUtils.createDate(2020, 3, 20);
+        Date testDate2 = TestUtils.createDate(2020, 3, 20);
+        assertEquals(0, AppDateUtils.compareDatesByDayMonthYear(testDate1, testDate2));
+
+        testDate1 = TestUtils.createDate(2021, 3, 20);
+        testDate2 = TestUtils.createDate(2020, 3, 20);
+        assertEquals(1, AppDateUtils.compareDatesByDayMonthYear(testDate1, testDate2));
+
+        testDate2 = TestUtils.createDate(2019, 4, 20);
+        assertEquals(-1, AppDateUtils.compareDatesByDayMonthYear(testDate1, testDate2));
+        testDate2 = TestUtils.createDate(2019, 3, 21);
+        assertEquals(-1, AppDateUtils.compareDatesByDayMonthYear(testDate1, testDate2));
+
+        testDate2 = TestUtils.createDate(2019, 2, 20);
+        assertEquals(1, AppDateUtils.compareDatesByDayMonthYear(testDate1, testDate2));
+        testDate2 = TestUtils.createDate(2019, 3, 10);
+        assertEquals(1, AppDateUtils.compareDatesByDayMonthYear(testDate1, testDate2));
 
     }
 

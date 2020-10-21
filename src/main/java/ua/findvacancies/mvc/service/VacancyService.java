@@ -6,9 +6,9 @@ import ua.findvacancies.mvc.mappers.SearchParamMapper;
 import ua.findvacancies.mvc.model.Provider;
 import ua.findvacancies.mvc.model.ProviderCallable;
 import ua.findvacancies.mvc.model.SearchParam;
+import ua.findvacancies.mvc.model.Vacancy;
+import ua.findvacancies.mvc.model.viewdata.ViewSearchParams;
 import ua.findvacancies.mvc.utils.ViewSearchParamsUtils;
-import ua.findvacancies.mvc.viewdata.Vacancy;
-import ua.findvacancies.mvc.viewdata.ViewSearchParams;
 
 import java.util.ArrayList;
 import java.util.Collections;

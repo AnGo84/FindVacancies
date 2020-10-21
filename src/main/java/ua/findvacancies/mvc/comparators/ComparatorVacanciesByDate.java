@@ -1,6 +1,6 @@
 package ua.findvacancies.mvc.comparators;
 
-import ua.findvacancies.mvc.viewdata.Vacancy;
+import ua.findvacancies.mvc.model.Vacancy;
 
 import java.util.Comparator;
 

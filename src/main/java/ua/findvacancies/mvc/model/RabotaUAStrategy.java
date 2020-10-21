@@ -4,15 +4,19 @@ package ua.findvacancies.mvc.model;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import ua.findvacancies.mvc.model.strategy.Strategy;
+import ua.findvacancies.mvc.model.strategy.StrategyDocument;
 import ua.findvacancies.mvc.utils.AppDateUtils;
 import ua.findvacancies.mvc.utils.AppStringUtils;
-import ua.findvacancies.mvc.viewdata.Vacancy;
 
 import java.io.IOException;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by AnGo on 22.06.2017.
@@ -136,11 +140,8 @@ public class RabotaUAStrategy implements Strategy {
                     vacancy.setUrl(vacancyURL);
                     vacancy.setDate(date);
                     vacancies.add(vacancy);
-
                     //System.out.println("RABOTA_UA: " + vacancy.getUrl());
-
                 }
-
             }
 
         } catch (IOException e) {
@@ -148,6 +149,11 @@ public class RabotaUAStrategy implements Strategy {
         }
 
         return vacancies;
+    }
+
+    @Override
+    public Vacancy getVacancy(String vacancyURL) {
+        return null;
     }
 
     private Date getVacationDate(String searchString) {

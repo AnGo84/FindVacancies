@@ -2,7 +2,7 @@ package ua.findvacancies.mvc.export;
 
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.web.servlet.view.document.AbstractXlsView;
-import ua.findvacancies.mvc.viewdata.Vacancy;
+import ua.findvacancies.mvc.model.Vacancy;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -69,7 +69,6 @@ public class ExcelDocument extends AbstractXlsView {
         header.getCell(5).setCellStyle(styleHeader);
         header.createCell(6).setCellValue("Date");
         header.getCell(6).setCellStyle(styleHeader);
-
     }
 
 }

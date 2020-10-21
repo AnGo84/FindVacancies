@@ -1,18 +1,22 @@
-package ua.findvacancies.mvc.model;
+package ua.findvacancies.mvc.model.strategy;
 
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import ua.findvacancies.mvc.model.SearchParam;
+import ua.findvacancies.mvc.model.Vacancy;
 import ua.findvacancies.mvc.utils.AppDateUtils;
 import ua.findvacancies.mvc.utils.AppStringUtils;
-import ua.findvacancies.mvc.viewdata.Vacancy;
 
 import java.io.IOException;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by AnGo on 22.06.2017.
@@ -41,6 +45,11 @@ public class WorkUAStrategy implements Strategy {
         //dateShotFormatSymbols.setShortMonths(shortMonths);
         dateShotFormatSymbols.setMonths(months);
         simpleDateTextFormat.setDateFormatSymbols(dateShotFormatSymbols);
+    }
+
+    @Override
+    public Vacancy getVacancy(String vacancyURL) {
+        return null;
     }
 
 

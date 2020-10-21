@@ -2,8 +2,8 @@ package ua.findvacancies.mvc.export;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.findvacancies.mvc.viewdata.Vacancy;
-import ua.findvacancies.mvc.viewdata.VacancyWrapper;
+import ua.findvacancies.mvc.model.Vacancy;
+import ua.findvacancies.mvc.model.VacancyWrapper;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;

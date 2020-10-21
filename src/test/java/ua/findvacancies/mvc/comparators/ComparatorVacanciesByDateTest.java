@@ -3,7 +3,7 @@ package ua.findvacancies.mvc.comparators;
 import org.junit.Before;
 import org.junit.Test;
 import ua.findvacancies.mvc.TestUtils;
-import ua.findvacancies.mvc.viewdata.Vacancy;
+import ua.findvacancies.mvc.model.Vacancy;
 
 import static org.junit.Assert.assertEquals;
 
