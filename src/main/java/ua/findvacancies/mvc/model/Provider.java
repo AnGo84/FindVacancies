@@ -4,7 +4,7 @@ import ua.findvacancies.mvc.model.strategy.*;
 
 public enum Provider {
     DOU("DOU", new DOUStrategy(new DocumentConnect())),
-    HEADHUNTER("HeadHunter", new HHStrategy()),
+    HEADHUNTER("HeadHunter", new HHStrategy(new DocumentConnect())),
     RABOTAUA("RabotaUA", new RabotaUAStrategy()),
     WORKUA("WorkUA", new WorkUAStrategy());
 

@@ -15,7 +15,7 @@ import java.util.*;
 
 public class DOUStrategy extends AbstractStrategy {
     public static final String URL_FORMAT = "https://jobs.dou.ua/vacancies/?search=%s&city=Киев";
-    public static final String HTTPS_DOU_UA = "https://dou.ua/";
+    public static final String SITE_URL = "https://dou.ua/";
 
     private static final String DATE_FORMAT = "dd MMMM yyyy";
 
@@ -52,8 +52,8 @@ public class DOUStrategy extends AbstractStrategy {
         }
         List<Vacancy> vacancies = new ArrayList<>();
         try {
-            System.out.println("SearchParam: " + searchParam);
-            System.out.println("SearchLine: " + searchParam.getKeyWordsSearchLine());
+            //System.out.println("SearchParam: " + searchParam);
+            //System.out.println("SearchLine: " + searchParam.getKeyWordsSearchLine());
             while (true) {
                 String documentURL = String.format(URL_FORMAT, searchParam.getKeyWordsSearchLine());
                 //System.out.println("documentURL: " + documentURL);
@@ -69,17 +69,17 @@ public class DOUStrategy extends AbstractStrategy {
                 //Elements vacanciesListEl = vacancyListIdEl.getElementsByClass("lt").first().getElementsByClass("l-vacancy");
                 Elements vacanciesListEl = vacancyListIdEl.getElementsByClass("l-vacancy");
                 //System.out.println("vacanciesListEl: "+ vacanciesListEl);
-                System.out.println("vacanciesListEl size: " + vacanciesListEl.size());
+                //System.out.println("vacanciesListEl size: " + vacanciesListEl.size());
                 if (vacanciesListEl.size() == 0) break;
 
                 for (Element element : vacanciesListEl) {
                     String vacancyURL = element.getElementsByTag("a").attr("href");
-                    System.out.println("URL: " + vacancyURL);
+                    //System.out.println("URL: " + vacancyURL);
                     Vacancy vacancy = getVacancy(vacancyURL);
                     Elements hotsEl = element.getElementsByClass("__hot");
                     boolean isHotVacancy = !CollectionUtils.isEmpty(hotsEl);
                     vacancy.setHot(isHotVacancy);
-                    vacancy.setSiteName(HTTPS_DOU_UA);
+                    vacancy.setSiteName(SITE_URL);
 
                     System.out.println("DOU: " + vacancy);
 
@@ -155,11 +155,11 @@ public class DOUStrategy extends AbstractStrategy {
             if (vacancyDoc != null) {
                 Element vacancyEl = vacancyDoc.getElementsByClass("b-vacancy").first();
                 Element vacancyCompanyInfoEl = vacancyEl.getElementsByClass("b-compinfo").first();
-                vacancyCompanyName = getTextGetTextByClass(vacancyCompanyInfoEl, "l-n");
-                vacancyData = getTextGetTextByClass(vacancyEl, "date");
-                vacancyTitle = getTextGetTextByClass(vacancyEl, "g-h2");
-                vacancyCity = getTextGetTextByClass(vacancyEl, "place");
-                vacancySalary = getTextGetTextByClass(vacancyEl, "salary");
+                vacancyCompanyName = getTextByClassName(vacancyCompanyInfoEl, "l-n");
+                vacancyData = getTextByClassName(vacancyEl, "date");
+                vacancyTitle = getTextByClassName(vacancyEl, "g-h2");
+                vacancyCity = getTextByClassName(vacancyEl, "place");
+                vacancySalary = getTextByClassName(vacancyEl, "salary");
 
                 vacancy.setTitle(vacancyTitle);
                 vacancy.setUrl(vacancyURL);
@@ -174,14 +174,6 @@ public class DOUStrategy extends AbstractStrategy {
 
         //System.out.println("DOU: " + vacancy);
         return vacancy;
-    }
-
-    private String getTextGetTextByClass(Element element, String className) {
-        Elements classEls = element.getElementsByClass(className);
-        if (CollectionUtils.isEmpty(classEls)) {
-            return "";
-        }
-        return classEls.first().text();
     }
 
     private Date parseVacationDate(String dataString) {
