@@ -25,7 +25,14 @@ public class TestParser
         System.out.println("KeyLine: "+ searchParam.getKeyWordsSearchLine());
         System.out.println("Exclude: "  + searchParam.getExcludeWords());
 
-        List<Vacancy> vacancies = Provider.HEADHUNTER.getStrategy().getVacancies(searchParam);
+        long startTime = System.currentTimeMillis();
+
+        List<Vacancy> vacancies = Provider.RABOTAUA.getStrategy().getVacancies(searchParam);
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("That took " + (endTime - startTime) + " milliseconds");
+        System.out.println("That took " + (endTime - startTime)/1000 + " seconds");
+
         System.out.println("Find vacancies: "+vacancies.size());
         for (Vacancy vacancy : vacancies)
         {

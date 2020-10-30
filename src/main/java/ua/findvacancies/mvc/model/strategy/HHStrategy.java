@@ -61,7 +61,9 @@ public class HHStrategy extends AbstractStrategy {
                 String keyWords = searchParam.getKeyWordsSearchLine();
 
                 Document doc = documentConnect.getDocument(String.format(URL_FORMAT, keyWords, pageCount++));
-                if (doc == null) break;
+                if (doc == null) {
+                    break;
+                }
                 Elements elements = doc.select("[data-qa=vacancy-serp__vacancy]");
                 //System.out.println("elements: " + elements);
                 System.out.println("elements: " + elements.size());
@@ -132,7 +134,7 @@ public class HHStrategy extends AbstractStrategy {
 
         Vacancy vacancy = new Vacancy();
         String vacancyCompanyName = "";
-        String vacancyData = "";
+        String vacancyDate = "";
         String vacancyTitle = "";
         String vacancyCity = "";
         String vacancySalary = "";
@@ -144,7 +146,7 @@ public class HHStrategy extends AbstractStrategy {
                 if (!CollectionUtils.isEmpty(vacancyCompanyEls)) {
                     vacancyCompanyName = vacancyCompanyEls.first().getElementsByTag("span").first().getElementsByTag("span").first().text();
                 }
-                vacancyData = getTextByClassName(vacancyDoc, "vacancy-creation-time");
+                vacancyDate = getTextByClassName(vacancyDoc, "vacancy-creation-time");
                 vacancyTitle = getTextBySelect(vacancyDoc, "[data-qa=vacancy-title]");
                 vacancyCity = getTextByClassName(vacancyDoc, "[data-qa=vacancy-view-location]");
 
@@ -155,7 +157,7 @@ public class HHStrategy extends AbstractStrategy {
                 vacancy.setCity(vacancyCity);
                 vacancy.setSalary(vacancySalary);
                 vacancy.setCompanyName(vacancyCompanyName);
-                vacancy.setDate(parseVacationDate(vacancyData));
+                vacancy.setDate(parseVacationDate(vacancyDate));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -211,21 +213,19 @@ public class HHStrategy extends AbstractStrategy {
     }*/
 
 
-    private Date parseVacationDate(String dataString) {
-        System.out.println("Data text: " + dataString);
-        String[] dataWords = dataString.split(" ");
-        //replace non-breaking space (&nbsp;) with space
-        //.replaceAll("&nbsp;"," ");
-        dataString = dataWords[2].replaceAll("\u00a0", " ");
-
-        System.out.println("Data text: " + dataString);
+    private Date parseVacationDate(String dateString) {
+        //System.out.println("Date text: " + dateString);
         try {
-            return simpleDateFormat.parse(dataString);
+            String[] dataWords = dateString.split(" ");
+            //replace non-breaking space (&nbsp;) with space
+            //.replaceAll("&nbsp;"," ");
+            dateString = dataWords[2].replaceAll(String.valueOf(NON_BREAKING_SPACE_CHAR), " ");
+            return simpleDateFormat.parse(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         /*try {
-            return simpleDateFormatUA.parse(dataString);
+            return simpleDateFormatUA.parse(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
         }*/

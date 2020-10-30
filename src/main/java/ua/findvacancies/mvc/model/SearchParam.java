@@ -1,10 +1,12 @@
 package ua.findvacancies.mvc.model;
 
-import org.springframework.util.CollectionUtils;
+import org.apache.logging.log4j.util.Strings;
 
 import java.util.Set;
 
 public class SearchParam {
+    private static final String DEFAULT_WORD_SEPARATOR = "+";
+
     private String searchLine;
     private int days;
     private Set<String> keyWords;
@@ -45,8 +47,16 @@ public class SearchParam {
         this.excludeWords = excludeWords;
     }
 
-    public String getKeyWordsSearchLine(){
-        return String.join("+", keyWords);
+    public String getKeyWordsSearchLine() {
+        return String.join(DEFAULT_WORD_SEPARATOR, keyWords);
+    }
+
+    public String getKeyWordsSearchLine(String wordSeparator) {
+
+        if (Strings.isBlank(wordSeparator)) {
+            return String.join(DEFAULT_WORD_SEPARATOR, keyWords);
+        }
+        return String.join(wordSeparator, keyWords);
     }
 
     @Override

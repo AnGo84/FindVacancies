@@ -47,7 +47,7 @@ public class DOUStrategy extends AbstractStrategy {
 
     @Override
     public List<Vacancy> getVacancies(SearchParam searchParam) {
-        if (searchParam==null){
+        if (searchParam == null) {
             return Collections.emptyList();
         }
         List<Vacancy> vacancies = new ArrayList<>();
@@ -59,7 +59,9 @@ public class DOUStrategy extends AbstractStrategy {
                 //System.out.println("documentURL: " + documentURL);
                 Document doc = documentConnect.getDocument(documentURL);
                 //getDocument(searchString, pageCount++);
-                if (doc == null) break;
+                if (doc == null) {
+                    break;
+                }
                 Element vacancyListIdEl = doc.getElementById("vacancyListId");
                 //System.out.println("vacanciesListEl: " + vacancyListIdEl);
 
@@ -70,7 +72,9 @@ public class DOUStrategy extends AbstractStrategy {
                 Elements vacanciesListEl = vacancyListIdEl.getElementsByClass("l-vacancy");
                 //System.out.println("vacanciesListEl: "+ vacanciesListEl);
                 //System.out.println("vacanciesListEl size: " + vacanciesListEl.size());
-                if (vacanciesListEl.size() == 0) break;
+                if (vacanciesListEl.size() == 0) {
+                    break;
+                }
 
                 for (Element element : vacanciesListEl) {
                     String vacancyURL = element.getElementsByTag("a").attr("href");
@@ -145,18 +149,18 @@ public class DOUStrategy extends AbstractStrategy {
 
         Vacancy vacancy = new Vacancy();
         String vacancyCompanyName = "";
-        String vacancyData = "";
+        String vacancyDate = "";
         String vacancyTitle = "";
         String vacancyCity = "";
         String vacancySalary = "";
         try {
             Document vacancyDoc = documentConnect.getDocument(vacancyURL);
-            System.out.println("VacancyDoc: " + vacancyDoc);
+            //System.out.println("VacancyDoc: " + vacancyDoc);
             if (vacancyDoc != null) {
                 Element vacancyEl = vacancyDoc.getElementsByClass("b-vacancy").first();
                 Element vacancyCompanyInfoEl = vacancyEl.getElementsByClass("b-compinfo").first();
                 vacancyCompanyName = getTextByClassName(vacancyCompanyInfoEl, "l-n");
-                vacancyData = getTextByClassName(vacancyEl, "date");
+                vacancyDate = getTextByClassName(vacancyEl, "date");
                 vacancyTitle = getTextByClassName(vacancyEl, "g-h2");
                 vacancyCity = getTextByClassName(vacancyEl, "place");
                 vacancySalary = getTextByClassName(vacancyEl, "salary");
@@ -166,7 +170,7 @@ public class DOUStrategy extends AbstractStrategy {
                 vacancy.setCity(vacancyCity);
                 vacancy.setSalary(vacancySalary);
                 vacancy.setCompanyName(vacancyCompanyName);
-                vacancy.setDate(parseVacationDate(vacancyData));
+                vacancy.setDate(parseVacationDate(vacancyDate));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -176,14 +180,14 @@ public class DOUStrategy extends AbstractStrategy {
         return vacancy;
     }
 
-    private Date parseVacationDate(String dataString) {
+    private Date parseVacationDate(String dateString) {
         try {
-            return simpleDateFormatRU.parse(dataString);
+            return simpleDateFormatRU.parse(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         try {
-            return simpleDateFormatUA.parse(dataString);
+            return simpleDateFormatUA.parse(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
         }

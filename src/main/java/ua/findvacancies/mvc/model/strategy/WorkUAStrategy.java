@@ -4,34 +4,24 @@ package ua.findvacancies.mvc.model.strategy;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.util.CollectionUtils;
 import ua.findvacancies.mvc.model.SearchParam;
 import ua.findvacancies.mvc.model.Vacancy;
-import ua.findvacancies.mvc.utils.AppDateUtils;
-import ua.findvacancies.mvc.utils.AppStringUtils;
+import ua.findvacancies.mvc.utils.VacancyUtils;
 
-import java.io.IOException;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
-/**
- * Created by AnGo on 22.06.2017.
- */
-public class WorkUAStrategy implements Strategy {
-    private static final String URL_FORMAT = "https://www.work.ua/jobs-kyiv-%s/?page=%d";
-
-    private static final String HTTPS_WORK_UA = "https://work.ua";
+public class WorkUAStrategy extends AbstractStrategy {
+    public static final String SITE_URL = "https://work.ua";
+    public static final String URL_FORMAT = "https://www.work.ua/jobs-kyiv-%s/?page=%d";
     private static final String WORD_SEPARATOR = "+";
 
     private static final String DATE_FORMAT = "dd.MM.yyyy";
     private static final String DATE_FORMAT_TEXT = "dd MMMM yyyy";
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
-
-    private static final char PARSE_SYMBOL = '\u00A0';
 
     private static final String[] months = {
             "січня", "лютого", "березня", "квітня", "травня", "червня",
@@ -47,15 +37,19 @@ public class WorkUAStrategy implements Strategy {
         simpleDateTextFormat.setDateFormatSymbols(dateShotFormatSymbols);
     }
 
-    @Override
-    public Vacancy getVacancy(String vacancyURL) {
-        return null;
+    private final DocumentConnect documentConnect;
+
+    public WorkUAStrategy(DocumentConnect documentConnect) {
+        this.documentConnect = documentConnect;
     }
 
 
     @Override
     //public List<Vacancy> getVacancies(String words, int days) {
     public List<Vacancy> getVacancies(SearchParam searchParam) {
+        if (searchParam == null) {
+            return Collections.emptyList();
+        }
         List<Vacancy> vacancies = new ArrayList<>();
 
         try {
@@ -66,18 +60,36 @@ public class WorkUAStrategy implements Strategy {
 
                 String searchPageURL = String.format(URL_FORMAT, searchParam.getKeyWordsSearchLine(), ++pageCount);
                 System.out.println("Page " + pageCount + ", URL: " + searchPageURL);
-                Document doc = StrategyDocument.getDocument(searchPageURL);
-                if (doc == null) break;
+                Document doc = documentConnect.getDocument(searchPageURL);
+                if (doc == null) {
+                    break;
+                }
 
-                Elements elements = doc.getElementsByClass("card-hover");
+                Element vacancyListIdEl = doc.getElementById("pjax-job-list");
+                if (vacancyListIdEl == null) {
+                    break;
+                }
+                Elements vacanciesListEl = vacancyListIdEl.getElementsByClass("job-link");
+                //System.out.println("vacanciesListEl size: " + vacanciesListEl.size());
 
-                if (elements.size() == 0) {
+                if (vacanciesListEl.size() == 0) {
                     break;
                 }
                 int vacancyOnPage = 0;
-                for (Element element : elements) {
+                for (Element element : vacanciesListEl) {
+                    String vacancyURL = element.getElementsByTag("a").attr("href");
+                    System.out.println("url: " + (vacancyURL));
+                    Vacancy vacancy = getVacancy(vacancyURL);
+                    vacancy.setSiteName(SITE_URL);
 
-                    if (element.getElementsByClass("row").first() != null || element.getElementsByClass("logotype-slides").first()
+                    //System.out.println("WorkUA: " + vacancy);
+
+                    if (VacancyUtils.isNotApplyToSearch(vacancy, searchParam)) {
+                        continue;
+                    }
+
+                    vacancies.add(vacancy);
+                    /*if (element.getElementsByClass("row").first() != null || element.getElementsByClass("logotype-slides").first()
                             != null || element.getElementsByClass("clearfix").first() != null) {
                         continue;
                     }
@@ -158,20 +170,86 @@ public class WorkUAStrategy implements Strategy {
                     vacancy.setUrl(vacancyURL);
                     vacancy.setDate(date);
                     vacancies.add(vacancy);
-
+*/
                     System.out.println("WORK_UA added: " + vacancy.getUrl());
                 }
             }
 
-        } catch (IOException | NullPointerException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Error: " + e.getMessage());
+            //System.out.println("Error: " + e.getMessage());
         }
 
         return vacancies;
     }
 
+    @Override
+    public Vacancy getVacancy(String vacancyURL) {
 
+        Vacancy vacancy = new Vacancy();
+        String vacancyCompanyName = "";
+        String vacancyDate = "";
+        String vacancyTitle = "";
+        String vacancyCity = "";
+        String vacancySalary = "";
+        boolean isHot;
+        try {
+            Document vacancyDoc = documentConnect.getDocument(vacancyURL);
+            //System.out.println("VacancyDoc: " + vacancyDoc);
+            if (vacancyDoc != null) {
+                Element vacancyEl = vacancyDoc.getElementsByClass("wordwrap").first();
+                vacancyCompanyName = getTextFromNextTagByClassName(vacancyEl, "glyphicon-company","b");
+
+                vacancyDate = getTextFromFirstElByClassName(vacancyEl.getElementsByClass("cut-bottom-print"),"text-muted");
+
+                /*Element vacancyDataEl = vacancyEl.getElementsByClass("cut-bottom-print").first();
+                vacancyData = getTextByClassName(vacancyDataEl, "text-muted");*/
+
+                vacancyTitle = vacancyEl.getElementById("h1-name").text();
+
+                Element vacancyCityEl = vacancyEl.getElementsByClass("glyphicon-map-marker").first();
+                vacancyCity = vacancyCityEl.parent().text();
+
+                vacancySalary = getTextFromNextTagByClassName(vacancyEl, "glyphicon-hryvnia", "b");
+
+                isHot = !CollectionUtils.isEmpty(vacancyEl.getElementsByClass("label-hot"));
+                //System.out.println("ISHOT: " + vacancyEl.getElementsByClass("label-hot"));
+                vacancy.setTitle(vacancyTitle);
+                vacancy.setUrl(vacancyURL);
+                vacancy.setCity(vacancyCity);
+                vacancy.setSalary(vacancySalary);
+                vacancy.setCompanyName(vacancyCompanyName);
+                vacancy.setDate(parseVacationDate(vacancyDate));
+                vacancy.setHot(isHot);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //System.out.println("WORK: " + vacancy);
+        return vacancy;
+    }
+
+    private String getTextFromNextTagByClassName(Element vacancyEl, String className, String tagName) {
+        try {
+            Element firstClassEl = vacancyEl.getElementsByClass(className).first();
+            return firstClassEl.nextElementSibling().getElementsByTag(tagName).first().text();
+        }catch (Exception e){
+            return "";
+        }
+    }
+
+    private Date parseVacationDate(String dateString) {
+        try {
+            dateString = dateString.substring(dateString.lastIndexOf(NON_BREAKING_SPACE_CHAR) + 1);
+            //System.out.println("Parse date: " + dateString);
+            return simpleDateTextFormat.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new Date();
+    }
+/*
     private Date getVacationDate(String searchString) {
         Date vacationDate = new Date();
 
@@ -190,24 +268,20 @@ public class WorkUAStrategy implements Strategy {
                             if (elements.size() != 0) {
                                 String stringDate = elements.first().text();
                                 System.out.println("Element 'text-muted' present: " + (elements != null) + ", value: " + stringDate);
-                                stringDate = stringDate.substring(stringDate.lastIndexOf(PARSE_SYMBOL) + 1, stringDate.length());
+                                stringDate = stringDate.substring(stringDate.lastIndexOf(NON_BREAKING_SPACE_CHAR) + 1);
                                 System.out.println("Parse date: " + stringDate);
                                 vacationDate = simpleDateTextFormat.parse(stringDate);
                                 System.out.println("Get date: " + vacationDate);
-                            }
-                            else {
+                            } else {
                                 System.out.println("Element 'text-muted' is null");
                             }
-                        }
-                        else {
+                        } else {
                             System.out.println("Element 'cut-bottom-print' is null");
                         }
-                    }
-                    else {
+                    } else {
                         System.out.println("Element 'card' is null");
                     }
-                }
-                else {
+                } else {
                     System.out.println("Element 'design-verse/card' is null");
                 }
 
@@ -222,5 +296,5 @@ public class WorkUAStrategy implements Strategy {
         }
 
         return vacationDate;
-    }
+    }*/
 }
