@@ -17,32 +17,32 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class WorkUAStrategyTest {
-    private WorkUAStrategy strategy;
+public class RabotaUAStrategyTest{
+    private RabotaUAStrategy strategy;
     private DocumentConnect mockDocumentConnect;
     private final DocumentConnect documentConnect = new DocumentConnect();
 
     @Before
     public void beforeEach() {
         mockDocumentConnect = mock(DocumentConnect.class);
-        strategy = new WorkUAStrategy(mockDocumentConnect);
+        strategy = new RabotaUAStrategy(mockDocumentConnect);
     }
 
     @Test
     public void whenGetVacancies_returnResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
         searchParam.setDays(2000);
-        String searchURL = String.format(WorkUAStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine(), 1);
-
-        Document document = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancies.html");
-        Document documentVacancyHot = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancy_hot.html");
-        Document documentVacancyWithSalary = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancy_with_salary.html");
-        Document documentVacancyCommon = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancy_common.html");
+        String searchURL = String.format(RabotaUAStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine(RabotaUAStrategy.WORD_SEPARATOR), 1);
+        System.out.println("TEST searchURL: " + searchURL);
+        Document document = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancies.html");
+        Document documentVacancyHot = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_hot.html");
+        Document documentVacancyWithSalary = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_with_salary.html");
+        Document documentVacancyCommon = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_common.html");
         //System.out.println("Document: " + document);
         when(mockDocumentConnect.getDocument(searchURL)).thenReturn(document);
-        when(mockDocumentConnect.getDocument("https://www.work.ua/jobs/3747708/")).thenReturn(documentVacancyHot);
-        when(mockDocumentConnect.getDocument("https://www.work.ua/jobs/4016482/")).thenReturn(documentVacancyWithSalary);
-        when(mockDocumentConnect.getDocument("https://www.work.ua/jobs/4031195/")).thenReturn(documentVacancyCommon);
+        when(mockDocumentConnect.getDocument("https://rabota.ua/ua/company816229/vacancy5872044")).thenReturn(documentVacancyHot);
+        when(mockDocumentConnect.getDocument("https://rabota.ua/ua/company1042/vacancy8182405")).thenReturn(documentVacancyWithSalary);
+        when(mockDocumentConnect.getDocument("https://rabota.ua/ua/company794/vacancy8168568")).thenReturn(documentVacancyCommon);
 
         List<Vacancy> result = strategy.getVacancies(searchParam);
         //System.out.println("" + result);
@@ -59,21 +59,22 @@ public class WorkUAStrategyTest {
     public void whenGetVacanciesWithWrongDate_returnResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
         searchParam.setDays(0);
-        String searchURL = String.format(WorkUAStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine(), 1);
+        String searchURL = String.format(RabotaUAStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine(RabotaUAStrategy.WORD_SEPARATOR), 1);
 
-        Document document = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancies.html");
-        Document documentVacancyWithSalary = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancy_with_salary.html");
-        Document documentVacancyCommon = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancy_common.html");
-        Document documentVacancyWithWrongDate = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancy_with_wrong_data.html");
+        Document document = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancies.html");
+        Document documentVacancyWithSalary = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_with_salary.html");
+        Document documentVacancyHot = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_hot.html");
+        Document documentVacancyWithWrongDate = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_with_wrong_data.html");
         //System.out.println("Document: " + document);
         when(mockDocumentConnect.getDocument(searchURL)).thenReturn(document);
-        when(mockDocumentConnect.getDocument("https://www.work.ua/jobs/4016482/")).thenReturn(documentVacancyWithSalary);
-        when(mockDocumentConnect.getDocument("https://www.work.ua/jobs/4031195/")).thenReturn(documentVacancyCommon);
-        when(mockDocumentConnect.getDocument("https://www.work.ua/jobs/4038296/")).thenReturn(documentVacancyWithWrongDate);
+        when(mockDocumentConnect.getDocument("https://rabota.ua/ua/company1042/vacancy8182405")).thenReturn(documentVacancyWithSalary);
+        when(mockDocumentConnect.getDocument("https://rabota.ua/ua/company794/vacancy8168568")).thenReturn(documentVacancyHot);
+        when(mockDocumentConnect.getDocument("https://rabota.ua/ua/company8603000/vacancy8067269")).thenReturn(documentVacancyWithWrongDate);
+
         List<Vacancy> result = strategy.getVacancies(searchParam);
-        //System.out.println("" + result);
+        System.out.println("" + result);
         assertNotNull(result);
-        assertEquals(1, result.size());
+        assertEquals(2, result.size());
 
         assertEquals(0, AppDateUtils.compareDatesByDayMonthYear(new Date(), result.get(0).getDate()));
     }
@@ -81,15 +82,15 @@ public class WorkUAStrategyTest {
     @Test
     public void whenGetVacanciesWithWrongSite_returnEmptyResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
-        String searchURL = String.format(WorkUAStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine(), 1);
+        String searchURL = String.format(RabotaUAStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine(RabotaUAStrategy.WORD_SEPARATOR), 1);
 
-        Document document = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancies.html");
-        Document documentVacancyHot = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancy_hot.html");
+        Document document = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancies.html");
+        Document documentVacancyHot = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_hot.html");
         Document documentVacancyWithSalary = TestUtils.getDocumentFromText("wrong text");
 
         when(mockDocumentConnect.getDocument(searchURL)).thenReturn(document);
-        when(mockDocumentConnect.getDocument("https://www.work.ua/jobs/3747708/")).thenReturn(documentVacancyHot);
-        when(mockDocumentConnect.getDocument("https://www.work.ua/jobs/4016482/")).thenReturn(documentVacancyWithSalary);
+        when(mockDocumentConnect.getDocument("https://rabota.ua/ua/company816229/vacancy5872044")).thenReturn(documentVacancyHot);
+        when(mockDocumentConnect.getDocument("https://rabota.ua/ua/company1042/vacancy8182405")).thenReturn(documentVacancyWithSalary);
         List<Vacancy> result = strategy.getVacancies(searchParam);
         //System.out.println("Result: " + result);
         assertNotNull(result);
@@ -100,7 +101,7 @@ public class WorkUAStrategyTest {
     public void whenGetVacanciesWithWrongVacancyLink_returnEmptyResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
         searchParam.setDays(2000);
-        String searchURL = String.format(WorkUAStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine(), 1);
+        String searchURL = String.format(RabotaUAStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine(RabotaUAStrategy.WORD_SEPARATOR), 1);
         Document document = TestUtils.getDocumentFromText("wrong text");
         when(mockDocumentConnect.getDocument(searchURL)).thenReturn(document);
         List<Vacancy> result = strategy.getVacancies(searchParam);
@@ -116,7 +117,7 @@ public class WorkUAStrategyTest {
         assertEquals(true, result.isEmpty());
 
         SearchParam searchParam = new SearchParam();
-        String searchURL = String.format(WorkUAStrategy.URL_FORMAT, "", 1);
+        String searchURL = String.format(RabotaUAStrategy.URL_FORMAT, "", 1);
         when(mockDocumentConnect.getDocument(searchURL)).thenReturn(null);
         result = strategy.getVacancies(searchParam);
         //System.out.println("" + result);

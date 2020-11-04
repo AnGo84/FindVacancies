@@ -22,10 +22,9 @@ import java.util.List;
 public class RabotaUAStrategy extends AbstractStrategy {
     public static final int ELEMENTS_BEFORE_JSON = 1;
     //private static final String URL_FORMAT = "https://rabota.ua/jobsearch/vacancy_list?regionId=1&keyWords=%s&pg%d";
-    private static final String URL_FORMAT = "https://rabota.ua/ua/zapros/%s/киев/pg%d";
-    private static final String SITE_URL = "https://rabota.ua";
+    public static final String URL_FORMAT = "https://rabota.ua/ua/zapros/%s/киев/pg%d";
     //private static final String DATE_FORMAT = "dd MMM yyyy";
-    private static final String WORD_SEPARATOR = "-";
+    public static final String WORD_SEPARATOR = "-";
     /*private static final String[] shortMonths = {
             "янв", "фев", "мар", "апр", "май", "июн",
             "июл", "авг", "сен", "окт", "ноя", "дек"};
@@ -41,6 +40,7 @@ public class RabotaUAStrategy extends AbstractStrategy {
     }*/
     //public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
     public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+    private static final String SITE_URL = "https://rabota.ua";
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 
     private final DocumentConnect documentConnect;
@@ -77,7 +77,7 @@ public class RabotaUAStrategy extends AbstractStrategy {
                     break;
                 }
                 Elements vacanciesListEl = vacancyListTableEl.first().getElementsByClass("card");
-                System.out.println("vacanciesListEl size: " + vacanciesListEl.size());
+                //System.out.println("vacanciesListEl size: " + vacanciesListEl.size());
 
                 if (vacanciesListEl.size() == 0) {
                     break;
@@ -86,16 +86,19 @@ public class RabotaUAStrategy extends AbstractStrategy {
                 int vacancyOnPage = 0;
                 for (Element element : vacanciesListEl) {
                     String vacancyURL = element.getElementsByClass("card-title").first().getElementsByTag("a").attr("href");
-                    String fullVacancyURL = SITE_URL + vacancyURL;
+                    //String fullVacancyURL = SITE_URL + vacancyURL;
                     //System.out.println("url: " + vacancyURL);
-                    //System.out.println("url: " + fullVacancyURL);
-                    Vacancy vacancy = getVacancy(fullVacancyURL);
+                    //System.out.println("fullurl: " + fullVacancyURL);
+                    if (vacancyURL.startsWith("/")) {
+                        vacancyURL = SITE_URL + vacancyURL;
+                    }
+                    Vacancy vacancy = getVacancy(vacancyURL);
 
                     //vacancy.setHot("true".equalsIgnoreCase(element.attr("data-is-hot")));
 
                     vacancy.setSiteName(SITE_URL);
 
-                    System.out.println("RabotaUA: " + vacancy);
+                    //System.out.println("RabotaUA: " + vacancy);
 
                     if (VacancyUtils.isNotApplyToSearch(vacancy, searchParam)) {
                         continue;
@@ -189,26 +192,42 @@ public class RabotaUAStrategy extends AbstractStrategy {
 
     @Override
     public Vacancy getVacancy(String vacancyURL) {
-        System.out.println("vacancyURL: " + vacancyURL);
+        //System.out.println("vacancyURL: " + vacancyURL);
         Vacancy vacancy = new Vacancy();
         try {
             Document vacancyDoc = documentConnect.getDocument(vacancyURL);
-            Element vacancyScriptEl = vacancyDoc.getElementsByAttributeValue("href", vacancyURL).first();
+            if (vacancyDoc != null) {
+                //Element vacancyScriptEl = vacancyDoc.getElementsByAttributeValue("href", vacancyURL).first();
+
+                Elements scriptsEls = vacancyDoc.getElementsByTag("script");
+
+                Element vacancyScriptEl = scriptsEls.stream()
+                        .filter(el -> el.data().startsWith("var ruavars ="))
+                        .findFirst()
+                        .orElse(null);
+                //System.out.println("vacancyScriptEl: " + vacancyScriptEl);
+                if (vacancyScriptEl != null) {
+                    vacancy = getVacancyFromJSON(vacancyScriptEl.data());
+                    vacancy.setUrl(vacancyURL);
+                }
+            /*System.out.println("vacancyScriptEl: " + vacancyScriptEl);
             while (true) {
                 vacancyScriptEl = vacancyScriptEl.nextElementSibling();
                 if (vacancyScriptEl == null) {
                     break;
                 }
                 if (vacancyScriptEl.getElementsByTag("script") != null) {
+
                     vacancy = getVacancyFromJSON(vacancyScriptEl.data());
                     break;
                 }
+            }*/
+
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        vacancy.setUrl(vacancyURL);
         //System.out.println("DOU: " + vacancy);
         return vacancy;
     }

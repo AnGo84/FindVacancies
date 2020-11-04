@@ -59,7 +59,7 @@ public class VacancyService {
         return vacancyList;
     }
 
-    public List<Vacancy> getVacancyList(Set<Provider> providers, SearchParam searchParam) {
+    /*public List<Vacancy> getVacancyList(Set<Provider> providers, SearchParam searchParam) {
         CopyOnWriteArrayList<Vacancy> vacancyList = new CopyOnWriteArrayList<>();
         for (Provider provider : providers) {
 
@@ -67,7 +67,7 @@ public class VacancyService {
         }
         Collections.sort(vacancyList, new ComparatorVacanciesByDate());
         return vacancyList;
-    }
+    }*/
 
     public List<Vacancy> getVacancyListByThreads(ViewSearchParams viewSearchParams) {
         SearchParam searchParam = searchParamMapper.convert(viewSearchParams);

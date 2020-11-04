@@ -171,7 +171,7 @@ public class WorkUAStrategy extends AbstractStrategy {
                     vacancy.setDate(date);
                     vacancies.add(vacancy);
 */
-                    System.out.println("WORK_UA added: " + vacancy.getUrl());
+                    //System.out.println("WORK_UA added: " + vacancy.getUrl());
                 }
             }
 
