@@ -3,6 +3,7 @@ package ua.findvacancies.mvc.utils;
 import org.junit.Test;
 import ua.findvacancies.mvc.TestUtils;
 import ua.findvacancies.mvc.model.Provider;
+import ua.findvacancies.mvc.model.strategy.Strategy;
 import ua.findvacancies.mvc.model.viewdata.ViewSearchParams;
 
 import java.util.HashSet;
@@ -48,6 +49,33 @@ public class ViewSearchParamsUtilsTest {
         assertFalse(providers.contains(Provider.WORKUA));
         assertFalse(providers.contains(Provider.HEADHUNTER));
 
+    }
+
+    @Test
+    public void whenGetStrategiesSet() {
+        assertNotNull(ViewSearchParamsUtils.getStrategiesSet(null));
+        assertNotNull(ViewSearchParamsUtils.getStrategiesSet(new ViewSearchParams()));
+
+        ViewSearchParams viewSearchParams = TestUtils.getViewSearchParams();
+        Set<Strategy> strategies = ViewSearchParamsUtils.getStrategiesSet(viewSearchParams);
+        assertNotNull(strategies);
+        assertTrue(strategies.isEmpty());
+
+        Set<String> sites = Stream.of("workua", "dou", "rabotaua")
+                .collect(Collectors.toCollection(HashSet::new));
+        viewSearchParams.setSites(sites);
+        strategies = ViewSearchParamsUtils.getStrategiesSet(viewSearchParams);
+        assertNotNull(strategies);
+        assertFalse(strategies.isEmpty());
+        assertEquals(3, strategies.size());
+
+        sites = Stream.of("wrong", "dou", "wrong2")
+                .collect(Collectors.toCollection(HashSet::new));
+        viewSearchParams.setSites(sites);
+        strategies = ViewSearchParamsUtils.getStrategiesSet(viewSearchParams);
+        assertNotNull(strategies);
+        assertFalse(strategies.isEmpty());
+        assertEquals(1, strategies.size());
     }
 
 }

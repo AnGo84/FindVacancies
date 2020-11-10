@@ -16,7 +16,7 @@ public class ProviderCallable implements Callable<List<Vacancy>> {
 
     @Override
     public List<Vacancy> call() throws Exception {
-        System.out.println("Started parse strategy: " + strategy.getClass().getSimpleName());
+        //System.out.println("Started parse strategy: " + strategy.getClass().getSimpleName());
         return strategy.getVacancies(searchParam);
     }
 }

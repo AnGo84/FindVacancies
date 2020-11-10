@@ -3,23 +3,23 @@ package ua.findvacancies.mvc.service;
 import org.springframework.stereotype.Service;
 import ua.findvacancies.mvc.comparators.ComparatorVacanciesByDate;
 import ua.findvacancies.mvc.mappers.SearchParamMapper;
-import ua.findvacancies.mvc.model.Provider;
 import ua.findvacancies.mvc.model.ProviderCallable;
 import ua.findvacancies.mvc.model.SearchParam;
 import ua.findvacancies.mvc.model.Vacancy;
+import ua.findvacancies.mvc.model.strategy.Strategy;
 import ua.findvacancies.mvc.model.viewdata.ViewSearchParams;
 import ua.findvacancies.mvc.utils.ViewSearchParamsUtils;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 @Service
 public class VacancyService {
-    private static final String DEFAULT_SEARCH = "Java developer";
-    private static final int DEFAULT_DAYS = 7;
+    public static final String DEFAULT_SEARCH = "Java developer";
+    public static final int DEFAULT_DAYS = 7;
 
     private SearchParamMapper searchParamMapper = new SearchParamMapper();
 
@@ -27,28 +27,27 @@ public class VacancyService {
 
     }
 
-    public List<Vacancy> getVacancyListByThreads(Set<Provider> providers, SearchParam searchParam) {
+    public List<Vacancy> getVacancyListByThreads(Set<Strategy> strategies, SearchParam searchParam) {
         //Получаем ExecutorService утилитного класса Executors с размером пула потоков равному 10
-        ExecutorService executor = Executors.newFixedThreadPool(providers.size());
+        ExecutorService executor = Executors.newFixedThreadPool(strategies.size());
         //создаем список с Future, которые ассоциированы с Callable
-        List<Future<List<Vacancy>>> list = new ArrayList<>();
-        // создаем экземпляр MyCallable
-
+        /*List<Future<List<Vacancy>>> list = new ArrayList<>();
         for (Provider provider : providers) {
             Callable<List<Vacancy>> callable = new ProviderCallable(provider.getStrategy(), searchParam);
             Future<List<Vacancy>> future = executor.submit(callable);
             list.add(future);
-        }
+        }*/
+
+        List<Future<List<Vacancy>>> futuresList= strategies.stream()
+                .map(strategy -> new ProviderCallable(strategy, searchParam))
+                .map(executor::submit)
+                .collect(Collectors.toList());
 
         CopyOnWriteArrayList<Vacancy> vacancyList = new CopyOnWriteArrayList<>();
 
-        for (Future<List<Vacancy>> fut : list) {
+        for (Future<List<Vacancy>> future : futuresList) {
             try {
-                // печатаем в консоль возвращенное значение Future
-                // будет задержка в 1 секунду, потому что Future.get()
-                // ждет пока таск закончит выполнение
-                //System.out.println(new Date()+ "::" + fut.get());
-                vacancyList.addAll(fut.get());
+                vacancyList.addAll(future.get());
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
@@ -59,25 +58,22 @@ public class VacancyService {
         return vacancyList;
     }
 
-    /*public List<Vacancy> getVacancyList(Set<Provider> providers, SearchParam searchParam) {
+    public List<Vacancy> getVacancyList(Set<Strategy> strategies, SearchParam searchParam) {
         CopyOnWriteArrayList<Vacancy> vacancyList = new CopyOnWriteArrayList<>();
-        for (Provider provider : providers) {
-
-            vacancyList.addAll(provider.getStrategy().getVacancies(searchParam));
+        for (Strategy strategy : strategies) {
+            vacancyList.addAll(strategy.getVacancies(searchParam));
         }
         Collections.sort(vacancyList, new ComparatorVacanciesByDate());
         return vacancyList;
-    }*/
+    }
 
-    public List<Vacancy> getVacancyListByThreads(ViewSearchParams viewSearchParams) {
+    public List<Vacancy> getVacancyList(ViewSearchParams viewSearchParams) {
         SearchParam searchParam = searchParamMapper.convert(viewSearchParams);
-
-        Set<Provider> providers = ViewSearchParamsUtils.getProvidersSet(viewSearchParams);
-
-        return getVacancyListByThreads(providers, searchParam);
+        //Set<Provider> providers = ViewSearchParamsUtils.getProvidersSet(viewSearchParams);
+        return getVacancyListByThreads(ViewSearchParamsUtils.getStrategiesSet(viewSearchParams), searchParam);
     }
 
     public ViewSearchParams getDefaultViewSearchParams(){
-        return new ViewSearchParams(DEFAULT_SEARCH, java.lang.String.valueOf(DEFAULT_DAYS));
+        return new ViewSearchParams(DEFAULT_SEARCH, String.valueOf(DEFAULT_DAYS));
     }
 }

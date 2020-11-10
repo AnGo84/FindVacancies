@@ -33,7 +33,7 @@ public class RabotaUAStrategyTest{
         SearchParam searchParam = TestUtils.getSearchParams();
         searchParam.setDays(2000);
         String searchURL = String.format(RabotaUAStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine(RabotaUAStrategy.WORD_SEPARATOR), 1);
-        System.out.println("TEST searchURL: " + searchURL);
+        //System.out.println("TEST searchURL: " + searchURL);
         Document document = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancies.html");
         Document documentVacancyHot = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_hot.html");
         Document documentVacancyWithSalary = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_with_salary.html");

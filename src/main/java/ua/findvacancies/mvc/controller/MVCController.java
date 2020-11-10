@@ -24,11 +24,9 @@ import java.util.List;
 @Controller
 public class MVCController {
 
-    private List<Vacancy> vacancyList;
-
     private static final Logger rootLogger = LogManager.getRootLogger();
-
-    private VacancyService vacancyService;
+    private final VacancyService vacancyService;
+    private List<Vacancy> vacancyList;
 
     @Autowired
     public MVCController(VacancyService vacancyService) {
@@ -40,14 +38,14 @@ public class MVCController {
         //rootLogger.info("Start");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("/index");
-        mav.addObject("viewSearchParams", vacancyService.getDefaultViewSearchParams() );
+        mav.addObject("viewSearchParams", vacancyService.getDefaultViewSearchParams());
         return mav;
     }
 
 
     @RequestMapping(value = "/searchVacancies", method = RequestMethod.GET)
     public String searchVacanciesByWords(Model model) {
-        model.addAttribute("viewSearchParams",  vacancyService.getDefaultViewSearchParams());
+        model.addAttribute("viewSearchParams", vacancyService.getDefaultViewSearchParams());
         return "/index";
     }
 
@@ -58,7 +56,7 @@ public class MVCController {
             logErrors(result);
             return "/index";
         }
-        vacancyList = vacancyService.getVacancyListByThreads(viewSearchParams);
+        vacancyList = vacancyService.getVacancyList(viewSearchParams);
         m.addAttribute("resultVacanciesList", vacancyList);
         return "/index";
     }
