@@ -12,11 +12,12 @@ public class SearchParamMapper implements ObjectMapper<ViewSearchParams, SearchP
         if (viewSearchParams == null) {
             return null;
         }
-        SearchParam searchParam = new SearchParam();
-        searchParam.setSearchLine(viewSearchParams.getSearchLine());
-        searchParam.setDays(AppStringUtils.getNumberFromText(viewSearchParams.getDays()));
-        searchParam.setKeyWords(StrategyUtils.getKeyWordsSet(viewSearchParams.getSearchLine()));
-        searchParam.setExcludeWords(StrategyUtils.getExcludeWordsSet(viewSearchParams.getSearchLine()));
+        SearchParam searchParam = SearchParam.builder()
+                .searchLine(viewSearchParams.getSearchLine())
+                .days(AppStringUtils.getNumberFromText(viewSearchParams.getDays()))
+                .keyWords(StrategyUtils.getKeyWordsSet(viewSearchParams.getSearchLine()))
+                .excludeWords(StrategyUtils.getExcludeWordsSet(viewSearchParams.getSearchLine()))
+                .build();
         return searchParam;
     }
 }

@@ -17,6 +17,12 @@ import java.util.stream.Stream;
 public class TestUtils {
     public static Date createDate(int year, int month, int day) {
         Calendar calendar = Calendar.getInstance();
+        calendar.clear(Calendar.HOUR_OF_DAY);
+        calendar.clear(Calendar.AM_PM);
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, day);

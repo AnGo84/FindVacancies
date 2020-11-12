@@ -9,8 +9,7 @@ public class AppDateUtils {
         if (date == null) {
             throw new NullPointerException("Wrong parameter Date!");
         }
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
+        Calendar c = getCalendar(date);
         c.add(Calendar.DATE, days);
         return c.getTime();
     }
@@ -27,7 +26,7 @@ public class AppDateUtils {
         if (date1 == null|| date2 ==null){
             throw new NullPointerException("Parameter is NULL");
         }
-        SimpleDateFormat fmt = new SimpleDateFormat("MMddyyyy");
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
         return fmt.format(date1).compareTo(fmt.format(date2));
     }
 
@@ -35,8 +34,7 @@ public class AppDateUtils {
         if (date == null){
             throw new NullPointerException("Parameter is NULL");
         }
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
+        Calendar calendar = getCalendar(date);
         return calendar.get(Calendar.YEAR);
     }
 
@@ -44,10 +42,20 @@ public class AppDateUtils {
         if (date == null){
             throw new NullPointerException("Parameter is NULL");
         }
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
+        Calendar calendar = getCalendar(date);
         calendar.set(Calendar.YEAR, year);
         return calendar.getTime();
+    }
+
+    private static Calendar getCalendar(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear(Calendar.HOUR_OF_DAY);
+        calendar.clear(Calendar.AM_PM);
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+        calendar.setTime(date);
+        return calendar;
     }
 
 }

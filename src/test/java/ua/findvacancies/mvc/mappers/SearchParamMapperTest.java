@@ -13,12 +13,12 @@ import static org.junit.Assert.*;
 
 public class SearchParamMapperTest {
 
-    private SearchParamMapper objectMapper = new SearchParamMapper();
+    private final SearchParamMapper objectMapper = new SearchParamMapper();
 
     @Test
     public void whenConvertReturnResult() {
         String searchLine = "Search Line -with -exclude";
-        ViewSearchParams viewSearchParams =  TestUtils.getViewSearchParams();
+        ViewSearchParams viewSearchParams = TestUtils.getViewSearchParams();
         viewSearchParams.setSearchLine(searchLine);
         SearchParam expectedSearchParam = getSearchParams();
         SearchParam searchParam = objectMapper.convert(viewSearchParams);
@@ -56,13 +56,14 @@ public class SearchParamMapperTest {
     }
 
     private SearchParam getSearchParams() {
-        SearchParam searchParam = new SearchParam();
-        searchParam.setDays(5);
-        searchParam.setSearchLine("Search Line -with -exclude");
-        searchParam.setKeyWords(Stream.of("search", "line")
-                .collect(Collectors.toCollection(HashSet::new)));
-        searchParam.setExcludeWords(Stream.of("with", "exclude")
-                .collect(Collectors.toCollection(HashSet::new)));
+        SearchParam searchParam = SearchParam.builder()
+                .searchLine("Search Line -with -exclude")
+                .days(5)
+                .keyWords(Stream.of("search", "line")
+                        .collect(Collectors.toCollection(HashSet::new)))
+                .excludeWords(Stream.of("with", "exclude")
+                        .collect(Collectors.toCollection(HashSet::new)))
+                .build();
         return searchParam;
     }
 }

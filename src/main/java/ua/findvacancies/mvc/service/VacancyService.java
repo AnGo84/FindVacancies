@@ -23,20 +23,8 @@ public class VacancyService {
 
     private SearchParamMapper searchParamMapper = new SearchParamMapper();
 
-    public VacancyService() {
-
-    }
-
     public List<Vacancy> getVacancyListByThreads(Set<Strategy> strategies, SearchParam searchParam) {
-        //Получаем ExecutorService утилитного класса Executors с размером пула потоков равному 10
         ExecutorService executor = Executors.newFixedThreadPool(strategies.size());
-        //создаем список с Future, которые ассоциированы с Callable
-        /*List<Future<List<Vacancy>>> list = new ArrayList<>();
-        for (Provider provider : providers) {
-            Callable<List<Vacancy>> callable = new ProviderCallable(provider.getStrategy(), searchParam);
-            Future<List<Vacancy>> future = executor.submit(callable);
-            list.add(future);
-        }*/
 
         List<Future<List<Vacancy>>> futuresList= strategies.stream()
                 .map(strategy -> new ProviderCallable(strategy, searchParam))
@@ -69,7 +57,6 @@ public class VacancyService {
 
     public List<Vacancy> getVacancyList(ViewSearchParams viewSearchParams) {
         SearchParam searchParam = searchParamMapper.convert(viewSearchParams);
-        //Set<Provider> providers = ViewSearchParamsUtils.getProvidersSet(viewSearchParams);
         return getVacancyListByThreads(ViewSearchParamsUtils.getStrategiesSet(viewSearchParams), searchParam);
     }
 

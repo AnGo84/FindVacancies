@@ -102,19 +102,17 @@ public class AppDateUtilsTest {
         Date testDate2 = TestUtils.createDate(2020, 3, 20);
         assertEquals(0, AppDateUtils.compareDatesByDayMonthYear(testDate1, testDate2));
 
-        testDate1 = TestUtils.createDate(2021, 3, 20);
-        testDate2 = TestUtils.createDate(2020, 3, 20);
+        testDate2 = TestUtils.createDate(2020, 2, 20);
         assertEquals(1, AppDateUtils.compareDatesByDayMonthYear(testDate1, testDate2));
 
-        testDate2 = TestUtils.createDate(2019, 4, 20);
-        assertEquals(-1, AppDateUtils.compareDatesByDayMonthYear(testDate1, testDate2));
-        testDate2 = TestUtils.createDate(2019, 3, 21);
+        testDate2 = TestUtils.createDate(2019, 3, 20);
+        assertEquals(1, AppDateUtils.compareDatesByDayMonthYear(testDate1, testDate2));
+
+        testDate2 = TestUtils.createDate(2021, 3, 20);
         assertEquals(-1, AppDateUtils.compareDatesByDayMonthYear(testDate1, testDate2));
 
-        testDate2 = TestUtils.createDate(2019, 2, 20);
-        assertEquals(1, AppDateUtils.compareDatesByDayMonthYear(testDate1, testDate2));
-        testDate2 = TestUtils.createDate(2019, 3, 10);
-        assertEquals(1, AppDateUtils.compareDatesByDayMonthYear(testDate1, testDate2));
+        testDate2 = TestUtils.createDate(2020, 3, 21);
+        assertEquals(-1, AppDateUtils.compareDatesByDayMonthYear(testDate1, testDate2));
 
     }
 

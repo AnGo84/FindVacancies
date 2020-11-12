@@ -7,17 +7,17 @@ import ua.findvacancies.mvc.model.Vacancy;
 import java.util.Date;
 
 public class VacancyUtils {
-    public static boolean isNotApplyToSearch(Vacancy vacancy, SearchParam searchParam) {
+    public static boolean isApplyToSearch(Vacancy vacancy, SearchParam searchParam) {
         if (isEmpty(vacancy) || searchParam == null) {
-            return true;
+            return false;
         }
-        if (AppStringUtils.isStringIncludeWords(vacancy.getTitle(), searchParam.getExcludeWords())) {
-            return true;
-        }
-        if(!vacancy.isHot() && !isDateApplyToSearchPeriod(vacancy.getDate(), searchParam.getDays())){
+        if(vacancy.isHot() || isDateApplyToSearchPeriod(vacancy.getDate(), searchParam.getDays())){
             return true;
         }
 
+        if (AppStringUtils.isStringIncludeWords(vacancy.getTitle(), searchParam.getExcludeWords())) {
+            return true;
+        }
         return false;
     }
 
@@ -25,7 +25,8 @@ public class VacancyUtils {
         if (date == null) {
             return false;
         }
-        return date.compareTo(AppDateUtils.addDaysToDate(new Date(), -lastDays)) > -1;
+        Date fromDate = lastDays==0? new Date():AppDateUtils.addDaysToDate(new Date(), -lastDays);
+        return date.compareTo(fromDate) > -1;
     }
 
     public static boolean isEmpty(Vacancy vacancy) {
@@ -34,4 +35,5 @@ public class VacancyUtils {
         }
         return StringUtils.isEmpty(vacancy.getUrl());
     }
+
 }

@@ -33,18 +33,18 @@ public class HHStrategyTest {
         SearchParam searchParam = TestUtils.getSearchParams();
         searchParam.setDays(2000);
         String searchURL = String.format(HHStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine(), 0);
-        //System.out.println("SearchURL: " + searchURL);
+
         Document document = TestUtils.getDocumentByClassPath("sites/hh/HH_vacancies.html");
         Document documentVacancy = TestUtils.getDocumentByClassPath("sites/hh/HH_vacancy_Luxoft.html");
         Document documentVacancyWithSalary = TestUtils.getDocumentByClassPath("sites/hh/HH_vacancy_with_salary_Fortuna.html");
         Document documentVacancyWithOutName = TestUtils.getDocumentByClassPath("sites/hh/HH_vacancy_without_Company_Name.html");
-        //System.out.println("Document: " + document);
+
         when(mockDocumentConnect.getDocument(searchURL)).thenReturn(document);
         when(mockDocumentConnect.getDocument("https://grc.ua/vacancy/39921284?query=java%20developer")).thenReturn(documentVacancy);
         when(mockDocumentConnect.getDocument("https://grc.ua/vacancy/39456818?query=java%20developer")).thenReturn(documentVacancyWithSalary);
         when(mockDocumentConnect.getDocument("https://grc.ua/vacancy/39802143?query=java%20developer")).thenReturn(documentVacancyWithOutName);
         List<Vacancy> result = hhStrategy.getVacancies(searchParam);
-        //System.out.println("" + result);
+
         assertNotNull(result);
         assertEquals(3, result.size());
 
@@ -61,16 +61,15 @@ public class HHStrategyTest {
         String searchURL = String.format(HHStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine(),0);
 
         Document document = TestUtils.getDocumentByClassPath("sites/hh/HH_vacancies.html");
-        Document documentVacancy = TestUtils.getDocumentByClassPath("sites/hh/HH_vacancy_with_wrong_date.html");
+        Document documentVacancyWithWrongDate = TestUtils.getDocumentByClassPath("sites/hh/HH_vacancy_with_wrong_date.html");
         Document documentVacancyWithSalary = TestUtils.getDocumentByClassPath("sites/hh/HH_vacancy_with_salary_Fortuna.html");
         Document documentVacancyWithOutName = TestUtils.getDocumentByClassPath("sites/hh/HH_vacancy_without_Company_Name.html");
-        //System.out.println("Document: " + document);
+
         when(mockDocumentConnect.getDocument(searchURL)).thenReturn(document);
-        when(mockDocumentConnect.getDocument("https://grc.ua/vacancy/39921284?query=java%20developer")).thenReturn(documentVacancy);
+        when(mockDocumentConnect.getDocument("https://grc.ua/vacancy/39921284?query=java%20developer")).thenReturn(documentVacancyWithWrongDate);
         when(mockDocumentConnect.getDocument("https://grc.ua/vacancy/39456818?query=java%20developer")).thenReturn(documentVacancyWithSalary);
         when(mockDocumentConnect.getDocument("https://grc.ua/vacancy/39802143?query=java%20developer")).thenReturn(documentVacancyWithOutName);
         List<Vacancy> result = hhStrategy.getVacancies(searchParam);
-        //System.out.println("" + result);
         assertNotNull(result);
         assertEquals(1, result.size());
 
@@ -92,7 +91,7 @@ public class HHStrategyTest {
         when(mockDocumentConnect.getDocument("https://grc.ua/vacancy/39456818?query=java%20developer")).thenReturn(documentVacancyWithSalary);
 
         List<Vacancy> result = hhStrategy.getVacancies(searchParam);
-        //System.out.println("Result: " + result);
+
         assertNotNull(result);
         assertEquals(1, result.size());
     }
@@ -120,7 +119,7 @@ public class HHStrategyTest {
         String searchURL = String.format(DOUStrategy.URL_FORMAT, "",0);
         when(mockDocumentConnect.getDocument(searchURL)).thenReturn(null);
         result = hhStrategy.getVacancies(searchParam);
-        //System.out.println("" + result);
+
         assertNotNull(result);
         assertEquals(true, result.isEmpty());
     }

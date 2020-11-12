@@ -5,6 +5,8 @@ import org.junit.Test;
 import ua.findvacancies.mvc.TestUtils;
 import ua.findvacancies.mvc.model.Vacancy;
 
+import java.util.Date;
+
 import static org.junit.Assert.assertEquals;
 
 public class ComparatorVacanciesByDateTest {
@@ -21,6 +23,11 @@ public class ComparatorVacanciesByDateTest {
     public void whenCompareReturnResult() {
         Vacancy vacancy1 = new Vacancy();
         Vacancy vacancy2 = new Vacancy();
+        assertEquals(-1, comparatorVacanciesByDate.compare(vacancy1, vacancy1));
+        assertEquals(-1, comparatorVacanciesByDate.compare(vacancy2, vacancy2));
+
+        vacancy1.setDate(new Date());
+        vacancy2.setDate(new Date());
         assertEquals(0, comparatorVacanciesByDate.compare(vacancy1, vacancy1));
         assertEquals(0, comparatorVacanciesByDate.compare(vacancy2, vacancy2));
 
@@ -33,18 +40,4 @@ public class ComparatorVacanciesByDateTest {
         assertEquals(1, comparatorVacanciesByDate.compare(vacancy1, vacancy2));
     }
 
-    @Test(expected = NullPointerException.class)
-    public void whenCompareNullParams_thenThrowNPE() {
-        comparatorVacanciesByDate.compare(null, null);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void whenCompareNullFirstParam_thenThrowNPE() {
-        comparatorVacanciesByDate.compare(null, new Vacancy());
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void whenCompareNullSecondParam_thenThrowNPE() {
-        comparatorVacanciesByDate.compare(new Vacancy(), null);
-    }
 }
