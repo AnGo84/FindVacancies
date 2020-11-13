@@ -1,6 +1,7 @@
 package ua.findvacancies.mvc.model.strategy;
 
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -8,20 +9,19 @@ import org.jsoup.select.Elements;
 import org.springframework.util.CollectionUtils;
 import ua.findvacancies.mvc.model.SearchParam;
 import ua.findvacancies.mvc.model.Vacancy;
-import ua.findvacancies.mvc.utils.VacancyUtils;
 
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 @Slf4j
+@RequiredArgsConstructor
 public class HHStrategy extends AbstractStrategy {
     public static final String DATE_FORMAT = "dd MMMM yyyy";
-    public static final String SITE_URL = "http://hh.ua/";
-
-    //private static final String URL_FORMAT = "http://hh.ua/search/vacancy?text=java+%s&page=%d";
-    public static final String URL_FORMAT = "https://hh.ua/search/vacancy?text=%s&enable_snippets=true&clusters=true&currency_code=UAH&area=115&page=%d";
 
     private static final String[] months = {
             "января", "февраля", "марта", "апреля", "мая", "июня",
@@ -37,8 +37,15 @@ public class HHStrategy extends AbstractStrategy {
 
     private final DocumentConnect documentConnect;
 
-    public HHStrategy(DocumentConnect documentConnect) {
-        this.documentConnect = documentConnect;
+    @Override
+    public String getSiteURL() {
+        return "http://hh.ua/";
+    }
+
+    @Override
+    public String getSiteURLPattern() {
+        //private static final String URL_FORMAT = "http://hh.ua/search/vacancy?text=java+%s&page=%d";
+        return "https://hh.ua/search/vacancy?text=%s&enable_snippets=true&clusters=true&currency_code=UAH&area=115&page=%d";
     }
 
     @Override
@@ -46,13 +53,13 @@ public class HHStrategy extends AbstractStrategy {
         if (searchParam == null) {
             return Collections.emptyList();
         }
-        List<Vacancy> vacancies = new ArrayList<>();
+        initVacanciesList();
         try {
             int pageCount = 0;
             while (true) {
                 String keyWords = searchParam.getKeyWordsSearchLine();
 
-                Document doc = documentConnect.getDocument(String.format(URL_FORMAT, keyWords, pageCount++));
+                Document doc = documentConnect.getDocument(String.format(getSiteURLPattern(), keyWords, pageCount++));
                 if (doc == null) {
                     break;
                 }
@@ -63,11 +70,9 @@ public class HHStrategy extends AbstractStrategy {
                     String vacancyURL = element.select("[data-qa=vacancy-serp__vacancy-title]").attr("href");
                     Vacancy vacancy = getVacancy(vacancyURL);
 
-                    vacancy.setSiteName(SITE_URL);
+                    vacancy.setSiteName(getSiteURL());
 
-                    if (VacancyUtils.isApplyToSearch(vacancy, searchParam)) {
-                        vacancies.add(vacancy);
-                    }
+                    checkAndAddVacancyToList(vacancy, searchParam);
                 }
             }
 
@@ -92,13 +97,13 @@ public class HHStrategy extends AbstractStrategy {
                 vacancyDate = getTextByClassName(vacancyDoc, "vacancy-creation-time");
 
                 return Vacancy.builder()
-                                .title(getTextBySelect(vacancyDoc, "[data-qa=vacancy-title]"))
-                                .url(vacancyURL)
-                                .city(getTextByClassName(vacancyDoc, "[data-qa=vacancy-view-location]"))
-                                .salary(vacancyDoc.getElementsByClass("vacancy-salary").first().getElementsByTag("span").text())
-                                .companyName(vacancyCompanyName)
-                                .date(parseVacationDate(vacancyDate))
-                                .build();
+                        .title(getTextBySelect(vacancyDoc, "[data-qa=vacancy-title]"))
+                        .url(vacancyURL)
+                        .city(getTextByClassName(vacancyDoc, "[data-qa=vacancy-view-location]"))
+                        .salary(vacancyDoc.getElementsByClass("vacancy-salary").first().getElementsByTag("span").text())
+                        .companyName(vacancyCompanyName)
+                        .date(parseVacationDate(vacancyDate))
+                        .build();
             }
         } catch (Exception e) {
             e.printStackTrace();

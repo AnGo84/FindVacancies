@@ -29,16 +29,21 @@ public class VacancyServiceTest {
     @BeforeEach
     public void beforeEach() throws IOException {
         mockDocumentConnect = mock(DocumentConnect.class);
-        strategies = new HashSet<>(Arrays.asList(new DOUStrategy(mockDocumentConnect),
-                new HHStrategy(mockDocumentConnect),
-                new RabotaUAStrategy(mockDocumentConnect),
-                new WorkUAStrategy(mockDocumentConnect)));
+
+        DOUStrategy douStrategy = new DOUStrategy(mockDocumentConnect);
+        HHStrategy hhStrategy = new HHStrategy(mockDocumentConnect);
+        RabotaUAStrategy rabotaUAStrategy = new RabotaUAStrategy(mockDocumentConnect);
+        WorkUAStrategy workUAStrategy = new WorkUAStrategy(mockDocumentConnect);
+
+        strategies = new HashSet<>(
+                Arrays.asList(douStrategy, hhStrategy, rabotaUAStrategy, workUAStrategy));
 
         searchParam = TestUtils.getSearchParams();
         searchParam.setDays(2000);
 
         //mock DOU
-        String douSearchURL = String.format(DOUStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine());
+
+        String douSearchURL = String.format(douStrategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine());
         when(mockDocumentConnect.getDocument(douSearchURL))
                 .thenReturn(TestUtils.getDocumentByClassPath("sites/dou/DOU_vacancies.html"));
         when(mockDocumentConnect.getDocument("https://jobs.dou.ua/companies/suntech-innovation/vacancies/79386/?from=list_hot"))
@@ -47,7 +52,7 @@ public class VacancyServiceTest {
                 .thenReturn(TestUtils.getDocumentByClassPath("sites/dou/DOU_TruePlay_with_salary.html"));
 
         //mock HH
-        String hhSearchURL = String.format(HHStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine(),0);
+        String hhSearchURL = String.format(hhStrategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(), 0);
 
         when(mockDocumentConnect.getDocument(hhSearchURL))
                 .thenReturn(TestUtils.getDocumentByClassPath("sites/hh/HH_vacancies.html"));
@@ -59,7 +64,7 @@ public class VacancyServiceTest {
                 .thenReturn(TestUtils.getDocumentByClassPath("sites/hh/HH_vacancy_without_Company_Name.html"));
 
         //mock RabotaUA
-        String rabotaSearchURL = String.format(RabotaUAStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine(RabotaUAStrategy.WORD_SEPARATOR), 1);
+        String rabotaSearchURL = String.format(rabotaUAStrategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(RabotaUAStrategy.WORD_SEPARATOR), 1);
 
         when(mockDocumentConnect.getDocument(rabotaSearchURL))
                 .thenReturn(TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancies.html"));
@@ -71,7 +76,7 @@ public class VacancyServiceTest {
                 .thenReturn(TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_common.html"));
 
         //mock WorkUA
-        String workSearchURL = String.format(WorkUAStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine(), 1);
+        String workSearchURL = String.format(workUAStrategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(), 1);
 
         when(mockDocumentConnect.getDocument(workSearchURL))
                 .thenReturn(TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancies.html"));
@@ -92,7 +97,7 @@ public class VacancyServiceTest {
     }
 
     @Test
-    public void whenGetVacancyListReturnResults(){
+    public void whenGetVacancyListReturnResults() {
         // threads
         List<Vacancy> vacancyList = vacancyService.getVacancyListByThreads(strategies, searchParam);
 

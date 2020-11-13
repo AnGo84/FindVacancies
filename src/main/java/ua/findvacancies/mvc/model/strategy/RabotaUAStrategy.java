@@ -1,6 +1,8 @@
 package ua.findvacancies.mvc.model.strategy;
 
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.json.JSONObject;
 import org.jsoup.nodes.Document;
@@ -9,30 +11,34 @@ import org.jsoup.select.Elements;
 import org.springframework.util.CollectionUtils;
 import ua.findvacancies.mvc.model.SearchParam;
 import ua.findvacancies.mvc.model.Vacancy;
-import ua.findvacancies.mvc.utils.VacancyUtils;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
+@RequiredArgsConstructor
 public class RabotaUAStrategy extends AbstractStrategy {
     public static final int ELEMENTS_BEFORE_JSON = 1;
-    //private static final String URL_FORMAT = "https://rabota.ua/jobsearch/vacancy_list?regionId=1&keyWords=%s&pg%d";
-    public static final String URL_FORMAT = "https://rabota.ua/ua/zapros/%s/киев/pg%d";
     public static final String WORD_SEPARATOR = "-";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
-    private static final String SITE_URL = "https://rabota.ua";
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 
     private final DocumentConnect documentConnect;
 
-    public RabotaUAStrategy(DocumentConnect documentConnect) {
-        this.documentConnect = documentConnect;
+    @Override
+    public String getSiteURL() {
+        return "https://rabota.ua";
+    }
+
+    @Override
+    public String getSiteURLPattern() {
+        //"https://rabota.ua/jobsearch/vacancy_list?regionId=1&keyWords=%s&pg%d";
+        return "https://rabota.ua/ua/zapros/%s/киев/pg%d";
     }
 
     @Override
@@ -40,13 +46,12 @@ public class RabotaUAStrategy extends AbstractStrategy {
         if (searchParam == null) {
             return Collections.emptyList();
         }
-        List<Vacancy> vacancies = new ArrayList<>();
-
+        initVacanciesList();
         try {
             int pageCount = 0;
             boolean hasData = true;
             while (hasData) {
-                String searchPageURL = String.format(URL_FORMAT, searchParam.getKeyWordsSearchLine(WORD_SEPARATOR), ++pageCount);
+                String searchPageURL = String.format(getSiteURLPattern(), searchParam.getKeyWordsSearchLine(WORD_SEPARATOR), ++pageCount);
                 Document doc = documentConnect.getDocument(searchPageURL);
 
                 if (doc == null) {
@@ -65,13 +70,12 @@ public class RabotaUAStrategy extends AbstractStrategy {
                 for (Element element : vacanciesListEl) {
                     String vacancyURL = element.getElementsByClass("card-title").first().getElementsByTag("a").attr("href");
                     if (vacancyURL.startsWith("/")) {
-                        vacancyURL = SITE_URL + vacancyURL;
+                        vacancyURL = getSiteURL() + vacancyURL;
                     }
                     Vacancy vacancy = getVacancy(vacancyURL);
-                    vacancy.setSiteName(SITE_URL);
-                    if (VacancyUtils.isApplyToSearch(vacancy, searchParam)) {
-                        vacancies.add(vacancy);
-                    }
+                    vacancy.setSiteName(getSiteURL());
+
+                    checkAndAddVacancyToList(vacancy, searchParam);
                 }
             }
 

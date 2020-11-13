@@ -1,23 +1,26 @@
 package ua.findvacancies.mvc.model.strategy;
 
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.util.CollectionUtils;
 import ua.findvacancies.mvc.model.SearchParam;
 import ua.findvacancies.mvc.model.Vacancy;
-import ua.findvacancies.mvc.utils.VacancyUtils;
 
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
+@Slf4j
+@RequiredArgsConstructor
 public class WorkUAStrategy extends AbstractStrategy {
-    public static final String SITE_URL = "https://work.ua";
-    public static final String URL_FORMAT = "https://www.work.ua/jobs-kyiv-%s/?page=%d";
-
     private static final String DATE_FORMAT = "dd.MM.yyyy";
     private static final String DATE_FORMAT_TEXT = "dd MMMM yyyy";
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
@@ -37,23 +40,28 @@ public class WorkUAStrategy extends AbstractStrategy {
 
     private final DocumentConnect documentConnect;
 
-    public WorkUAStrategy(DocumentConnect documentConnect) {
-        this.documentConnect = documentConnect;
+    @Override
+    public String getSiteURL() {
+        return "https://work.ua";
     }
 
+
+    @Override
+    public String getSiteURLPattern() {
+        return "https://www.work.ua/jobs-kyiv-%s/?page=%d";
+    }
 
     @Override
     public List<Vacancy> getVacancies(SearchParam searchParam) {
         if (searchParam == null) {
             return Collections.emptyList();
         }
-        List<Vacancy> vacancies = new ArrayList<>();
-
+        initVacanciesList();
         try {
             int pageCount = 0;
             boolean hasData = true;
             while (hasData) {
-                String searchPageURL = String.format(URL_FORMAT, searchParam.getKeyWordsSearchLine(), ++pageCount);
+                String searchPageURL = String.format(getSiteURLPattern(), searchParam.getKeyWordsSearchLine(), ++pageCount);
                 Document doc = documentConnect.getDocument(searchPageURL);
                 if (doc == null) {
                     break;
@@ -71,12 +79,9 @@ public class WorkUAStrategy extends AbstractStrategy {
                 for (Element element : vacanciesListEl) {
                     String vacancyURL = element.getElementsByTag("a").attr("href");
                     Vacancy vacancy = getVacancy(vacancyURL);
-                    vacancy.setSiteName(SITE_URL);
+                    vacancy.setSiteName(getSiteURL());
 
-                    if (VacancyUtils.isApplyToSearch(vacancy, searchParam)) {
-                        vacancies.add(vacancy);
-                    }
-
+                    checkAndAddVacancyToList(vacancy,searchParam);
                 }
             }
 

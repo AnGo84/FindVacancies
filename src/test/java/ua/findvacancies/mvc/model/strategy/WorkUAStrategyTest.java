@@ -32,7 +32,7 @@ public class WorkUAStrategyTest {
     public void whenGetVacancies_returnResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
         searchParam.setDays(2000);
-        String searchURL = String.format(WorkUAStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine(), 1);
+        String searchURL = String.format(strategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(), 1);
 
         Document document = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancies.html");
         Document documentVacancyHot = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancy_hot.html");
@@ -59,7 +59,7 @@ public class WorkUAStrategyTest {
     public void whenGetVacanciesWithWrongDate_returnResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
         searchParam.setDays(0);
-        String searchURL = String.format(WorkUAStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine(), 1);
+        String searchURL = String.format(strategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(), 1);
 
         Document document = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancies.html");
         Document documentVacancyWithSalary = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancy_with_salary.html");
@@ -81,7 +81,7 @@ public class WorkUAStrategyTest {
     @Test
     public void whenGetVacanciesWithWrongSite_returnEmptyResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
-        String searchURL = String.format(WorkUAStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine(), 1);
+        String searchURL = String.format(strategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(), 1);
 
         Document document = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancies.html");
         Document documentVacancyHot = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancy_hot.html");
@@ -100,7 +100,7 @@ public class WorkUAStrategyTest {
     public void whenGetVacanciesWithWrongVacancyLink_returnEmptyResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
         searchParam.setDays(2000);
-        String searchURL = String.format(WorkUAStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine(), 1);
+        String searchURL = String.format(strategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(), 1);
         Document document = TestUtils.getDocumentFromText("wrong text");
         when(mockDocumentConnect.getDocument(searchURL)).thenReturn(document);
         List<Vacancy> result = strategy.getVacancies(searchParam);
@@ -116,7 +116,7 @@ public class WorkUAStrategyTest {
         assertEquals(true, result.isEmpty());
 
         SearchParam searchParam = new SearchParam();
-        String searchURL = String.format(WorkUAStrategy.URL_FORMAT, "", 1);
+        String searchURL = String.format(strategy.getSiteURLPattern(), "", 1);
         when(mockDocumentConnect.getDocument(searchURL)).thenReturn(null);
         result = strategy.getVacancies(searchParam);
         //System.out.println("" + result);

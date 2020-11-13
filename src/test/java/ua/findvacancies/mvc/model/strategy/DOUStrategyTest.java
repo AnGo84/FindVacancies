@@ -32,7 +32,7 @@ public class DOUStrategyTest {
     public void whenGetVacancies_returnResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
         searchParam.setDays(2000);
-        String douSearchURL = String.format(DOUStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine());
+        String douSearchURL = String.format(douStrategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine());
 
         Document document = TestUtils.getDocumentByClassPath("sites/dou/DOU_vacancies.html");
         Document documentVacancyHot = TestUtils.getDocumentByClassPath("sites/dou/DOU_Suntech_hot.html");
@@ -56,7 +56,7 @@ public class DOUStrategyTest {
     public void whenGetVacanciesWithWrongDate_returnResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
         searchParam.setDays(0);
-        String douSearchURL = String.format(DOUStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine());
+        String douSearchURL = String.format(douStrategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine());
 
         Document document = TestUtils.getDocumentByClassPath("sites/dou/DOU_vacancies.html");
         Document documentVacancyWithWrongDate = TestUtils.getDocumentByClassPath("sites/dou/DOU_Suntech_with_wrong_date.html");
@@ -76,7 +76,7 @@ public class DOUStrategyTest {
     @Test
     public void whenGetVacanciesWithWrongSite_returnEmptyResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
-        String douSearchURL = String.format(DOUStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine());
+        String douSearchURL = String.format(douStrategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine());
 
         Document document = TestUtils.getDocumentByClassPath("sites/dou/DOU_vacancies.html");
         Document documentVacancyHot = TestUtils.getDocumentByClassPath("sites/dou/DOU_Suntech_hot.html");
@@ -95,7 +95,7 @@ public class DOUStrategyTest {
     public void whenGetVacanciesWithWrongVacancyLink_returnEmptyResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
         searchParam.setDays(2000);
-        String douSearchURL = String.format(DOUStrategy.URL_FORMAT, searchParam.getKeyWordsSearchLine());
+        String douSearchURL = String.format(douStrategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine());
         Document document = TestUtils.getDocumentFromText("wrong text");
         when(mockDocumentConnect.getDocument(douSearchURL)).thenReturn(document);
         List<Vacancy> result = douStrategy.getVacancies(searchParam);
@@ -111,7 +111,7 @@ public class DOUStrategyTest {
         assertEquals(true, result.isEmpty());
 
         SearchParam searchParam = new SearchParam();
-        String douSearchURL = String.format(DOUStrategy.URL_FORMAT, "");
+        String douSearchURL = String.format(douStrategy.getSiteURLPattern(), "");
         when(mockDocumentConnect.getDocument(douSearchURL)).thenReturn(null);
         result = douStrategy.getVacancies(searchParam);
         //System.out.println("" + result);

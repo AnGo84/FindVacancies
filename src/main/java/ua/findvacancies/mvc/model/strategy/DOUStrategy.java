@@ -1,5 +1,6 @@
 package ua.findvacancies.mvc.model.strategy;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -7,17 +8,18 @@ import org.jsoup.select.Elements;
 import org.springframework.util.CollectionUtils;
 import ua.findvacancies.mvc.model.SearchParam;
 import ua.findvacancies.mvc.model.Vacancy;
-import ua.findvacancies.mvc.utils.VacancyUtils;
 
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 @Slf4j
+@RequiredArgsConstructor
 public class DOUStrategy extends AbstractStrategy {
-    public static final String URL_FORMAT = "https://jobs.dou.ua/vacancies/?search=%s&city=Киев";
-    public static final String SITE_URL = "https://dou.ua/";
 
     private static final String DATE_FORMAT = "dd MMMM yyyy";
 
@@ -43,8 +45,14 @@ public class DOUStrategy extends AbstractStrategy {
 
     private final DocumentConnect documentConnect;
 
-    public DOUStrategy(DocumentConnect documentConnect) {
-        this.documentConnect = documentConnect;
+    @Override
+    public String getSiteURL() {
+        return "https://dou.ua/";
+    }
+
+    @Override
+    public String getSiteURLPattern() {
+        return "https://jobs.dou.ua/vacancies/?search=%s&city=Киев";
     }
 
     @Override
@@ -52,10 +60,10 @@ public class DOUStrategy extends AbstractStrategy {
         if (searchParam == null) {
             return Collections.emptyList();
         }
-        List<Vacancy> vacancies = new ArrayList<>();
+        initVacanciesList();
         try {
             while (true) {
-                String documentURL = String.format(URL_FORMAT, searchParam.getKeyWordsSearchLine());
+                String documentURL = String.format(getSiteURLPattern(), searchParam.getKeyWordsSearchLine());
                 Document doc = documentConnect.getDocument(documentURL);
                 if (doc == null) {
                     break;
@@ -74,10 +82,9 @@ public class DOUStrategy extends AbstractStrategy {
                     Elements hotsEl = element.getElementsByClass("__hot");
                     boolean isHotVacancy = !CollectionUtils.isEmpty(hotsEl);
                     vacancy.setHot(isHotVacancy);
-                    vacancy.setSiteName(SITE_URL);
-                    if (VacancyUtils.isApplyToSearch(vacancy, searchParam)) {
-                        vacancies.add(vacancy);
-                    }
+                    vacancy.setSiteName(getSiteURL());
+
+                    checkAndAddVacancyToList(vacancy, searchParam);
                 }
                 break;
             }
@@ -127,4 +134,5 @@ public class DOUStrategy extends AbstractStrategy {
         }
         return new Date();
     }
+
 }
