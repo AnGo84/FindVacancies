@@ -1,6 +1,6 @@
 # FindVacancies
-Build status: [![build_status](https://travis-ci.com/AnGo84/FindVacancies.svg?branch=release_1.1)](https://travis-ci.com/AnGo84/FindVacancies.svg) 
-[![CircleCI](https://img.shields.io/circleci/build/github/AnGo84/FindVacancies/release_1.1?token=9aee3d4ff42afd19e214490fb0eeabe61fcb019a)](https://app.circleci.com/pipelines/github/AnGo84/FindVacancies?branch=release_1.1)
+Build status: [![build_status](https://travis-ci.com/AnGo84/FindVacancies.svg?branch=release_2.0)](https://travis-ci.com/AnGo84/FindVacancies.svg) 
+[![CircleCI](https://img.shields.io/circleci/build/github/AnGo84/FindVacancies/release_2.0?token=9aee3d4ff42afd19e214490fb0eeabe61fcb019a)](https://app.circleci.com/pipelines/github/AnGo84/FindVacancies?branch=release_2.0)
 
 
 Web application for the selection of job vacancies from most popular sites:
@@ -23,10 +23,6 @@ Results table can be exporting to **XML** or **XLS** files.
 - IDE
 - JDK 1.8 or later
 - Maven
-- Tomcat
-
-### **Branch details:**
-Development at the bench has been stopped due to old technologies(MVC, file config)
 
 
 
