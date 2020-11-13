@@ -1,7 +1,7 @@
 package ua.findvacancies.mvc.validation;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -12,14 +12,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ViewSearchParamsValidatorTest {
 
     private Validator searchParamsValidator;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    public void beforeEach() {
         searchParamsValidator = new ViewSearchParamsValidator();
     }
 

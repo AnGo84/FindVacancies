@@ -1,11 +1,11 @@
 package ua.findvacancies.mvc.utils;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import ua.findvacancies.mvc.TestUtils;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AppDateUtilsTest {
 
@@ -15,14 +15,16 @@ public class AppDateUtilsTest {
         assertEquals(now, AppDateUtils.addDaysToDate(now, 0));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void whenAddDaysToDateWithNullDateParam_thenThrowNPE() {
-        AppDateUtils.addDaysToDate(null, 0);
+        assertThrows(NullPointerException.class,
+                ()->{AppDateUtils.addDaysToDate(null, 0);});
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void whenChangeDateYear_thenThrowNPE() {
-        AppDateUtils.changeDateYear(null, 0);
+        assertThrows(NullPointerException.class,
+                ()->{AppDateUtils.changeDateYear(null, 0);});
     }
 
     @Test
@@ -35,9 +37,10 @@ public class AppDateUtilsTest {
         assertNotEquals(expectedDate, AppDateUtils.changeDateYear(testDate, 2019));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void whenGetYearFromDate_thenThrowNPE() {
-        AppDateUtils.getYearFromDate(null);
+        assertThrows(NullPointerException.class,
+                ()->{AppDateUtils.getYearFromDate(null);});
     }
 
     @Test
@@ -48,19 +51,22 @@ public class AppDateUtilsTest {
         assertEquals(2020, AppDateUtils.getYearFromDate(testDate));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void whenCompareDatesByDayAndMonthAndNullParams_thenThrowNPE() {
-        AppDateUtils.compareDatesByDayAndMonth(null, null);
+        assertThrows(NullPointerException.class,
+                ()->{AppDateUtils.compareDatesByDayAndMonth(null, null);});
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void whenCompareDatesByDayAndMonthAndNullFirstParam_thenThrowNPE() {
-        AppDateUtils.compareDatesByDayAndMonth(null, new Date());
+        assertThrows(NullPointerException.class,
+                ()->{AppDateUtils.compareDatesByDayAndMonth(null, new Date());});
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void whenCompareDatesByDayAndMonthAndNullSecondParam_thenThrowNPE() {
-        AppDateUtils.compareDatesByDayAndMonth(new Date(), null);
+        assertThrows(NullPointerException.class,
+                ()->{AppDateUtils.compareDatesByDayAndMonth(new Date(), null);});
     }
 
     @Test
@@ -81,19 +87,22 @@ public class AppDateUtilsTest {
 
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void whenCompareDatesByDayMonthYearAndNullParams_thenThrowNPE() {
-        AppDateUtils.compareDatesByDayMonthYear(null, null);
+        assertThrows(NullPointerException.class,
+                ()->{AppDateUtils.compareDatesByDayMonthYear(null, null);});
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void whenCompareDatesByDayMonthYearAndNullFirstParam_thenThrowNPE() {
-        AppDateUtils.compareDatesByDayMonthYear(null, new Date());
+        assertThrows(NullPointerException.class,
+                ()->{AppDateUtils.compareDatesByDayMonthYear(null, new Date());});
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void whenCompareDatesByDayMonthYearAndNullSecondParam_thenThrowNPE() {
-        AppDateUtils.compareDatesByDayMonthYear(new Date(), null);
+        assertThrows(NullPointerException.class,
+                ()->{AppDateUtils.compareDatesByDayMonthYear(new Date(), null);});
     }
 
     @Test

@@ -1,6 +1,6 @@
 package ua.findvacancies.mvc.utils;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import ua.findvacancies.mvc.TestUtils;
 import ua.findvacancies.mvc.model.Provider;
 import ua.findvacancies.mvc.model.strategy.Strategy;
@@ -11,7 +11,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class ViewSearchParamsUtilsTest {
 

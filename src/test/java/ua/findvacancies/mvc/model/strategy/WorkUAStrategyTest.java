@@ -1,8 +1,8 @@
 package ua.findvacancies.mvc.model.strategy;
 
 import org.jsoup.nodes.Document;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import ua.findvacancies.mvc.TestUtils;
 import ua.findvacancies.mvc.model.SearchParam;
 import ua.findvacancies.mvc.model.Vacancy;
@@ -12,8 +12,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -22,7 +22,7 @@ public class WorkUAStrategyTest {
     private DocumentConnect mockDocumentConnect;
     private final DocumentConnect documentConnect = new DocumentConnect();
 
-    @Before
+    @BeforeEach
     public void beforeEach() {
         mockDocumentConnect = mock(DocumentConnect.class);
         strategy = new WorkUAStrategy(mockDocumentConnect);

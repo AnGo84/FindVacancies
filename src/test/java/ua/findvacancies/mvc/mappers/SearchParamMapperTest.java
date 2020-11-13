@@ -1,6 +1,7 @@
 package ua.findvacancies.mvc.mappers;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import ua.findvacancies.mvc.TestUtils;
 import ua.findvacancies.mvc.model.SearchParam;
 import ua.findvacancies.mvc.model.viewdata.ViewSearchParams;
@@ -9,7 +10,7 @@ import java.util.HashSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SearchParamMapperTest {
 

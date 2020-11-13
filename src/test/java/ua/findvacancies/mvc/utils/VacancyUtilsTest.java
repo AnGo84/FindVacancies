@@ -1,14 +1,14 @@
 package ua.findvacancies.mvc.utils;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import ua.findvacancies.mvc.TestUtils;
 import ua.findvacancies.mvc.model.SearchParam;
 import ua.findvacancies.mvc.model.Vacancy;
 
 import java.util.Date;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class VacancyUtilsTest{
 

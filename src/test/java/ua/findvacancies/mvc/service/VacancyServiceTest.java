@@ -1,7 +1,7 @@
 package ua.findvacancies.mvc.service;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import ua.findvacancies.mvc.TestUtils;
 import ua.findvacancies.mvc.model.SearchParam;
 import ua.findvacancies.mvc.model.Vacancy;
@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -26,7 +26,7 @@ public class VacancyServiceTest {
     private DocumentConnect mockDocumentConnect;
 
 
-    @Before
+    @BeforeEach
     public void beforeEach() throws IOException {
         mockDocumentConnect = mock(DocumentConnect.class);
         strategies = new HashSet<>(Arrays.asList(new DOUStrategy(mockDocumentConnect),

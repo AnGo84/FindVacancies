@@ -1,19 +1,19 @@
 package ua.findvacancies.mvc.comparators;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import ua.findvacancies.mvc.TestUtils;
 import ua.findvacancies.mvc.model.Vacancy;
 
 import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ComparatorVacanciesByDateTest {
 
     private ComparatorVacanciesByDate comparatorVacanciesByDate;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         comparatorVacanciesByDate = new ComparatorVacanciesByDate();
     }
