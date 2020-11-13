@@ -1,0 +1,67 @@
+span.error {
+    color: red;
+}
+
+.top-row {
+    margin-bottom: 10px;
+}
+
+img.waiting-dialog-el {
+    width: 256px;
+    height: 256px;
+}
+
+p.waiting-dialog-el {
+    text-align: center;
+}
+
+div.search-params{
+    margin-bottom: 0px;
+}
+
+div.search-line {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.search-line .description {
+    color: #c0c0c0;
+}
+
+div.search-days input{
+    margin-top: 0px;
+    max-width: 40px;
+}
+
+div.search-days {
+    /*margin-bottom: 5px;*/
+    display: flex;
+    /*flex-wrap: wrap;*/
+    /*justify-content: space-between;*/
+
+}
+
+div.search-days>* {
+    /*flex: 1 35px 80px;*/
+    margin: 5px;
+}
+
+div.select-sites{
+    width: 100%;
+}
+
+.dataTables_wrapper {
+    margin: 5px;
+}
+
+.export-button img{
+    height:15px;
+    width:35px;
+   /* align:middle;*/
+}
+
+@media (max-width: 450px) {
+    .extra-small {
+        width: 100%;
+    }
+}
