@@ -6,22 +6,30 @@
 
     <groupId>FindVacancies</groupId>
     <artifactId>FindVacancies</artifactId>
-    <version>1.0</version>
-
+    <version>2.0</version>
     <packaging>war</packaging>
 
-    <properties>
+    <name>Vacancies search application</name>
+    <description>ua.findvacancies.Application for parsing data from sites with vacancies</description>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.4.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <properties>
         <!-- Generic properties -->
         <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
         <!-- Web -->
-        <jsp.version>2.2</jsp.version>
+        <!--<jsp.version>2.2</jsp.version>
         <jstl.version>1.2</jstl.version>
         <servlet.version>3.1.0</servlet.version>
-        <log4j2.version>2.13.3</log4j2.version>
-
-        <!-- Spring -->
-        <spring-framework.version>4.3.7.RELEASE</spring-framework.version>
+        <log4j2.version>2.13.3</log4j2.version>-->
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -30,35 +38,39 @@
         <junit-jupiter-api.version>5.4.2</junit-jupiter-api.version>
     </properties>
 
-    <dependencyManagement>
-        <!--all spring dependencies -->
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-framework-bom</artifactId>
-                <version>${spring-framework.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <dependencies>
-
-        <!-- Spring MVC -->
+        <!-- Spring Boot -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <!-- exclude junit 4 -->
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-        <!-- Other Servlet Web dependencies -->
+        <!-- JSTL для JSP -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
-            <version>${jstl.version}</version>
         </dependency>
 
+        <!-- Need this to compile JSP -->
         <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--<dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${servlet.version}</version>
@@ -71,12 +83,7 @@
             <version>${jsp.version}</version>
             <scope>provided</scope>
         </dependency>
-
-        <!--<dependency>-->
-        <!--<groupId>javax.el</groupId>-->
-        <!--<artifactId>javax.el-api</artifactId>-->
-        <!--<version>3.0.0</version>-->
-        <!--</dependency>-->
+-->
 
         <!-- jsoup HTML parser library @ https://jsoup.org/ -->
         <dependency>
@@ -91,7 +98,7 @@
             <version>20200518</version>
         </dependency>
         <!--Log4j 2-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
             <version>${log4j2.version}</version>
@@ -100,15 +107,9 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>${log4j2.version}</version>
-        </dependency>
+        </dependency>-->
 
         <!--JUnit-->
-        <!--<dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>-->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -137,11 +138,11 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.26</version>
-        </dependency>
+        </dependency>-->
 
         <!-- Excel view -->
         <dependency>
@@ -160,25 +161,17 @@
         <finalName>FindVacancies</finalName>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <compilerArgument>-Xlint:all</compilerArgument>
-                    <showWarnings>true</showWarnings>
-                    <showDeprecation>true</showDeprecation>
-
-                    <encoding>UTF-8</encoding>
+                    <mainClass>ua.findvacancies.Application</mainClass>
                 </configuration>
             </plugin>
-
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.1</version>
-            </plugin>
+            </plugin>-->
             <!--<plugin>-->
             <!--<groupId>com.google.appengine</groupId>-->
             <!--<artifactId>appengine-maven-plugin</artifactId>-->
