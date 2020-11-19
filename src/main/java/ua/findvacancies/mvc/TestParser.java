@@ -19,7 +19,7 @@ public class TestParser
 //        Provider provider = new Provider(new WorkUAStrategy());
         //String keyWords = "Java developer -senior";
         String keyWords = "Java developer";
-        ViewSearchParams viewSearchParams =new ViewSearchParams(keyWords, "5");
+        ViewSearchParams viewSearchParams =new ViewSearchParams(keyWords, "7");
         SearchParam searchParam =  new SearchParamMapper().convert(viewSearchParams);
 
         System.out.println("KeyLine: "+ searchParam.getKeyWordsSearchLine());

@@ -78,6 +78,9 @@ public class WorkUAStrategy extends AbstractStrategy {
                 }
                 for (Element element : vacanciesListEl) {
                     String vacancyURL = element.getElementsByTag("a").attr("href");
+                    if (vacancyURL.startsWith("/")) {
+                        vacancyURL = getSiteURL() + vacancyURL;
+                    }
                     Vacancy vacancy = getVacancy(vacancyURL);
                     vacancy.setSiteName(getSiteURL());
 
