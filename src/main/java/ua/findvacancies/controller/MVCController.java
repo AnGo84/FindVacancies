@@ -27,12 +27,12 @@ public class MVCController {
     private final VacancyService vacancyService;
     private List<Vacancy> vacancyList;
 
-    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
-    public String homePage(Model model) {
+    @RequestMapping(value = {"/", "/index"})
+    public ModelAndView homePage() {
         log.info("Open homepage");
-
-        model.addAttribute("viewSearchParams", vacancyService.getDefaultViewSearchParams());
-        return "index";
+        ModelAndView modelAndView = new ModelAndView("index");
+        modelAndView.addObject("viewSearchParams", vacancyService.getDefaultViewSearchParams());
+        return modelAndView;
     }
 
     @RequestMapping(value = "/searchVacancies", method = RequestMethod.GET)
@@ -43,14 +43,14 @@ public class MVCController {
     }
 
     @RequestMapping(value = "/searchVacancies", method = RequestMethod.POST)
-    public String searchVacanciesByWords(Model m, @Valid final ViewSearchParams viewSearchParams, final BindingResult result) {
+    public String searchVacanciesByWords(Model model, @Valid final ViewSearchParams viewSearchParams, final BindingResult result) {
         log.info("New search: {}", viewSearchParams);
         if (result.hasErrors()) {
             logErrors(result);
             return "index";
         }
         vacancyList = vacancyService.getVacancyList(viewSearchParams);
-        m.addAttribute("resultVacanciesList", vacancyList);
+        model.addAttribute("resultVacanciesList", vacancyList);
         return "index";
     }
 
@@ -60,6 +60,9 @@ public class MVCController {
         }
     }
 
+    /*<!-- When a controller returns excelDocument render the model with the spring.mvc.excelpdf.ExcelDocument class -->
+<bean id="/excelDocument" class="ua.findvacancies.mvc.export.ExcelDocument"/>
+<bean id="/xmlDocument" class="ua.findvacancies.mvc.export.XMLDocument"/>*/
     @RequestMapping(value = "/excelExport", method = RequestMethod.GET)
     public ModelAndView excelExport() {
         //excelDocument - look file-export-config.xml

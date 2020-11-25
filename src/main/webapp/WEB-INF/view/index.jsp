@@ -84,9 +84,9 @@
                     <spring:message code="navMenu.Language"/>
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="<%=request.getContextPath()%>?languageVar=en">EN</a></li>
-                    <li><a href="<%=request.getContextPath()%>?languageVar=ru">RU</a></li>
-                    <li><a href="<%=request.getContextPath()%>?languageVar=uk">UA</a></li>
+                    <li><a href="<%=request.getContextPath()%>?lang=en">EN</a></li>
+                    <li><a href="<%=request.getContextPath()%>?lang=ru">RU</a></li>
+                    <li><a href="<%=request.getContextPath()%>?lang=uk">UA</a></li>
                 </ul>
             </li>
         </ul>
@@ -119,7 +119,7 @@
     </c:if>
     <%--<c:if test="${not empty messageErrore}"><div>${messageErrore}</div></c:if>--%>
 
-    <form:form method="post" action="${searchVacancies_url}" commandName="viewSearchParams">
+    <form:form method="post" action="${searchVacancies_url}" modelAttribute="viewSearchParams">
 
         <div class="form-group row search-params">
                 <%--Search line--%>
@@ -279,11 +279,16 @@
     </br>
 </div>
 
-<footer id="footer" class="footer navbar-fixed-bottom">
+<footer id="footer" class="footer">
     <div class="panel-footer">
         <spring:message code="footer.copyRight"/>
     </div>
 </footer>
+
+<script>
+    if ($(document).height() <= $(window).height())
+      $("footer.footer").addClass("navbar-fixed-bottom");
+</script>
 
 <script>
     $(document).ready(function () {
