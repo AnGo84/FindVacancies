@@ -1,6 +1,8 @@
 package ua.findvacancies.export;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.view.document.AbstractXlsView;
 import ua.findvacancies.model.Vacancy;
 
@@ -9,22 +11,26 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class ExcelDocument extends AbstractXlsView {
+    public static final String OBJECT_NAME = "vacancyList";
 
     @Override
-    protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) {
+        log.info("Export to Excel");
         response.setHeader("Content-Disposition", "attachment; filename=excelVacancies.xls");
         Sheet excelSheet = workbook.createSheet("Vacancies");
         setExcelHeader(excelSheet, getCellStyle(workbook));
 
-        final Object modelObject = model.get("modelObject");
+        final Object modelObject = model.get(OBJECT_NAME);
         if (modelObject != null) {
             List<Vacancy> vacancyList = (List<Vacancy>) modelObject;
-            if (vacancyList != null && !vacancyList.isEmpty()) {
+            if (!CollectionUtils.isEmpty(vacancyList)) {
                 int rowCount = 1;
                 for (Vacancy vacancy : vacancyList) {
                     fillRowWithData(vacancy, excelSheet.createRow(rowCount++));
                 }
+                log.info("Exported to Excel {} objects", vacancyList.size());
             }
         }
     }

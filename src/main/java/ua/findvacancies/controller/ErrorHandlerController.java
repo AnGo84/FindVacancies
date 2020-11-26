@@ -1,5 +1,6 @@
 package ua.findvacancies.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,21 +8,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
+@Slf4j
 @Controller
 public class ErrorHandlerController implements ErrorController {
-//public class ErrorHandlerController {
     //https://www.journaldev.com/2651/spring-mvc-exception-handling-controlleradvice-exceptionhandler-handlerexceptionresolver
     @RequestMapping(value = "/error", method = RequestMethod.GET)
     public ModelAndView renderErrorPage(HttpServletRequest httpRequest, Exception ex) {
-        //System.out.println("Get error");
-        ModelAndView errorPage = new ModelAndView("errors/error");
-        //System.out.println("Get view status:" + errorPage.getStatus() + " " + errorPage.getViewName());
+        log.error("Get error: {}", ex.getMessage(), ex);
+        ModelAndView errorPage = new ModelAndView(getErrorPath());
         String errorInfo = "";
         String errorMsg = getErrorMessage(httpRequest);
-        //System.out.println("Get error msg: " + errorMsg);
         int httpErrorCode = getErrorCode(httpRequest);
-        //System.out.println("Get error code: " + httpErrorCode);
         switch (httpErrorCode) {
             case 400: {
                 errorInfo = "Http Error Code: 400. Bad Request";
@@ -41,11 +40,13 @@ public class ErrorHandlerController implements ErrorController {
             }
         }
 
+        errorPage.addObject("url", httpRequest.getRequestURI());
+        errorPage.addObject("timestamp", new Date());
+        errorPage.addObject("errorCode", httpErrorCode);
         errorPage.addObject("errorInfo", errorInfo);
-        //errorPage.addObject("errorMsg", errorMsg);
+        errorPage.addObject("errorMsg", errorMsg);
 
         errorPage.addObject("exception", ex);
-        errorPage.addObject("url", httpRequest.getRequestURI());
 
         return errorPage;
     }
@@ -63,6 +64,6 @@ public class ErrorHandlerController implements ErrorController {
 
     @Override
     public String getErrorPath() {
-        return null;
+        return "errors/error";
     }
 }

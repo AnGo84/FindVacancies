@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import ua.findvacancies.export.ExcelDocument;
 import ua.findvacancies.export.XMLDocument;
 import ua.findvacancies.model.Provider;
 import ua.findvacancies.model.Vacancy;
@@ -18,12 +19,14 @@ import ua.findvacancies.service.VacancyService;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.xml.bind.JAXBException;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class MVCController {
+public class AppController {
     private final VacancyService vacancyService;
     private List<Vacancy> vacancyList;
 
@@ -54,28 +57,30 @@ public class MVCController {
         return "index";
     }
 
-    private void logErrors(BindingResult result) {
-        for (ObjectError objectError : result.getAllErrors()) {
-            log.error("Error on: {}", objectError.getDefaultMessage());
-        }
-    }
-
-    /*<!-- When a controller returns excelDocument render the model with the spring.mvc.excelpdf.ExcelDocument class -->
-<bean id="/excelDocument" class="ua.findvacancies.mvc.export.ExcelDocument"/>
-<bean id="/xmlDocument" class="ua.findvacancies.mvc.export.XMLDocument"/>*/
     @RequestMapping(value = "/excelExport", method = RequestMethod.GET)
     public ModelAndView excelExport() {
-        //excelDocument - look file-export-config.xml
-        return new ModelAndView("/excelDocument", "modelObject", vacancyList);
+        log.info("Export to XLS");
+        return new ModelAndView(new ExcelDocument(), ExcelDocument.OBJECT_NAME, vacancyList);
     }
 
     @RequestMapping(value = "/xmlExport", method = RequestMethod.GET)
     public void xmlExport(HttpServletResponse response) {
-        new XMLDocument().buildXMLDocument(response, vacancyList);
+        log.info("Export to XML");
+        try {
+            new XMLDocument().build(response, vacancyList);
+        } catch (JAXBException | IOException e) {
+            log.error("Export to XML error: {}", e.getMessage(), e);
+        }
     }
 
     @ModelAttribute("sites")
     public Object initializeProfiles() {
         return Provider.values();
+    }
+
+    private void logErrors(BindingResult result) {
+        for (ObjectError objectError : result.getAllErrors()) {
+            log.error("Error on: {}", objectError.getDefaultMessage());
+        }
     }
 }

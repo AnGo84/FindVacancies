@@ -5,31 +5,34 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
 
 @XmlType(propOrder = {"title", "url", "salary", "companyName", "city", "siteName", "date"})
+@XmlAccessorType(XmlAccessType.FIELD)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Vacancy {
-    @XmlElement(name = "Title")
+    @XmlAttribute(name = "Title")
     private String title;
-    @XmlElement(name = "Salary")
+    @XmlAttribute(name = "Salary")
     private String salary;
-    @XmlElement(name = "City")
+    @XmlAttribute(name = "City")
     private String city;
-    @XmlElement(name = "CompanyName")
+    @XmlAttribute(name = "CompanyName")
     private String companyName;
-    @XmlElement(name = "SiteName")
+    @XmlAttribute(name = "SiteName")
     private String siteName;
-    @XmlElement(name = "URL")
+    @XmlAttribute(name = "URL")
     private String url;
-    @XmlElement(name = "Date")
+    @XmlAttribute(name = "Date")
     private Date date;
-    @XmlElement(name = "Hot")
+    @XmlAttribute(name = "Hot")
     private boolean isHot;
 
 }

@@ -1,5 +1,6 @@
 package ua.findvacancies.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ua.findvacancies.comparators.ComparatorVacanciesByDate;
 import ua.findvacancies.mappers.SearchParamMapper;
@@ -17,6 +18,7 @@ import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class VacancyService {
     public static final String DEFAULT_SEARCH = "Java developer";
     public static final int DEFAULT_DAYS = 7;

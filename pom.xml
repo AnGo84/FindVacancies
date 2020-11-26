@@ -36,6 +36,7 @@
         <lombok.version>1.18.10</lombok.version>
         <mockito-core.version>3.1.0</mockito-core.version>
         <junit-jupiter-api.version>5.4.2</junit-jupiter-api.version>
+        <poi-ooxml.version>4.1.0</poi-ooxml.version>
     </properties>
 
     <dependencies>
@@ -152,8 +153,8 @@
         <!-- Excel view -->
         <dependency>
             <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>3.16</version>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi-ooxml.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate.validator</groupId>

@@ -36,8 +36,7 @@
     <script src="<c:url value="/resources/js/dataTables.responsive.min.js"/>"></script>
     <%--Select--%>
     <script src="<c:url value="/resources/js/bootstrap-select.js"/>"></script>
-    <script type="text/javascript" src="/resources/js/bootstrap-multiselect.js"></script>
-
+    <script src="/resources/js/bootstrap-multiselect.js"></script>
 
 </head>
 <body>
@@ -97,10 +96,10 @@
 <div class="container bg-0 ">
 
     <div class="row top-row">
-        <div class="col-xs-12 col-sm-8 col-md-6">
-            <h4><spring:message code="content.aboutText"/></h4>
+        <div class="col-xs-12 col-md-8">
+            <h4 class="text-center"><spring:message code="content.aboutText"/></h4>
         </div>
-        <div class="col-xs-12 col-sm-4 col-md-6 text-right">
+        <div class="col-xs-12 col-md-4 text-right">
             <h6>
                 <p><spring:message code="content.todayIsText"/>
                     <strong>
