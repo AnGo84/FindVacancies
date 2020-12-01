@@ -89,7 +89,7 @@ public class DOUStrategy extends AbstractStrategy {
                 break;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error on parsing DOU: {}", e.getMessage(), e);
         }
         return vacancies;
     }
@@ -116,7 +116,7 @@ public class DOUStrategy extends AbstractStrategy {
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error on parsing vacancy by url {}: {}", vacancyURL, e.getMessage(), e);
         }
         return new Vacancy();
     }
@@ -125,12 +125,12 @@ public class DOUStrategy extends AbstractStrategy {
         try {
             return simpleDateFormatRU.parse(dateString);
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error("Error on parsing vacancy date '{}': {}", dateString, e.getMessage(), e);
         }
         try {
             return simpleDateFormatUA.parse(dateString);
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error("Error on parsing vacancy date '{}': {}", dateString, e.getMessage(), e);
         }
         return new Date();
     }

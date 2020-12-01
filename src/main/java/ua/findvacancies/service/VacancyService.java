@@ -12,6 +12,7 @@ import ua.findvacancies.model.viewdata.ViewSearchParams;
 import ua.findvacancies.utils.ViewSearchParamsUtils;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.*;
@@ -23,12 +24,12 @@ public class VacancyService {
     public static final String DEFAULT_SEARCH = "Java developer";
     public static final int DEFAULT_DAYS = 7;
 
-    private SearchParamMapper searchParamMapper = new SearchParamMapper();
+    private final SearchParamMapper searchParamMapper = new SearchParamMapper();
 
     public List<Vacancy> getVacancyListByThreads(Set<Strategy> strategies, SearchParam searchParam) {
         ExecutorService executor = Executors.newFixedThreadPool(strategies.size());
 
-        List<Future<List<Vacancy>>> futuresList= strategies.stream()
+        List<Future<List<Vacancy>>> futuresList = strategies.stream()
                 .map(strategy -> new ProviderCallable(strategy, searchParam))
                 .map(executor::submit)
                 .collect(Collectors.toList());
@@ -62,7 +63,7 @@ public class VacancyService {
         return getVacancyListByThreads(ViewSearchParamsUtils.getStrategiesSet(viewSearchParams), searchParam);
     }
 
-    public ViewSearchParams getDefaultViewSearchParams(){
-        return new ViewSearchParams(DEFAULT_SEARCH, String.valueOf(DEFAULT_DAYS));
+    public ViewSearchParams getDefaultViewSearchParams() {
+        return new ViewSearchParams(DEFAULT_SEARCH, String.valueOf(DEFAULT_DAYS), new HashSet<>());
     }
 }

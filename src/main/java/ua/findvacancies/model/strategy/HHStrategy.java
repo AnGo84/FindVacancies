@@ -77,7 +77,7 @@ public class HHStrategy extends AbstractStrategy {
             }
 
         } catch (Exception e) {
-//            e.printStackTrace();
+            log.error("Error on parsing HH: {}", e.getMessage(), e);
         }
 
         return vacancies;
@@ -106,7 +106,7 @@ public class HHStrategy extends AbstractStrategy {
                         .build();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error on parsing vacancy by url {}: {}", vacancyURL, e.getMessage(), e);
         }
         return new Vacancy();
     }
@@ -117,7 +117,7 @@ public class HHStrategy extends AbstractStrategy {
             dateString = dataWords[2].replaceAll(String.valueOf(NON_BREAKING_SPACE_CHAR), " ");
             return simpleDateFormat.parse(dateString);
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error("Error on parsing vacancy date '{}': {}", dateString, e.getMessage(), e);
         }
         return new Date();
     }

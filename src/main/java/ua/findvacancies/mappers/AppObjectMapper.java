@@ -1,7 +1,7 @@
 package ua.findvacancies.mappers;
 
 @FunctionalInterface
-public interface ObjectMapper<T, E> {
+public interface AppObjectMapper<T, E> {
     E convert(T object);
 }
 

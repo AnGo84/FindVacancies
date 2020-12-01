@@ -80,7 +80,7 @@ public class RabotaUAStrategy extends AbstractStrategy {
             }
 
         } catch (IOException e) {
-//            e.printStackTrace();
+            log.error("Error on parsing RabotaUA: {}", e.getMessage(), e);
         }
 
         return vacancies;
@@ -103,7 +103,7 @@ public class RabotaUAStrategy extends AbstractStrategy {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error on parsing vacancy by url {}: {}", vacancyURL, e.getMessage(), e);
         }
         return vacancy;
     }
@@ -133,7 +133,7 @@ public class RabotaUAStrategy extends AbstractStrategy {
         try {
             return simpleDateFormat.parse(dateString);
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error("Error on parsing vacancy date '{}': {}", dateString, e.getMessage(), e);
         }
         return new Date();
     }

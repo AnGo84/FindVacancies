@@ -7,6 +7,7 @@ import ua.findvacancies.model.SearchParam;
 import ua.findvacancies.model.Vacancy;
 import ua.findvacancies.model.viewdata.ViewSearchParams;
 
+import java.util.HashSet;
 import java.util.List;
 
 public class TestParser
@@ -19,8 +20,8 @@ public class TestParser
 //        Provider provider = new Provider(new WorkUAStrategy());
         //String keyWords = "Java developer -senior";
         String keyWords = "Java developer";
-        ViewSearchParams viewSearchParams =new ViewSearchParams(keyWords, "7");
-        SearchParam searchParam =  new SearchParamMapper().convert(viewSearchParams);
+        ViewSearchParams viewSearchParams = new ViewSearchParams(keyWords, "7", new HashSet<>());
+        SearchParam searchParam = new SearchParamMapper().convert(viewSearchParams);
 
         System.out.println("KeyLine: "+ searchParam.getKeyWordsSearchLine());
         System.out.println("Exclude: "  + searchParam.getExcludeWords());

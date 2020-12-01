@@ -89,7 +89,7 @@ public class WorkUAStrategy extends AbstractStrategy {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error on parsing WorkUA: {}", e.getMessage(), e);
         }
 
         return vacancies;
@@ -117,7 +117,7 @@ public class WorkUAStrategy extends AbstractStrategy {
                         .build();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error on parsing vacancy by url {}: {}", vacancyURL, e.getMessage(), e);
         }
         return new Vacancy();
     }
@@ -136,7 +136,7 @@ public class WorkUAStrategy extends AbstractStrategy {
             dateString = dateString.substring(dateString.lastIndexOf(NON_BREAKING_SPACE_CHAR) + 1);
             return simpleDateTextFormat.parse(dateString);
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error("Error on parsing vacancy date '{}': {}", dateString, e.getMessage(), e);
         }
         return new Date();
     }

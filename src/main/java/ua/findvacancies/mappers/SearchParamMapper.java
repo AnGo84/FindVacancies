@@ -5,7 +5,7 @@ import ua.findvacancies.model.viewdata.ViewSearchParams;
 import ua.findvacancies.utils.AppStringUtils;
 import ua.findvacancies.utils.StrategyUtils;
 
-public class SearchParamMapper implements ObjectMapper<ViewSearchParams, SearchParam> {
+public class SearchParamMapper implements AppObjectMapper<ViewSearchParams, SearchParam> {
 
     @Override
     public SearchParam convert(ViewSearchParams viewSearchParams) {

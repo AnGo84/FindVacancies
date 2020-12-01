@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document;
 import org.springframework.core.io.ClassPathResource;
 import ua.findvacancies.model.SearchParam;
 import ua.findvacancies.model.viewdata.ViewSearchParams;
+import ua.findvacancies.service.VacancyService;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -58,4 +59,7 @@ public class TestUtils {
         return Jsoup.parse(text, "UTF-8");
     }
 
+    public static ViewSearchParams getDefaultViewSearchParams() {
+        return new VacancyService().getDefaultViewSearchParams();
+    }
 }
