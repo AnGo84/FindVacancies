@@ -46,11 +46,8 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-core:5.3.1" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.3.1" />
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
-          <element id="library" level="project" name="Maven: org.apache.tomcat.embed:tomcat-embed-jasper:9.0.39" />
           <element id="library" level="project" name="Maven: org.apache.tomcat.embed:tomcat-embed-core:9.0.39" />
           <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-annotations-api:9.0.39" />
-          <element id="library" level="project" name="Maven: org.apache.tomcat.embed:tomcat-embed-el:9.0.39" />
-          <element id="library" level="project" name="Maven: org.eclipse.jdt:ecj:3.18.0" />
           <element id="library" level="project" name="Maven: org.jsoup:jsoup:1.10.3" />
           <element id="library" level="project" name="Maven: org.json:json:20200518" />
           <element id="library" level="project" name="Maven: org.apache.poi:poi-ooxml:4.1.0" />
