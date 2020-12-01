@@ -134,11 +134,11 @@
             </plugin>
 
             <!-- heroku -->
-            <plugin>
+            <!--<plugin>
                 <groupId>com.heroku.sdk</groupId>
                 <artifactId>heroku-maven-plugin</artifactId>
                 <version>3.0.3</version>
-            </plugin>
+            </plugin>-->
             <!-- For standalone application: -->
             <!-- https://devcenter.heroku.com/articles/java-webapp-runner#create-a-procfile -->
             <!-- /heroku -->
