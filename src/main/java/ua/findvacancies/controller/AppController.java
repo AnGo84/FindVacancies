@@ -41,7 +41,6 @@ public class AppController {
     @RequestMapping(value = "/searchVacancies", method = RequestMethod.GET)
     public String searchVacanciesByWords(Model model) {
         log.info("get searchVacanciesByWords");
-        //model.addAttribute("viewSearchParams", vacancyService.getDefaultViewSearchParams());
         return "/index";
     }
 

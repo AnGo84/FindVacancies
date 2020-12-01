@@ -34,19 +34,19 @@ public class RabotaUAStrategyTest{
         SearchParam searchParam = TestUtils.getSearchParams();
         searchParam.setDays(2000);
         String searchURL = String.format(strategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(RabotaUAStrategy.WORD_SEPARATOR), 1);
-        //System.out.println("TEST searchURL: " + searchURL);
+
         Document document = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancies.html");
         Document documentVacancyHot = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_hot.html");
         Document documentVacancyWithSalary = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_with_salary.html");
         Document documentVacancyCommon = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_common.html");
-        //System.out.println("Document: " + document);
+
         when(mockDocumentConnect.getDocument(searchURL)).thenReturn(document);
         when(mockDocumentConnect.getDocument("https://rabota.ua/ua/company816229/vacancy5872044")).thenReturn(documentVacancyHot);
         when(mockDocumentConnect.getDocument("https://rabota.ua/ua/company1042/vacancy8182405")).thenReturn(documentVacancyWithSalary);
         when(mockDocumentConnect.getDocument("https://rabota.ua/ua/company794/vacancy8168568")).thenReturn(documentVacancyCommon);
 
         List<Vacancy> result = strategy.getVacancies(searchParam);
-        //System.out.println("" + result);
+
         assertNotNull(result);
         assertEquals(3, result.size());
 
@@ -66,7 +66,7 @@ public class RabotaUAStrategyTest{
         Document documentVacancyWithSalary = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_with_salary.html");
         Document documentVacancyHot = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_hot.html");
         Document documentVacancyWithWrongDate = TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_with_wrong_data.html");
-        //System.out.println("Document: " + document);
+
         when(mockDocumentConnect.getDocument(searchURL)).thenReturn(document);
         when(mockDocumentConnect.getDocument("https://rabota.ua/ua/company1042/vacancy8182405")).thenReturn(documentVacancyWithSalary);
         when(mockDocumentConnect.getDocument("https://rabota.ua/ua/company794/vacancy8168568")).thenReturn(documentVacancyHot);
@@ -93,7 +93,7 @@ public class RabotaUAStrategyTest{
         when(mockDocumentConnect.getDocument("https://rabota.ua/ua/company816229/vacancy5872044")).thenReturn(documentVacancyHot);
         when(mockDocumentConnect.getDocument("https://rabota.ua/ua/company1042/vacancy8182405")).thenReturn(documentVacancyWithSalary);
         List<Vacancy> result = strategy.getVacancies(searchParam);
-        //System.out.println("Result: " + result);
+
         assertNotNull(result);
         assertEquals(1, result.size());
     }

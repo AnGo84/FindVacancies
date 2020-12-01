@@ -36,9 +36,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasenames("classpath:/messages/locales/messages",
                 "classpath:/messages/validation/ValidationMessages");
-        // messageSource.setBasename();
-
-        // messageSource.setUseCodeAsDefaultMessage(true);
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
@@ -53,8 +50,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
-        //LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
-        //localeInterceptor.setParamName("lang");
-        // registry.addInterceptor(localeInterceptor).addPathPatterns("/*");
     }
 }

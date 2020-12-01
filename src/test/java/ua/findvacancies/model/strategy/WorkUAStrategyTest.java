@@ -39,14 +39,14 @@ public class WorkUAStrategyTest {
         Document documentVacancyHot = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancy_hot.html");
         Document documentVacancyWithSalary = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancy_with_salary.html");
         Document documentVacancyCommon = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancy_common.html");
-        //System.out.println("Document: " + document);
+
         when(mockDocumentConnect.getDocument(searchURL)).thenReturn(document);
         when(mockDocumentConnect.getDocument("https://www.work.ua/jobs/3747708/")).thenReturn(documentVacancyHot);
         when(mockDocumentConnect.getDocument("https://www.work.ua/jobs/4016482/")).thenReturn(documentVacancyWithSalary);
         when(mockDocumentConnect.getDocument("https://www.work.ua/jobs/4031195/")).thenReturn(documentVacancyCommon);
 
         List<Vacancy> result = strategy.getVacancies(searchParam);
-        //System.out.println("" + result);
+
         assertNotNull(result);
         assertEquals(3, result.size());
 
@@ -66,13 +66,13 @@ public class WorkUAStrategyTest {
         Document documentVacancyWithSalary = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancy_with_salary.html");
         Document documentVacancyCommon = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancy_common.html");
         Document documentVacancyWithWrongDate = TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancy_with_wrong_data.html");
-        //System.out.println("Document: " + document);
+
         when(mockDocumentConnect.getDocument(searchURL)).thenReturn(document);
         when(mockDocumentConnect.getDocument("https://www.work.ua/jobs/4016482/")).thenReturn(documentVacancyWithSalary);
         when(mockDocumentConnect.getDocument("https://www.work.ua/jobs/4031195/")).thenReturn(documentVacancyCommon);
         when(mockDocumentConnect.getDocument("https://www.work.ua/jobs/4038296/")).thenReturn(documentVacancyWithWrongDate);
         List<Vacancy> result = strategy.getVacancies(searchParam);
-        //System.out.println("" + result);
+
         assertNotNull(result);
         assertEquals(1, result.size());
 
@@ -92,7 +92,7 @@ public class WorkUAStrategyTest {
         when(mockDocumentConnect.getDocument("https://www.work.ua/jobs/3747708/")).thenReturn(documentVacancyHot);
         when(mockDocumentConnect.getDocument("https://www.work.ua/jobs/4016482/")).thenReturn(documentVacancyWithSalary);
         List<Vacancy> result = strategy.getVacancies(searchParam);
-        //System.out.println("Result: " + result);
+
         assertNotNull(result);
         assertEquals(1, result.size());
     }
@@ -120,7 +120,7 @@ public class WorkUAStrategyTest {
         String searchURL = String.format(strategy.getSiteURLPattern(), "", 1);
         when(mockDocumentConnect.getDocument(searchURL)).thenReturn(null);
         result = strategy.getVacancies(searchParam);
-        //System.out.println("" + result);
+
         assertNotNull(result);
         assertEquals(true, result.isEmpty());
     }

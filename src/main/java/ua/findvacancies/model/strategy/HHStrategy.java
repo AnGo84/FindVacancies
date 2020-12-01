@@ -44,7 +44,6 @@ public class HHStrategy extends AbstractStrategy {
 
     @Override
     public String getSiteURLPattern() {
-        //private static final String URL_FORMAT = "http://hh.ua/search/vacancy?text=java+%s&page=%d";
         return "https://hh.ua/search/vacancy?text=%s&enable_snippets=true&clusters=true&currency_code=UAH&area=115&page=%d";
     }
 
