@@ -32,6 +32,8 @@
         <junit-jupiter-api.version>5.4.2</junit-jupiter-api.version>
         <poi-ooxml.version>4.1.0</poi-ooxml.version>
         <hibernate-validator.version>6.1.6.Final</hibernate-validator.version>
+
+        <webapp-runner.version>9.0.11.0</webapp-runner.version>
     </properties>
 
     <dependencies>
@@ -135,22 +137,27 @@
 
             <!-- heroku -->
             <plugin>
-                <groupId>com.heroku.sdk</groupId>
-                <artifactId>heroku-maven-plugin</artifactId>
-                <version>3.0.3</version>
-                <configuration>
-                    <appName>FindVacancies</appName>
-                    <includeTarget>false</includeTarget>
-                    <includes>
-                        <include>${project.build.directory}/${project.build.finalName}.jar</include>
-                    </includes>
-                    <jdkVersion>1.8</jdkVersion>
-                    <processTypes>
-                        <web>java $JAVA_OPTS -jar
-                            ${project.build.directory}/${project.build.finalName}.jar
-                        </web>
-                    </processTypes>
-                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.2</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.heroku</groupId>
+                                    <artifactId>webapp-runner</artifactId>
+                                    <version>${webapp-runner.version}</version>
+                                    <destFileName>webapp-runner.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <!-- For standalone application: -->
             <!-- https://devcenter.heroku.com/articles/java-webapp-runner#create-a-procfile -->
