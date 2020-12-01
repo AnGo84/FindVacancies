@@ -128,17 +128,30 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
+                <!--<configuration>
                     <mainClass>ua.findvacancies.Application</mainClass>
-                </configuration>
+                </configuration>-->
             </plugin>
 
             <!-- heroku -->
-            <!--<plugin>
+            <plugin>
                 <groupId>com.heroku.sdk</groupId>
                 <artifactId>heroku-maven-plugin</artifactId>
                 <version>3.0.3</version>
-            </plugin>-->
+                <configuration>
+                    <appName>findvacancies</appName>
+                    <includeTarget>false</includeTarget>
+                    <includes>
+                        <include>${project.build.directory}/${project.build.finalName}.war</include>
+                    </includes>
+                    <jdkVersion>1.8</jdkVersion>
+                    <processTypes>
+                        <web>java $JAVA_OPTS -war
+                            ${project.build.directory}/${project.build.finalName}.war
+                        </web>
+                    </processTypes>
+                </configuration>
+            </plugin>
             <!-- For standalone application: -->
             <!-- https://devcenter.heroku.com/articles/java-webapp-runner#create-a-procfile -->
             <!-- /heroku -->
