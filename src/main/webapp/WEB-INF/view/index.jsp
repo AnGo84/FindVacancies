@@ -36,8 +36,7 @@
     <script src="<c:url value="/resources/js/dataTables.responsive.min.js"/>"></script>
     <%--Select--%>
     <script src="<c:url value="/resources/js/bootstrap-select.js"/>"></script>
-    <script type="text/javascript" src="/resources/js/bootstrap-multiselect.js"></script>
-
+    <script src="/resources/js/bootstrap-multiselect.js"></script>
 
 </head>
 <body>
@@ -84,9 +83,9 @@
                     <spring:message code="navMenu.Language"/>
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="<%=request.getContextPath()%>?languageVar=en">EN</a></li>
-                    <li><a href="<%=request.getContextPath()%>?languageVar=ru">RU</a></li>
-                    <li><a href="<%=request.getContextPath()%>?languageVar=uk">UA</a></li>
+                    <li><a href="<%=request.getContextPath()%>?lang=en">EN</a></li>
+                    <li><a href="<%=request.getContextPath()%>?lang=ru">RU</a></li>
+                    <li><a href="<%=request.getContextPath()%>?lang=uk">UA</a></li>
                 </ul>
             </li>
         </ul>
@@ -97,10 +96,10 @@
 <div class="container bg-0 ">
 
     <div class="row top-row">
-        <div class="col-xs-12 col-sm-8 col-md-6">
-            <h4><spring:message code="content.aboutText"/></h4>
+        <div class="col-xs-12 col-md-8">
+            <h4 class="text-center"><spring:message code="content.aboutText"/></h4>
         </div>
-        <div class="col-xs-12 col-sm-4 col-md-6 text-right">
+        <div class="col-xs-12 col-md-4 text-right">
             <h6>
                 <p><spring:message code="content.todayIsText"/>
                     <strong>
@@ -119,7 +118,7 @@
     </c:if>
     <%--<c:if test="${not empty messageErrore}"><div>${messageErrore}</div></c:if>--%>
 
-    <form:form method="post" action="${searchVacancies_url}" commandName="viewSearchParams">
+    <form:form method="post" action="${searchVacancies_url}" modelAttribute="viewSearchParams">
 
         <div class="form-group row search-params">
                 <%--Search line--%>
@@ -279,11 +278,16 @@
     </br>
 </div>
 
-<footer id="footer" class="footer navbar-fixed-bottom">
+<footer id="footer" class="footer">
     <div class="panel-footer">
         <spring:message code="footer.copyRight"/>
     </div>
 </footer>
+
+<script>
+    if ($(document).height() <= $(window).height())
+      $("footer.footer").addClass("navbar-fixed-bottom");
+</script>
 
 <script>
     $(document).ready(function () {

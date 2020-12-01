@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -20,6 +21,13 @@
     <script src="<c:url value="/resources/js/bootstrap.js"/>">
     </script>
 
+    <style>
+        table td{
+            vertical-align:top;
+            border:solid 1px #888;
+            padding:10px;
+        }
+    </style>
 </head>
 <body>
 
@@ -27,23 +35,51 @@
 
 <div class="container-fluid bg-1">
     <div class="container bg-0 ">
-        <div class="row">
-            <br><br>
-            <h2>Application Error, please contact support.</h2>
 
-            <h3>Debug Information:</h3>
-
-            Requested URL= ${url}<br><br>
-
-            Info= ${errorInfo}<br><br>
-
-            Exception= ${exception.message}<br><br>
-
-            <strong>Exception Stack Trace</strong><br>
-            <c:forEach items="${exception.stackTrace}" var="ste">
-                ${ste}
-            </c:forEach> <br><br>
-        </div>
+    <div class="row">
+            <div class="col-12">
+                <br>
+                <h2>Application Error, please contact support.</h2>
+                <br>
+                <a class="btn btn-link" href="${main_url}"><spring:message code="button.main"/></a>
+                <br>
+            </div>
+    </div>
+    <h3>Debug Information:</h3>
+        <table>
+            <tr>
+                <td>Date</td>
+                <td>
+                    <!-- ${timestamp} -->
+                    <fmt:formatDate value="${timestamp}" type="date" pattern="dd MMMM yyyy HH:mm:ss"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Requested URL</td>
+                <td>${url}</td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td>${errorInfo}</td>
+            </tr>
+            <tr>
+                <td>Message</td>
+                <td>${errorMsg}</td>
+            </tr>
+            <tr>
+                <td>Exception</td>
+                <td>${exception.message}</td>
+            </tr>
+            <tr>
+                <td>Trace</td>
+                <td>
+                   <!-- <pre>${trace}</pre> -->
+                   <c:forEach items="${exception.stackTrace}" var="ste">
+                      ${ste}
+                   </c:forEach>
+                </td>
+            </tr>
+        </table>
 
         <div class="row">
             <div class="col-12">
