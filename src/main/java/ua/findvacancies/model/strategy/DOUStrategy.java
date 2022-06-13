@@ -45,8 +45,8 @@ public class DOUStrategy extends AbstractStrategy {
 
     private final DocumentConnect documentConnect;
 
-    public DOUStrategy() {
-    }
+    /*public DOUStrategy() {
+    }*/
 
     @Override
     public String getSiteURL() {

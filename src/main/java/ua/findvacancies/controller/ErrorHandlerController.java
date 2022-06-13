@@ -62,7 +62,7 @@ public class ErrorHandlerController implements ErrorController {
                 .getAttribute("javax.servlet.error.message");
     }
 
-    @Override
+    //@Override
     public String getErrorPath() {
         return "errors/error";
     }

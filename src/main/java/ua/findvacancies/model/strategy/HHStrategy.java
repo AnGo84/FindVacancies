@@ -114,6 +114,7 @@ public class HHStrategy extends AbstractStrategy {
         try {
             String[] dataWords = dateString.split(" ");
             dateString = dataWords[2].replaceAll(String.valueOf(NON_BREAKING_SPACE_CHAR), " ");
+            System.out.println("dateString: " + dateString);
             return simpleDateFormat.parse(dateString);
         } catch (ParseException e) {
             log.error("Error on parsing vacancy date '{}': {}", dateString, e.getMessage(), e);

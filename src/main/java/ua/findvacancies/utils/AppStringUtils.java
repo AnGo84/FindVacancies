@@ -1,6 +1,6 @@
 package ua.findvacancies.utils;
 
-import org.jsoup.helper.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Set;
@@ -8,7 +8,7 @@ import java.util.Set;
 public class AppStringUtils {
 
     public static boolean isStringIncludeWords(String line, Set<String> words) {
-        if (CollectionUtils.isEmpty(words) || StringUtil.isBlank(line)) {
+        if (CollectionUtils.isEmpty(words) || StringUtils.isBlank(line)) {
             return false;
         }
         boolean isInclude = false;

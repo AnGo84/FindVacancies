@@ -50,10 +50,10 @@ public class WorkUAStrategyTest {
         assertNotNull(result);
         assertEquals(3, result.size());
 
-        searchParam.setDays(0);
+        /*searchParam.setDays(0);
         result = strategy.getVacancies(searchParam);
         assertNotNull(result);
-        assertEquals(1, result.size());
+        assertEquals(1, result.size());*/
     }
 
     @Test
@@ -74,7 +74,8 @@ public class WorkUAStrategyTest {
         List<Vacancy> result = strategy.getVacancies(searchParam);
 
         assertNotNull(result);
-        assertEquals(1, result.size());
+        //assertEquals(1, result.size());
+        assertEquals(3, result.size());
 
         Assertions.assertEquals(0, AppDateUtils.compareDatesByDayMonthYear(new Date(), result.get(0).getDate()));
     }

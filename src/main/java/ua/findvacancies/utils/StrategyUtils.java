@@ -1,6 +1,7 @@
 package ua.findvacancies.utils;
 
-import org.jsoup.helper.StringUtil;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +12,7 @@ public class StrategyUtils {
     public static final String EXCLUDE_WORD_PREFIX = "-";
 
     public static Set<String> getKeyWordsSet(String wordsLine) {
-        if (StringUtil.isBlank(wordsLine)) {
+        if (StringUtils.isBlank(wordsLine)) {
             return new HashSet<>();
         }
         String[] words = wordsLine.split(WORD_SEPARATOR);
@@ -29,7 +30,7 @@ public class StrategyUtils {
     }
 
     public static Set<String> getExcludeWordsSet(String wordsLine) {
-        if (StringUtil.isBlank(wordsLine)) {
+        if (StringUtils.isBlank(wordsLine)) {
             return new HashSet<>();
         }
         String[] words = wordsLine.split(WORD_SEPARATOR);
