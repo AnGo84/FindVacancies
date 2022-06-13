@@ -23,7 +23,7 @@ Results table can be exporting to **XML** or **XLS** files.
 
 ### **For work needs:**
 - IDE
-- JDK 1.8 or later
+- JDK 11 or later
 - Maven
 
 ### **Current version:**
