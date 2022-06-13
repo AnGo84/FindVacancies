@@ -9,6 +9,10 @@ dist: trusty
 # version numbers
 jdk:
   - oraclejdk8
+  - oraclejdk11
+  - oraclejdk11
+  - openjdk10
+  - openjdk11
 
 # would just use default install/script but the ./mvnw script errors on travis
 # obviously this only works for maven builds right now...

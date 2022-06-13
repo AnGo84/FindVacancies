@@ -45,6 +45,9 @@ public class DOUStrategy extends AbstractStrategy {
 
     private final DocumentConnect documentConnect;
 
+    public DOUStrategy() {
+    }
+
     @Override
     public String getSiteURL() {
         return "https://dou.ua/";

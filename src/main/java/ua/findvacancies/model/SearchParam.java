@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Set;
@@ -30,7 +29,7 @@ public class SearchParam {
         if (CollectionUtils.isEmpty(keyWords)){
             return EMPTY_SEARCH_LINE;
         }
-        if (Strings.isBlank(wordSeparator)) {
+        if (StringUtils.isBlank(wordSeparator)) {
             return String.join(DEFAULT_WORD_SEPARATOR, keyWords);
         }
         return String.join(wordSeparator, keyWords);
