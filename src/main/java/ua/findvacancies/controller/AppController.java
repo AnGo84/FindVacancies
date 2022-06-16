@@ -15,6 +15,7 @@ import ua.findvacancies.export.XMLDocument;
 import ua.findvacancies.model.Provider;
 import ua.findvacancies.model.Vacancy;
 import ua.findvacancies.model.viewdata.ViewSearchParams;
+import ua.findvacancies.service.VacancyDBService;
 import ua.findvacancies.service.VacancyService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +29,7 @@ import java.util.List;
 @Slf4j
 public class AppController {
     private final VacancyService vacancyService;
+    private final VacancyDBService vacancyDBService;
     private List<Vacancy> vacancyList;
 
     @RequestMapping(value = {"/", "/index"})
@@ -81,5 +83,37 @@ public class AppController {
         for (ObjectError objectError : result.getAllErrors()) {
             log.error("Error on: {}", objectError.getDefaultMessage());
         }
+    }
+
+    @RequestMapping(value = "/vacanciesFromDB", method = RequestMethod.GET)
+    public String getVacanciesFromDB(Model model) {
+        log.info("get vacancies from DB");
+        try {
+            vacancyList = vacancyDBService.findAll();
+        } catch (Exception e) {
+            log.error("Error on getting data from DB: {}", e.getMessage(), e);
+        }
+
+        model.addAttribute("resultVacanciesList", vacancyList);
+        model.addAttribute("viewSearchParams", vacancyService.getDefaultViewSearchParams());
+
+        return "index";
+    }
+
+    @RequestMapping(value = "/vacanciesToDB", method = RequestMethod.GET)
+    public String saveVacanciesToDB(Model model) {
+        log.info("Save data to DB. Attribute presents: {}", model.containsAttribute("resultVacanciesList"));
+
+        try {
+
+            vacancyList.forEach(vacancy -> vacancyDBService.save(vacancy));
+
+            model.addAttribute("resultVacanciesList", vacancyList);
+            model.addAttribute("viewSearchParams", vacancyService.getDefaultViewSearchParams());
+        } catch (Exception e) {
+            log.error("Error on saving data to DB: {}", e.getMessage(), e);
+        }
+
+        return "index";
     }
 }

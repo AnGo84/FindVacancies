@@ -41,6 +41,9 @@
 </head>
 <body>
 
+<c:url var="readFromDB" value="/vacanciesFromDB"/>
+<c:url var="saveToDB" value="/vacanciesToDB"/>
+
 <c:url var="excelController" value="/excelExport"/>
 <c:url var="xmlController" value="/xmlExport"/>
 
@@ -259,11 +262,35 @@
 </div>
 <!-- End Table block -->
 <hr/>
+<!-- DB buttons -->
+<div class="container bg-0 ">
+    <div class="form-inline">
+        <div class="form-group">
+            <p>
+                <strong>
+            <h5>DATABASE: </h5>
+            </strong>
+            </p>
+        </div>
+        <a class="btn btn-default export-button" href="${saveToDB}" role="button">
+            <img src="<c:url value="/resources/images/icon-add-to-database-48.png"/>"/>
+        </a>
+        <a class="btn btn-default export-button" href="${readFromDB}" role="button">
+            <img src="<c:url value="/resources/images/icon-database-view-48.png"/>"/>
+        </a>
+
+    </div>
+
+    </br>
+</div>
+<!-- End DB buttons -->
+<hr/>
+<!-- Export buttons -->
 <div class="container bg-0 ">
     <div class="form-inline">
         <div class="form-group">
             <p><strong>
-                <h5><spring:message code="content.exportToText"/>: </h5>
+            <h5><spring:message code="content.exportToText"/>: </h5>
             </strong></p>
         </div>
         <a class="btn btn-default export-button" href="${excelController}" role="button">
@@ -277,6 +304,8 @@
 
     </br>
 </div>
+<!-- End Export buttons -->
+
 
 <footer id="footer" class="footer">
     <div class="panel-footer">
