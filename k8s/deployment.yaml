@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: find-vacancies
   labels:
-    run: find_vacancies
-  name: find_vacancies
+    run: find-vacancies
 spec:
   replicas: 2
   selector:
     matchLabels:
-      run: find_vacancies
+      run: find-vacancies
   template:
     metadata:
       labels:
-        run: find_vacancies
+        run: find-vacancies
     spec:
       containers:
-        - image: europe-central2-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:latest
-          name: find_vacancies
+        - image: europe-central2-docker.pkg.dev/cloudx-353214/find-vacancies-repo/find_vacancies:latest
+          name: find-vacancies
           ports:
             - containerPort: 8080
