@@ -14,7 +14,7 @@ spec:
       labels:
         run: find-vacancies
     spec:
-      serviceAccountName: sa-cloud-sql
+      #serviceAccountName: sa-cloud-sql
       containers:
         - name: find-vacancies
           image: europe-central2-docker.pkg.dev/cloudx-353214/find-vacancies-repo/find_vacancies:latest
