@@ -12,7 +12,7 @@ steps:
     args: [
         'build',
         '-t',
-        'europe-central2-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:$COMMIT_SHA:$BRANCH_NAME-$COMMIT_SHA',
+        'europe-central2-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:$BRANCH_NAME-$COMMIT_SHA',
         '-t',
         'europe-central2-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:latest',
         '.'
@@ -40,6 +40,6 @@ steps:
 
 ### Push images to Google Artifact Registry with tags
 images: [
-    'europe-central2-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:$COMMIT_SHA:$BRANCH_NAME-$COMMIT_SHA',
+    'europe-central2-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:$BRANCH_NAME-$COMMIT_SHA',
     'europe-central2-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:latest'
 ]
