@@ -5,4 +5,4 @@ USER spring_docker:spring_docker
 VOLUME /tmp
 ARG JAR_FILE=target/FindVacancies.war
 COPY ${JAR_FILE} findVacancies.war
-ENTRYPOINT ["java","-jar","/findVacancies.war"]
+ENTRYPOINT ["java","-jar","/findVacancies.war", "--logging.path=/logs/logs", "--spring.config.location=classpath:/application.properties"]
