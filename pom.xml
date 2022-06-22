@@ -39,6 +39,11 @@
         <!-- /XML -->
 
         <!--<webapp-runner.version>9.0.11.0</webapp-runner.version>-->
+
+        <!-- CloudX -->
+        <flyway-version>5.2.4</flyway-version>
+        <instance-connection-name>cloudx-353214:europe-central2:cloudx-db</instance-connection-name>
+
     </properties>
 
     <dependencies>
@@ -182,6 +187,24 @@
         </dependency>
         <!-- /Utils -->
 
+        <!-- CloudX -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-maven-plugin</artifactId>
+            <version>${flyway-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.cloud.sql</groupId>
+            <artifactId>mysql-socket-factory-connector-j-8</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        <!-- /CloudX -->
+
     </dependencies>
     <build>
         <finalName>FindVacancies</finalName>
@@ -189,9 +212,20 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.0</version>
                 <!--<configuration>
                     <mainClass>ua.findvacancies.Application</mainClass>
                 </configuration>-->
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>${flyway-version}</version>
+                <configuration>
+                    <url>
+                        jdbc:mysql://cloudXDB?socketFactory=com.google.cloud.sql.mysql.SocketFactory;cloudSqlInstance=${instance-connection-name}
+                    </url>
+                </configuration>
             </plugin>
 
             <!-- heroku -->

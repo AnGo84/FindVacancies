@@ -14,8 +14,46 @@ spec:
       labels:
         run: find-vacancies
     spec:
+      serviceAccountName: sa-cloud-sql
       containers:
-        - image: europe-central2-docker.pkg.dev/cloudx-353214/find-vacancies-repo/find_vacancies:latest
-          name: find-vacancies
+        - name: find-vacancies
+          image: europe-central2-docker.pkg.dev/cloudx-353214/find-vacancies-repo/find_vacancies:latest
+
           ports:
             - containerPort: 8080
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: username
+                  optional: false
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
+                  optional: false
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: database
+                  optional: false
+        - name: cloud-sql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.31.0
+          command:
+            - "/cloud_sql_proxy"
+            - "-ip_address_type=PRIVATE"
+            - "-instances=cloudx-353214:europe-central2:cloudx-instance=tcp:3306"
+            - "-credential_file=/secrets/service_account.json"
+          securityContext:
+            runAsNonRoot: true
+          volumeMounts:
+            - mountPath: /secrets
+              name: sql-secrets
+              readOnly: true
+        volumes:
+          - name: sql-secrets
+            secret:
+              secretName: sql-sa-secrets

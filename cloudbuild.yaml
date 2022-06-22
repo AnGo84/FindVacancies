@@ -1,0 +1,45 @@
+#https://medium.com/platformer-blog/ci-cd-with-gke-and-google-cloud-build-98a797ecf346
+steps:
+  ### Build war artifact
+  - name: 'maven:3.6.0-jdk-11-slim'
+    entrypoint: 'mvn'
+      args: [ 'clean',
+              'install',
+              '-DskipTests'
+      ]
+  ### Build docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+        'build',
+        '-t',
+        'europe-central2-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:$COMMIT_SHA:$BRANCH_NAME-$COMMIT_SHA',
+        '-t',
+        'europe-central2-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:latest',
+        '.'
+    ]
+
+  ### Apply configuration yamls from k8s/ folder
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: [ 'apply', '-f', 'k8s/' ]
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=europe-central2-a'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=cloudx-cluster'
+
+  ### Update the app deployment image in GKE
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: [
+        'set',
+        'image',
+        'deployment',
+        'find-vacancies',
+        'find-vacancies=europe-central2-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:$BRANCH_NAME-$COMMIT_SHA'
+    ]
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=europe-central2-a'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=cloudx-cluster'
+
+### Push images to Google Artifact Registry with tags
+images: [
+    'europe-central2-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:$COMMIT_SHA:$BRANCH_NAME-$COMMIT_SHA',
+    'europe-central2-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:latest'
+]
