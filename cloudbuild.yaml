@@ -3,10 +3,10 @@ steps:
   ### Build war artifact
   - name: 'maven:3.6.0-jdk-11-slim'
     entrypoint: 'mvn'
-      args: [ 'clean',
-              'install',
-              '-DskipTests'
-      ]
+    args: [ 'clean',
+            'install',
+            '-DskipTests'
+    ]
   ### Build docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: [
