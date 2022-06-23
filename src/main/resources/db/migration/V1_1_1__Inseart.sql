@@ -4,12 +4,10 @@ INSERT INTO `cloudXDB`.`vacancies`
  `city`,
  `company_name`,
  `site_name`,
- `url`,
- `id`)
+ `url`)
 VALUES ('Junior',
         '500',
         'Odessa',
         'comp2',
         'site2',
-        'site2.com',
-        3);
+        'site2.com');
