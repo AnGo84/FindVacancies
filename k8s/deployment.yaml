@@ -17,7 +17,7 @@ spec:
       serviceAccountName: sa-cloud-sql
       containers:
         - name: "find-vacancies"
-          image: "europe-central2-docker.pkg.dev/cloudx-353214/find-vacancies-repo/find_vacancies:latest"
+          image: "us-central1-docker.pkg.dev/cloudx-353214/find-vacancies-repo/find_vacancies:latest"
           ports:
             - containerPort: 8080
           env:

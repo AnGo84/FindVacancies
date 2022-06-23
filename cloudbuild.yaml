@@ -12,9 +12,9 @@ steps:
     args: [
         'build',
         '-t',
-        'europe-central2-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:$BRANCH_NAME-$COMMIT_SHA',
+        'us-central1-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:$BRANCH_NAME-$COMMIT_SHA',
         '-t',
-        'europe-central2-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:latest',
+        'us-central1-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:latest',
         '.'
     ]
 
@@ -28,11 +28,11 @@ steps:
   ### Update the app deployment image in GKE
   - name: 'gcr.io/cloud-builders/kubectl'
     args: [
-        'set',
+      'set',
         'image',
         'deployment',
         'find-vacancies',
-        'find-vacancies=europe-central2-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:$BRANCH_NAME-$COMMIT_SHA'
+      'find-vacancies=us-central1-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:$BRANCH_NAME-$COMMIT_SHA'
     ]
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
@@ -40,6 +40,6 @@ steps:
 
 ### Push images to Google Artifact Registry with tags
 images: [
-    'europe-central2-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:$BRANCH_NAME-$COMMIT_SHA',
-    'europe-central2-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:latest'
+    'us-central1-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:$BRANCH_NAME-$COMMIT_SHA',
+    'us-central1-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:latest'
 ]
