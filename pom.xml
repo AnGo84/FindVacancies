@@ -42,7 +42,7 @@
 
         <!-- CloudX -->
         <flyway-version>5.2.4</flyway-version>
-        <instance-connection-name>cloudx-353214:europe-central2:cloudx-db</instance-connection-name>
+        <instance-connection-name>cloudx-353214:us-central1:cloudx-db-01</instance-connection-name>
 
     </properties>
 

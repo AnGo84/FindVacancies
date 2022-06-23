@@ -22,7 +22,7 @@ steps:
   - name: 'gcr.io/cloud-builders/kubectl'
     args: [ 'apply', '-f', 'k8s/' ]
     env:
-      - 'CLOUDSDK_COMPUTE_ZONE=europe-central2-a'
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
       - 'CLOUDSDK_CONTAINER_CLUSTER=cloudx-cluster'
 
   ### Update the app deployment image in GKE
@@ -35,7 +35,7 @@ steps:
         'find-vacancies=europe-central2-docker.pkg.dev/$PROJECT_ID/find-vacancies-repo/find_vacancies:$BRANCH_NAME-$COMMIT_SHA'
     ]
     env:
-      - 'CLOUDSDK_COMPUTE_ZONE=europe-central2-a'
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
       - 'CLOUDSDK_CONTAINER_CLUSTER=cloudx-cluster'
 
 ### Push images to Google Artifact Registry with tags
