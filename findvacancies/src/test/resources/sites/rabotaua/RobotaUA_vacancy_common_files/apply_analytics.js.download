@@ -1,0 +1,9 @@
+var view_history_id=0;var cookieExperience="UAV1";var cookieQuestion="UAV2";var cookieBoth="UAV3";var cookieAfter="UAVaf";function view_history(askExperience,hasQuestion,logged){var view_history_id=0;if(askExperience){view_history_id=readCookie(cookieExperience)?2:1;}
+if(hasQuestion){view_history_id=readCookie(cookieQuestion)?4:3;}
+if(askExperience&&hasQuestion){view_history_id=readCookie(cookieBoth)?6:5;}
+if(view_history_id==1)callpage('/vacancy_plus_experience_first',view_history_id);if(view_history_id==2)callpage('/vacancy_plus_experience',view_history_id);if(view_history_id==3)callpage('/vacancy_plus_question_first',view_history_id);if(view_history_id==4)callpage('/vacancy_plus_question',view_history_id);if(view_history_id==5)callpage('/vacancy_plus_experience_question_first',view_history_id);if(view_history_id==6)callpage('/vacancy_plus_experience_question',view_history_id);}
+var ga_apply_nextclick_url='';function readCookie(name){var nameEQ=name+"=";var ca=document.cookie.split(';');for(var i=0;i<ca.length;i++){var c=ca[i];while(c.charAt(0)==' ')c=c.substring(1,c.length);if(c.indexOf(nameEQ)==0)return c.substring(nameEQ.length,c.length);}
+return null;}
+function callpage(url,id){if(typeof(_gaq)!='undefined')_gaq.push(['_trackPageview',url]);if(id==1)createCookie(cookieExperience,'1',1000);if(id==3)createCookie(cookieQuestion,'1',1000);if(id==5)createCookie(cookieBoth,'1',1000);createCookie(cookieAfter,url+'_afterapply',null);ga_apply_nextclick_url=url+'_formapply';}
+function callClickApplyPage(){if(ga_apply_nextclick_url!=''){if(typeof(_gaq)!='undefined')_gaq.push(['_trackPageview',ga_apply_nextclick_url]);}}
+function callClickAfterApplyPage(){var url=readCookie(cookieAfter);if(url!=''){if(typeof(_gaq)!='undefined')_gaq.push(['_trackPageview',url]);createCookie(cookieAfter,'',null);}}
