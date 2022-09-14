@@ -38,7 +38,6 @@
         <!-- /Test -->
 
         <lombok.version>1.18.24</lombok.version>
-        <poi-ooxml.version>4.1.0</poi-ooxml.version>
         <hibernate-validator.version>6.1.6.Final</hibernate-validator.version>
 
     </properties>
@@ -149,16 +148,19 @@
                 <scope>provided</scope>
             </dependency>
 
+            <!-- Validation -->
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-validator.version}</version>
+            </dependency>
+            <!-- /Validation -->
+
             <!-- Excel view -->
             <!--<dependency>
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi-ooxml</artifactId>
                 <version>${poi-ooxml.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate.validator</groupId>
-                <artifactId>hibernate-validator</artifactId>
-                <version>${hibernate-validator.version}</version>
             </dependency>-->
 
         </dependencies>

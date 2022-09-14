@@ -3,6 +3,7 @@ package ua.findvacancies.comparators;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ua.findvacancies.TestUtils;
+import ua.findvacancies.model.Vacancy;
 
 import java.util.Date;
 
