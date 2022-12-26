@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
 
-@XmlType(propOrder = {"title", "url", "salary", "companyName", "city", "siteName", "date"})
+@XmlType(propOrder = {"title", "url", "salary", "companyName", "city", "siteName", "date", "isHot"})
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
 @NoArgsConstructor

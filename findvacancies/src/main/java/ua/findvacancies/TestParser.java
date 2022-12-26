@@ -28,7 +28,7 @@ public class TestParser
 
         long startTime = System.currentTimeMillis();
 
-        List<Vacancy> vacancies = Provider.RABOTAUA.getStrategy().getVacancies(searchParam);
+        List<Vacancy> vacancies = Provider.DOU.getStrategy().getVacancies(searchParam);
 
         long endTime = System.currentTimeMillis();
         System.out.println("That took " + (endTime - startTime) + " milliseconds");

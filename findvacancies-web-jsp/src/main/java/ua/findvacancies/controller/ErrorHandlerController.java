@@ -3,23 +3,29 @@ package ua.findvacancies.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
+/**
+ * https://www.journaldev.com/2651/spring-mvc-exception-handling-controlleradvice-exceptionhandler-handlerexceptionresolver
+ */
 @Slf4j
 @Controller
 public class ErrorHandlerController implements ErrorController {
-    //https://www.journaldev.com/2651/spring-mvc-exception-handling-controlleradvice-exceptionhandler-handlerexceptionresolver
+
     @RequestMapping(value = "/error", method = RequestMethod.GET)
     public ModelAndView renderErrorPage(HttpServletRequest httpRequest, Exception ex) {
         log.error("Get error: {}", ex.getMessage(), ex);
         ModelAndView errorPage = new ModelAndView(getErrorPath());
         String errorInfo = "";
         String errorMsg = getErrorMessage(httpRequest);
+
         int httpErrorCode = getErrorCode(httpRequest);
         switch (httpErrorCode) {
             case 400: {
@@ -39,6 +45,10 @@ public class ErrorHandlerController implements ErrorController {
                 break;
             }
         }
+        log.error("Prepare error url: {}",httpRequest.getRequestURI());
+        log.error("Prepare error errorCode: {}",httpErrorCode);
+        log.error("Prepare error errorInfo: {}",errorInfo);
+        log.error("Prepare error errorMsg: {}", errorMsg);
 
         errorPage.addObject("url", httpRequest.getRequestURI());
         errorPage.addObject("timestamp", new Date());
@@ -62,7 +72,6 @@ public class ErrorHandlerController implements ErrorController {
                 .getAttribute("javax.servlet.error.message");
     }
 
-    @Override
     public String getErrorPath() {
         return "errors/error";
     }

@@ -1,6 +1,8 @@
 package ua.findvacancies.utils;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.util.ObjectUtils;
 import ua.findvacancies.TestUtils;
 
 import java.util.Date;
@@ -123,6 +125,20 @@ public class AppDateUtilsTest {
         testDate2 = TestUtils.createDate(2020, 3, 21);
         assertEquals(-1, AppDateUtils.compareDatesByDayMonthYear(testDate1, testDate2));
 
+    }
+
+    @Test
+    public void whenFormatToString_thenReturnResult() {
+        // date is null
+        assertTrue(ObjectUtils.isEmpty(AppDateUtils.formatToString(null)));
+        // date correct
+        Date correctDate = TestUtils.createDate(2019, 3, 20);
+        assertEquals("20.04.2019", AppDateUtils.formatToString(correctDate));
+
+        // date is null
+        Date wrongDate =  Mockito.mock(Date.class);
+        Mockito.when(wrongDate.getTime()).thenThrow(RuntimeException.class);
+        assertTrue(ObjectUtils.isEmpty(AppDateUtils.formatToString(wrongDate)));
     }
 
 }

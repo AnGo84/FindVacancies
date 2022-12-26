@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.view.document.AbstractXlsView;
 import ua.findvacancies.model.Vacancy;
+import ua.findvacancies.utils.AppDateUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -55,7 +56,7 @@ public class ExcelDocument extends AbstractXlsView {
         row.createCell(3).setCellValue(vacancy.getCity());
         row.createCell(4).setCellValue(vacancy.getCompanyName());
         row.createCell(5).setCellValue(vacancy.getSiteName());
-        row.createCell(6).setCellValue(vacancy.getDate());
+        row.createCell(6).setCellValue(AppDateUtils.formatToString(vacancy.getDate()));
     }
 
     public void setExcelHeader(Sheet excelSheet, CellStyle styleHeader) {
@@ -71,7 +72,7 @@ public class ExcelDocument extends AbstractXlsView {
         header.getCell(3).setCellStyle(styleHeader);
         header.createCell(4).setCellValue("Company Name");
         header.getCell(4).setCellStyle(styleHeader);
-        header.createCell(5).setCellValue("String Name");
+        header.createCell(5).setCellValue("Site Name");
         header.getCell(5).setCellStyle(styleHeader);
         header.createCell(6).setCellValue("Date");
         header.getCell(6).setCellStyle(styleHeader);

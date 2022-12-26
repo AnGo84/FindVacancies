@@ -1,6 +1,7 @@
 package ua.findvacancies.utils;
 
-import org.jsoup.helper.StringUtil;
+
+import org.jsoup.internal.StringUtil;
 
 import java.util.HashSet;
 import java.util.Set;

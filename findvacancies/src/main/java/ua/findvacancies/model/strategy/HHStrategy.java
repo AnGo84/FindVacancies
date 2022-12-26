@@ -112,10 +112,15 @@ public class HHStrategy extends AbstractStrategy {
     }
 
     private Date parseVacationDate(String dateString) {
+        String parsingDate;
         try {
             String[] dataWords = dateString.split(" ");
-            dateString = dataWords[2].replaceAll(String.valueOf(NON_BREAKING_SPACE_CHAR), " ");
-            return simpleDateFormat.parse(dateString);
+            if (dataWords.length > 3) {
+                parsingDate = dataWords[2] + " " + dataWords[3] + " " + dataWords[4];
+            } else {
+                parsingDate = dataWords[2].replaceAll(String.valueOf(NON_BREAKING_SPACE_CHAR), " ");
+            }
+            return simpleDateFormat.parse(parsingDate);
         } catch (ParseException e) {
             log.error("Error on parsing vacancy date '{}': {}", dateString, e.getMessage(), e);
         }

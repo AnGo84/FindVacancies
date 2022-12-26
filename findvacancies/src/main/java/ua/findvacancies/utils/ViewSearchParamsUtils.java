@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class ViewSearchParamsUtils {
 
     public static Set<Provider> getProvidersSet(ViewSearchParams viewSearchParams) {
-        if (viewSearchParams == null || CollectionUtils.isEmpty(viewSearchParams.getSites())) {
+        if (isEmptyViewSearchParams(viewSearchParams)) {
             return Collections.emptySet();
         }
         Set<Provider> providers = viewSearchParams.getSites().stream()
@@ -23,7 +23,7 @@ public class ViewSearchParamsUtils {
     }
 
     public static Set<Strategy> getStrategiesSet(ViewSearchParams viewSearchParams) {
-        if (viewSearchParams == null || CollectionUtils.isEmpty(viewSearchParams.getSites())) {
+        if (isEmptyViewSearchParams(viewSearchParams)) {
             return Collections.emptySet();
         }
         Set<Strategy> strategies = viewSearchParams.getSites().stream()
@@ -31,5 +31,9 @@ public class ViewSearchParamsUtils {
                 .map(siteName -> Provider.valueOf(siteName.toUpperCase()).getStrategy())
                 .collect(Collectors.toSet());
         return strategies;
+    }
+
+    private static boolean isEmptyViewSearchParams(ViewSearchParams viewSearchParams) {
+        return viewSearchParams == null || CollectionUtils.isEmpty(viewSearchParams.getSites());
     }
 }

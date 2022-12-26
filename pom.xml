@@ -29,16 +29,20 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <spring-boot.version>2.7.1</spring-boot.version>
+        <spring-boot.version>2.7.7</spring-boot.version>
+
         <!-- Test -->
         <junit-platform.version>1.8.2</junit-platform.version>
         <junit-jupiter.version>5.8.2</junit-jupiter.version>
 
-        <mockito-core.version>4.6.1</mockito-core.version>
+        <mockito-core.version>4.10.0</mockito-core.version>
         <!-- /Test -->
 
         <lombok.version>1.18.24</lombok.version>
-        <hibernate-validator.version>6.1.6.Final</hibernate-validator.version>
+        <!--<hibernate-validator.version>6.1.6.Final</hibernate-validator.version>-->
+        <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
+
+        <jakarta.xml.bind-api.version>2.3.3</jakarta.xml.bind-api.version>
 
     </properties>
     <dependencyManagement>
@@ -47,7 +51,8 @@
             <!--<dependency>
                 <groupId>ua.findvacancies</groupId>
                 <artifactId>findvacancies</artifactId>
-            </dependency><dependency>
+            </dependency>
+            <dependency>
                 <groupId>ua.findvacancies</groupId>
                 <artifactId>findvacancies-web-jsp</artifactId>
             </dependency>-->
@@ -65,37 +70,14 @@
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
-            <!--  -->
 
-            <!-- JSTL для JSP -->
-            <!-- old
             <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>jstl</artifactId>
-            </dependency>-->
-
-            <!---->
-
-
-            <!-- Need this to compile JSP -->
-            <!--<dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-jasper</artifactId>
-                &lt;!&ndash;<scope>provided</scope>&ndash;&gt;
-            </dependency>-->
-
-            <!-- jsoup HTML parser library @ https://jsoup.org/ -->
-            <!--<dependency>
-                <groupId>org.jsoup</groupId>
-                <artifactId>jsoup</artifactId>
-                <version>1.10.3</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-tomcat</artifactId>
+                <version>${spring-boot.version}</version>
+                <scope>provided</scope>
             </dependency>
-
-            <dependency>
-                <groupId>org.json</groupId>
-                <artifactId>json</artifactId>
-                <version>20200518</version>
-            </dependency>-->
+            <!-- /Spring Boot -->
 
             <!-- Tests -->
             <dependency>
@@ -131,7 +113,6 @@
                 <scope>test</scope>
             </dependency>
 
-
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
@@ -140,13 +121,15 @@
             </dependency>
             <!-- /Tests -->
 
-            <!--Lombok-->
+            <!-- General -->
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
             </dependency>
+
+            <!-- /General -->
 
             <!-- Validation -->
             <dependency>
@@ -156,12 +139,22 @@
             </dependency>
             <!-- /Validation -->
 
-            <!-- Excel view -->
-            <!--<dependency>
-                <groupId>org.apache.poi</groupId>
-                <artifactId>poi-ooxml</artifactId>
-                <version>${poi-ooxml.version}</version>
-            </dependency>-->
+            <!--  XML  -->
+            <dependency>
+                <groupId>jakarta.xml.bind</groupId>
+                <artifactId>jakarta.xml.bind-api</artifactId>
+                <version>${jakarta.xml.bind-api.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <!--  /XML  -->
+
+            <!-- Plugins -->
+            <dependency>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>4.0.0-M4</version>
+            </dependency>
+            <!-- /Plugins -->
 
         </dependencies>
     </dependencyManagement>
@@ -187,6 +180,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.0.0</version>
                 <!--<configuration>
                     <mainClass>ua.findvacancies.Application</mainClass>
                 </configuration>-->

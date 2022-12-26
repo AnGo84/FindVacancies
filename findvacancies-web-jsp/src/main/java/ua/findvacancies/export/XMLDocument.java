@@ -5,6 +5,7 @@ import org.springframework.util.CollectionUtils;
 import ua.findvacancies.model.Vacancy;
 import ua.findvacancies.model.VacancyWrapper;
 
+
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

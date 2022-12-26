@@ -22,9 +22,8 @@
     <link href="<c:url value="/resources/css/responsive.dataTables.min.css"/>" rel="stylesheet" media="screen"/>
     <link href="<c:url value="/resources/css/bootstrap-select.css"/>" rel="stylesheet" media="screen"/>
 
-    <link rel="stylesheet" href="/resources/css/bootstrap-multiselect.css" type="text/css"/>
-
-    <link rel="stylesheet" href="/resources/css/app.css" type="text/css"/>
+    <link href="<c:url value="/resources/css/bootstrap-multiselect.css"/>" rel="stylesheet"/>
+    <link href="<c:url value="/resources/css/app.css"/>" rel="stylesheet"/>
 
     <script src="<c:url value="/resources/js/jquery_latest.js"/>"></script>
 
@@ -36,7 +35,7 @@
     <script src="<c:url value="/resources/js/dataTables.responsive.min.js"/>"></script>
     <%--Select--%>
     <script src="<c:url value="/resources/js/bootstrap-select.js"/>"></script>
-    <script src="/resources/js/bootstrap-multiselect.js"></script>
+    <script src="<c:url value="/resources/js/bootstrap-multiselect.js"/>"></script>
 
 </head>
 <body>

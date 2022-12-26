@@ -1,6 +1,6 @@
 package ua.findvacancies.utils;
 
-import org.jsoup.helper.StringUtil;
+import org.jsoup.internal.StringUtil;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Set;

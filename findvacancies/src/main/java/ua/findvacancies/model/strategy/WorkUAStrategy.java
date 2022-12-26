@@ -17,10 +17,14 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Slf4j
 @RequiredArgsConstructor
 public class WorkUAStrategy extends AbstractStrategy {
+    
+    private static Pattern ANY_DIGITS_PATTERN = Pattern.compile("\\d");
     private static final String DATE_FORMAT = "dd.MM.yyyy";
     private static final String DATE_FORMAT_TEXT = "dd MMMM yyyy";
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
@@ -133,8 +137,16 @@ public class WorkUAStrategy extends AbstractStrategy {
 
     private Date parseVacationDate(String dateString) {
         try {
-            dateString = dateString.substring(dateString.lastIndexOf(NON_BREAKING_SPACE_CHAR) + 1);
-            return simpleDateTextFormat.parse(dateString);
+            //dateString = dateString.substring(dateString.lastIndexOf(NON_BREAKING_SPACE_CHAR) + 1);
+            Matcher matcher = ANY_DIGITS_PATTERN.matcher(dateString);
+
+            if (matcher.find()) {
+                /*System.out.println("Start index: " + matcher.start());
+                System.out.println("End index: " + matcher.end());*/
+                dateString = dateString.substring(matcher.start());
+
+                return simpleDateTextFormat.parse(dateString);
+            }
         } catch (ParseException e) {
             log.error("Error on parsing vacancy date '{}': {}", dateString, e.getMessage(), e);
         }

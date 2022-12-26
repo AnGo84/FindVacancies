@@ -1,5 +1,6 @@
 package ua.findvacancies.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,6 @@ import ua.findvacancies.model.viewdata.ViewSearchParams;
 import ua.findvacancies.service.VacancyService;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.util.List;
@@ -64,12 +64,13 @@ public class AppController {
     }
 
     @RequestMapping(value = "/xmlExport", method = RequestMethod.GET)
-    public void xmlExport(HttpServletResponse response) {
+    public void xmlExport(HttpServletResponse response) throws JAXBException, IOException {
         log.info("Export to XML");
         try {
             new XMLDocument().build(response, vacancyList);
         } catch (JAXBException | IOException e) {
             log.error("Export to XML error: {}", e.getMessage(), e);
+            throw e;
         }
     }
 
