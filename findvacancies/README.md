@@ -15,6 +15,6 @@ The module contains classes for parsing data from sites:
 - Maven
 
 ### **Current version:**
-Release 2.0
+Release 2.1
 
 

@@ -24,9 +24,10 @@ Results table can be exporting to **XML** or **XLS** files.
 - Maven
 
 ### **Current version:**
-Release 2.0
+Release 2.1
 
 ### **Release notes:**
+**Version Release 2.1:** Switch to Java 17, separate on modules
 **Version Release 2.0:** Spring MVC replacing with Spring Boot, add Java Configuration, add JUnit 5
 **Version Release 1.1:** Spring MVC app with XML Configuration, JSP, Bootstrap 3, JUnit 4
 
