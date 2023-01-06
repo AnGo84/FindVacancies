@@ -1,0 +1,4 @@
+function ShowVacancyPopup(url){window.open(url,'','location=1, status=0, resizable=1, scrollbars=0, menubar=0, toolbar=0, height=633, width=725');}
+function ShowVacancyNoPopup(url){window.open(url,'','location=1, status=1, resizable=1, scrollbars=1, menubar=1, toolbar=1, height=725, width=1020');}
+function OpenVacancyPrintPreview(url){window.open(url,'','location=1, status=1, resizable=1, scrollbars=1, personalbar=1, toolbar=1, menubar=1, toolbar=1, width=800, height=600');}
+function OpenNewWindow(url){window.open(url);}
