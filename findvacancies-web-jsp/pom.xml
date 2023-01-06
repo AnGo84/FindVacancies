@@ -11,7 +11,7 @@
         <relativePath>../</relativePath>
     </parent>
 
-    <groupId>FindVacancies</groupId>
+    <groupId>ua.findvacancies</groupId>
     <artifactId>findvacancies-web-jsp</artifactId>
     <version>2.1</version>
     <packaging>war</packaging>
@@ -166,7 +166,7 @@
 
     </dependencies>
     <build>
-        <finalName>FindVacancies</finalName>
+        <finalName>FindVacancies-jsp</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
