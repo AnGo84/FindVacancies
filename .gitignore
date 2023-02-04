@@ -39,6 +39,7 @@
 .idea/artifacts
 .idea/compiler.xml
 .idea/jarRepositories.xml
+.idea/encodings.xml
 *.iml
 *.ipr
 

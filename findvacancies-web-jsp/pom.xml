@@ -87,7 +87,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!--JUnit-->
+        <!-- Test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -110,7 +110,7 @@
             <version>${mockito-core.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- /JUnit -->
+        <!-- /Test -->
 
         <!-- General -->
         <dependency>
