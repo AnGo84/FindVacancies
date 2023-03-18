@@ -3,6 +3,7 @@ package ua.findvacancies.ui;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -27,11 +28,18 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.AppShellSettings;
 import ua.findvacancies.utils.ViewUtils;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 @Route("")
 @PageTitle("Find Vacancies")
 public class MainView extends AppLayout implements AppShellConfigurator{
 
+    //private transient ResourceBundle resourceBundle = ResourceBundle.getBundle("messages/locales/messages", UI.getCurrent().getLocale());
+    private transient ResourceBundle resourceBundle;
+
     public MainView() {
+        resourceBundle = ResourceBundle.getBundle("messages/locales/messages", getLocale());
 
         H1 title = new H1("Find Vacancies" );
         title.getStyle().set("font-size", "var(--lumo-font-size-l)");
@@ -71,11 +79,13 @@ public class MainView extends AppLayout implements AppShellConfigurator{
         content.setPadding(false);
         content.setSizeFull();
 
-        VerticalLayout todosList = new VerticalLayout();
+        /*VerticalLayout todosList = new VerticalLayout();
         Div mainContent = getMainContextTemp(todosList);
 
         mainContent.setId("mainContent");
-        mainContent.getStyle().set("padding", " 1em");
+        mainContent.getStyle().set("padding", " 1em");*/
+
+        VacanciesView mainContent = new VacanciesView(resourceBundle);
 
         //footerWrapper.setComponentAlignment(myComponent, Alignment.MIDDLE_CENTER)
 
@@ -92,6 +102,12 @@ public class MainView extends AppLayout implements AppShellConfigurator{
         AppShellConfigurator.super.configurePage(settings);
         settings.addFavIcon("icon", "icons/icon.png", "192x192");
         settings.addLink("shortcut icon", "icons/logo_16.ico");
+    }
+
+    //public static Locale getLocale() {
+    public Locale getLocale() {
+        final UI currentUI = UI.getCurrent();
+        return currentUI == null ? Locale.getDefault() : currentUI.getLocale();
     }
 
     private Div getMainContextTemp(VerticalLayout todosList) {
@@ -195,7 +211,9 @@ public class MainView extends AppLayout implements AppShellConfigurator{
         Icon icon = new Icon(VaadinIcon.COPYRIGHT);
 
         //Label label = UIUtils.createLabel(LumoUtility.FontSize.XSMALL, LumoUtility.TextColor.BODY, "Online");
-        Label label = new Label(ViewUtils.getCopyrightInfo());
+        //Label label = new Label(ViewUtils.getCopyrightInfo());
+        Label label = new Label(resourceBundle.getString("footer.copyRight") + ViewUtils.getCopyrightCurrentYear());
+
 
         FlexLayout footer = new FlexLayout(icon, label);
         footer.getStyle().set("padding", " 0.5em");

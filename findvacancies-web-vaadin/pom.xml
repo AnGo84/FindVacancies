@@ -35,6 +35,14 @@
     </dependencyManagement>
 
     <dependencies>
+
+        <!-- Current project -->
+        <dependency>
+            <groupId>ua.findvacancies</groupId>
+            <artifactId>findvacancies</artifactId>
+        </dependency>
+        <!-- /Current project -->
+
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-spring-boot-starter</artifactId>
@@ -75,6 +83,10 @@
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ua.findvacancies</groupId>
+            <artifactId>findvacancies</artifactId>
         </dependency>
         <!-- /General -->
 

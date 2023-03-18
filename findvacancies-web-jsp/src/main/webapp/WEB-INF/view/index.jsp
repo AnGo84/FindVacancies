@@ -128,7 +128,7 @@
                 <div class="col-xs-12 search-line">
                     <form:input path="searchLine" id="searchInput" class="form-control"
                                 placeholder="Search by words"/>
-                    <h6 class="description"><spring:message code="content.explanetionText"/></h6>
+                    <h6 class="description"><spring:message code="content.explanationText"/></h6>
                 </div>
             </div>
                 <%--Sites list--%>
