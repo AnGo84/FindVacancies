@@ -23,7 +23,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <spring-boot.version>2.7.7</spring-boot.version>
+        <spring-boot.version>2.7.11</spring-boot.version>
 
         <!-- Test -->
         <junit-platform.version>1.8.2</junit-platform.version>
@@ -72,6 +72,17 @@
                 <version>${spring-boot.version}</version>
                 <scope>provided</scope>
             </dependency>
+
+            <!-- Hot deploy and live reload -->
+            <!-- https://vaadin.com/docs/latest/configuration/live-reload/spring-boot -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-devtools</artifactId>
+                <version>${spring-boot.version}</version>
+                <!--<optional>true</optional>-->
+            </dependency>
+            <!-- -->
+
             <!-- /Spring Boot -->
 
             <!-- Tests -->

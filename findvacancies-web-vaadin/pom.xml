@@ -48,6 +48,15 @@
             <artifactId>vaadin-spring-boot-starter</artifactId>
         </dependency>
 
+        <!-- Hot deploy and live reload -->
+        <!-- https://vaadin.com/docs/latest/configuration/live-reload/spring-boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- -->
+
         <!-- Test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -84,11 +93,7 @@
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
         </dependency>
-        <dependency>
-            <groupId>ua.findvacancies</groupId>
-            <artifactId>findvacancies</artifactId>
-        </dependency>
-        <!-- /General -->
+
 
     </dependencies>
 
@@ -115,10 +120,14 @@
                         </goals>
                     </execution>
                 </executions>
+                <!-- Try to change "frontend" location  -->
+                <!-- https://stackoverflow.com/questions/62479784/how-do-i-change-frontend-folder-location-and-configure-it-in-vaadin14 -->
+                <configuration>
+                    <frontendDirectory>${project.basedir}/frontend</frontendDirectory>
+                </configuration>
             </plugin>
 
             <!-- https://github.com/eirslett/frontend-maven-plugin -->
-
 
         </plugins>
 
