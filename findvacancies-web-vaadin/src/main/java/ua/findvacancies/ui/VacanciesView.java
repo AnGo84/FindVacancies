@@ -7,26 +7,26 @@ import com.vaadin.flow.component.KeyModifier;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.MultiSelectComboBox;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.H4;
-import com.vaadin.flow.component.html.H6;
+import com.vaadin.flow.component.grid.dataview.GridListDataView;
+import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.renderer.LocalDateRenderer;
-import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
-import com.vaadin.flow.data.renderer.TextRenderer;
+import com.vaadin.flow.data.renderer.*;
+import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.function.SerializablePredicate;
 import ua.findvacancies.model.Provider;
 import ua.findvacancies.model.Vacancy;
 import ua.findvacancies.model.viewdata.ViewSearchParams;
 import ua.findvacancies.service.VacancyService;
 import ua.findvacancies.utils.AppDateUtils;
-import ua.findvacancies.utils.ViewUtils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -45,8 +45,10 @@ public class VacanciesView extends HorizontalLayout {
 
     private final ViewSearchParams viewSearchParams;
     private final Grid<Vacancy> vacanciesListGrid;
+    private GridListDataView<Vacancy> vacanciesDataView;
+    private final TextField tableDataSearchTextField;
     // TEMP components
-    private final TextField buttonResult = new TextField();
+    private final TextField searchResultTextField = new TextField();
     /* Search params components*/
     private TextField searchLineTextField;
     private MultiSelectComboBox<String> searchSitesComboBox;
@@ -60,66 +62,85 @@ public class VacanciesView extends HorizontalLayout {
         this.resourceBundle = resourceBundle;
 
         viewSearchParams = vacancyService.getDefaultViewSearchParams();
-
         // Sets the width and the height of InventoryView to "100%".
         setSizeFull();
 
         vacanciesListGrid = initVacanciesListGrid();
 
-        final VerticalLayout topLayout = createSearchParamsBar();
+        final VerticalLayout searchParamsVLayout = createSearchParamsBar();
+        searchParamsVLayout.setId("searchParamsVLayout");
+        searchParamsVLayout.setPadding(false);
 
-        /*final HorizontalLayout topLayout = createTopBar();
-        grid = new ProductGrid();
-        grid.setDataProvider(dataProvider);
-        // Allows user to select a single row in the grid.
-        grid.asSingleSelect().addValueChangeListener(
-                event -> viewLogic.rowSelected(event.getValue()));
-        form = new ProductForm(viewLogic);
-        form.setCategories(DataService.get(UI.getCurrent().getLocale()).getAllCategories());
-        final VerticalLayout barAndGridLayout = new VerticalLayout();
-        barAndGridLayout.add(topLayout);
-        barAndGridLayout.add(grid);
-        barAndGridLayout.setFlexGrow(1, grid);
-        barAndGridLayout.setFlexGrow(0, topLayout);
-        barAndGridLayout.setSizeFull();
-        barAndGridLayout.expand(grid);
+        searchParamsVLayout.setSpacing(false);
 
-        add(barAndGridLayout);
-        add(form);
+        final VerticalLayout barAndGridVLayout = new VerticalLayout();
+        barAndGridVLayout.setId("barAndGridVLayout");
+        barAndGridVLayout.setFlexGrow(0, searchParamsVLayout);
+        barAndGridVLayout.setSizeFull();
 
-        viewLogic.init();*/
-        final VerticalLayout barAndGridLayout = new VerticalLayout();
-        barAndGridLayout.setFlexGrow(0, topLayout);
-        barAndGridLayout.setSizeFull();
+        barAndGridVLayout.add(searchParamsVLayout);
 
-        barAndGridLayout.add(topLayout);
+        // TODO remove test field
+        barAndGridVLayout.add(searchResultTextField);
+        //
+        tableDataSearchTextField = initTableDataSearchTextField();
 
-        // TODO
-        barAndGridLayout.add(buttonResult);
+        barAndGridVLayout.add(tableDataSearchTextField);
 
-        barAndGridLayout.add(vacanciesListGrid);
+        barAndGridVLayout.add(vacanciesListGrid);
 
-        add(barAndGridLayout);
+        add(barAndGridVLayout);
 
     }
 
+    // Filtering https://vaadin.com/docs/v23/components/grid/#filtering
+    private TextField initTableDataSearchTextField() {
+        TextField searchField = new TextField();
+        searchField.setWidth("50%");
+        searchField.setPlaceholder(resourceBundle.getString("table.search"));
+        searchField.setPrefixComponent(new Icon(VaadinIcon.SEARCH));
+        searchField.setValueChangeMode(ValueChangeMode.EAGER);
+
+        searchField.addValueChangeListener(e -> {
+            vacanciesDataView.refreshAll();
+            vacanciesDataView.setFilter(getVacancyFilterPredicate(searchField));
+        });
+
+        return searchField;
+    }
+
+    private SerializablePredicate<Vacancy> getVacancyFilterPredicate(TextField searchField) {
+        return vacancy -> {
+            String searchTerm = searchField.getValue().trim();
+
+
+            System.out.println("Search for: " + searchTerm);
+
+            if (searchTerm.isEmpty())
+                return true;
+
+            boolean matchesTitle = matchesTerm(vacancy.getTitle(), searchTerm);
+            boolean matchesCompanyName = matchesTerm(vacancy.getCompanyName(), searchTerm);
+            boolean matchesSiteName = matchesTerm(vacancy.getSiteName(), searchTerm);
+
+            return matchesTitle || matchesCompanyName || matchesSiteName;
+        };
+    }
+
+    private boolean matchesTerm(String value, String searchTerm) {
+        return value.toLowerCase().contains(searchTerm.toLowerCase());
+    }
+
     private VerticalLayout createSearchParamsBar() {
-        //Locale currentLocale = UI.getCurrent().getLocale();
 
         searchLineTextField = initSearchLineTextField();
         searchSitesComboBox = initSearchSitesComboBox();
         searchDaysIntegerField = initSearchDaysIntegerField();
 
-        /*
-        // Apply the filter to grid's data provider. TextField value is never
-        filter.addValueChangeListener(
-                event -> dataProvider.setFilter(event.getValue()));
-        */
         searchButton = initSearchButton();
 
-
         // About layout
-        final HorizontalLayout aboutLayout = new HorizontalLayout();
+        /*final HorizontalLayout aboutLayout = new HorizontalLayout();
         aboutLayout.setSizeFull();
         H4 aboutTextH4 = new H4(resourceBundle.getString("content.aboutText"));
         aboutTextH4.getStyle().set("margin", "0");
@@ -130,29 +151,28 @@ public class VacanciesView extends HorizontalLayout {
         aboutLayout.add(aboutTextH4);
         aboutLayout.add(todayIsTextH6);
         aboutLayout.setPadding(false);
-        aboutLayout.setMargin(false);
+        aboutLayout.setMargin(false);*/
         // !About layout
 
         //Search fields layout
-        HorizontalLayout searchFieldsLayout = new HorizontalLayout();
-        searchFieldsLayout.setWidthFull();
-        searchFieldsLayout.setMargin(false);
-        searchFieldsLayout.setPadding(false);
-
-        searchFieldsLayout.add(searchLineTextField);
-        searchFieldsLayout.add(searchSitesComboBox);
-        searchFieldsLayout.add(searchDaysIntegerField);
-
-        searchFieldsLayout.expand(searchFieldsLayout);
+        FormLayout searchParamsFormLayout = new FormLayout();
+        searchParamsFormLayout.setId("searchParamsFormLayout");
+        searchParamsFormLayout.add(searchLineTextField, searchSitesComboBox, searchDaysIntegerField);
+        searchParamsFormLayout.setColspan(searchLineTextField, 3);
+        searchParamsFormLayout.setColspan(searchSitesComboBox, 2);
+        searchParamsFormLayout.setResponsiveSteps(
+                // Use one column by default
+                new FormLayout.ResponsiveStep("0", 3),
+                //new FormLayout.ResponsiveStep("320px", 2),
+                new FormLayout.ResponsiveStep("700px", 6));
+        searchParamsFormLayout.setSizeFull();
         // !Search fields layout
-
 
         final VerticalLayout topLayout = new VerticalLayout();
         topLayout.setWidthFull();
-        //topLayout.setPadding(false);
 
-        topLayout.add(aboutLayout);
-        topLayout.add(searchFieldsLayout);
+        topLayout.add(searchParamsFormLayout);
+
         //topLayout.add(new H4(resourceBundle.getString("content.explanationText")));
         topLayout.add(searchButton);
 
@@ -166,13 +186,13 @@ public class VacanciesView extends HorizontalLayout {
 
     private TextField initSearchLineTextField() {
         TextField searchLineTextField = new TextField();
+        searchLineTextField.getStyle().set("padding", "0");
 
         searchLineTextField.setValue(viewSearchParams.getSearchLine());
 
         searchLineTextField.setLabel(resourceBundle.getString("content.searchText.label"));
         searchLineTextField.setPlaceholder(resourceBundle.getString("content.searchText.placeholder"));
 
-        //searchLineTextField.setPrefixComponent(new Icon("lumo", "search"));
         searchLineTextField.setPrefixComponent(VaadinIcon.SEARCH.create());
         searchLineTextField.setTooltipText(resourceBundle.getString("content.explanationText"));
         searchLineTextField.setWidthFull();
@@ -182,6 +202,7 @@ public class VacanciesView extends HorizontalLayout {
     private MultiSelectComboBox<String> initSearchSitesComboBox() {
         MultiSelectComboBox<String> searchSitesComboBox = new MultiSelectComboBox<>(
                 resourceBundle.getString("content.selectSites"));
+        searchSitesComboBox.getStyle().set("padding", "0");
 
         List<String> siteNames = Stream.of(Provider.values())
                 .map(Enum::name)
@@ -189,8 +210,7 @@ public class VacanciesView extends HorizontalLayout {
 
         searchSitesComboBox.setItems(siteNames);
         searchSitesComboBox.select(viewSearchParams.getSites());
-        //searchSitesComboBox.setItemLabelGenerator(Country::getName);
-        searchSitesComboBox.setWidth("300px");
+        //searchSitesComboBox.setWidth("300px");
         return searchSitesComboBox;
 
     }
@@ -198,6 +218,8 @@ public class VacanciesView extends HorizontalLayout {
     private IntegerField initSearchDaysIntegerField() {
         //viewSearchParams.getDays();
         IntegerField searchDaysIntegerField = new IntegerField();
+        searchDaysIntegerField.getStyle().set("padding", "0");
+
         searchDaysIntegerField.setValue(Integer.valueOf(viewSearchParams.getDays()));
         searchDaysIntegerField.setStepButtonsVisible(true);
         searchDaysIntegerField.setMin(0);
@@ -205,7 +227,7 @@ public class VacanciesView extends HorizontalLayout {
 
         searchDaysIntegerField.setLabel(resourceBundle.getString("content.searchDays.label"));
 
-        searchDaysIntegerField.setWidth("100px");
+        //searchDaysIntegerField.setWidth("100px");
         return searchDaysIntegerField;
 
     }
@@ -223,9 +245,6 @@ public class VacanciesView extends HorizontalLayout {
         // A shortcut to click the new product button by pressing ALT + N
         searchButton.addClickShortcut(Key.KEY_S, KeyModifier.CONTROL);
         searchButton.addClickListener(clickEvent -> {
-            // TODO
-            counter += 1;
-            buttonResult.setValue("Click: " + counter);
 
             // get params
             viewSearchParams.setSearchLine(searchLineTextField.getValue());
@@ -235,21 +254,33 @@ public class VacanciesView extends HorizontalLayout {
 
             vacancyList = vacancyService.getVacancyList(viewSearchParams);
             System.out.println("viewSearchParams: " + viewSearchParams);
-            vacanciesListGrid.setItems(vacancyList);
+
+            // TODO remove temp field
+            counter += 1;
+            searchResultTextField.setValue("Click: " + counter + " List size: " + vacancyList.size());
+            //
+
+            vacanciesDataView = vacanciesListGrid.setItems(vacancyList);
         });
         return searchButton;
     }
 
-    private Grid initVacanciesListGrid() {
+    private Grid<Vacancy> initVacanciesListGrid() {
         // Create a grid bound to the list
         Grid<Vacancy> grid = new Grid<>();
         grid.setSizeFull();
-        //grid.setItems(people);
-        grid.addColumn(Vacancy::getTitle).setHeader(resourceBundle.getString("content.tableFieldTitle"));
-        grid.addColumn(Vacancy::getCompanyName).setHeader(resourceBundle.getString("content.tableFieldCompany"));
-        grid.addColumn(Vacancy::getSalary).setHeader(resourceBundle.getString("content.tableFieldSalary"));
-        grid.addColumn(Vacancy::getCity).setHeader(resourceBundle.getString("content.tableFieldCity"));
-        grid.addColumn(Vacancy::getSiteName).setHeader(resourceBundle.getString("content.tableFieldSite"));
+
+        grid.addColumn(Vacancy::getTitle).setHeader(resourceBundle.getString("content.tableFieldTitle")).setSortable(true);
+        grid.addColumn(Vacancy::getCompanyName).setHeader(resourceBundle.getString("content.tableFieldCompany")).setSortable(true);
+        grid.addColumn(Vacancy::getSalary).setHeader(resourceBundle.getString("content.tableFieldSalary")).setSortable(true);
+        grid.addColumn(Vacancy::getCity).setHeader(resourceBundle.getString("content.tableFieldCity")).setSortable(true);
+
+        //grid.addColumn(Vacancy::getSiteName).setHeader(resourceBundle.getString("content.tableFieldSite")).setSortable(true);
+        grid.addComponentColumn(vacancy -> new Anchor(vacancy.getUrl(), vacancy.getSiteName()))
+                .setSortable(true)
+                .setHeader(resourceBundle.getString("content.tableFieldSite"))
+                .setId("columnURL");
+
         //grid.addColumn(Vacancy::getDate)
         grid.addColumn(
                         new TextRenderer<>(new ItemLabelGenerator<Vacancy>() {
@@ -260,8 +291,12 @@ public class VacanciesView extends HorizontalLayout {
                         })
                 )
                 .setHeader(resourceBundle.getString("content.tableFieldDate"))
+                .setSortable(true)
                 .setId("columnDateId");
-        grid.setItems(new ArrayList<>());
+        vacanciesDataView = grid.setItems(new ArrayList<>());
+
+        grid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
+
         return grid;
     }
 }
