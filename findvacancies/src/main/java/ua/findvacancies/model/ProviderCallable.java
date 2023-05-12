@@ -8,8 +8,8 @@ import java.util.concurrent.Callable;
 
 @Slf4j
 public class ProviderCallable implements Callable<List<Vacancy>> {
-    private Strategy strategy;
-    private SearchParam searchParam;
+    private final Strategy strategy;
+    private final SearchParam searchParam;
 
     public ProviderCallable(Strategy strategy, SearchParam searchParam) {
         this.strategy = strategy;
@@ -18,7 +18,7 @@ public class ProviderCallable implements Callable<List<Vacancy>> {
 
     @Override
     public List<Vacancy> call() throws Exception {
-        log.debug("Started parse strategy: {}" + strategy.getClass().getSimpleName());
+        log.debug("Started parse strategy: {}", strategy.getClass().getSimpleName());
         return strategy.getVacancies(searchParam);
     }
 }

@@ -16,7 +16,7 @@ public class ViewSearchParamsUtils {
             return Collections.emptySet();
         }
         Set<Provider> providers = viewSearchParams.getSites().stream()
-                .filter(siteName -> Provider.contains(siteName))
+                .filter(Provider::contains)
                 .map(siteName -> Provider.valueOf(siteName.toUpperCase()))
                 .collect(Collectors.toSet());
         return providers;
@@ -27,7 +27,7 @@ public class ViewSearchParamsUtils {
             return Collections.emptySet();
         }
         Set<Strategy> strategies = viewSearchParams.getSites().stream()
-                .filter(siteName -> Provider.contains(siteName))
+                .filter(Provider::contains)
                 .map(siteName -> Provider.valueOf(siteName.toUpperCase()).getStrategy())
                 .collect(Collectors.toSet());
         return strategies;
