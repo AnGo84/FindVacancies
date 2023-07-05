@@ -2,43 +2,47 @@ package ua.findvacancies.ui;
 
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.applayout.AppLayout;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.checkbox.Checkbox;
-import com.vaadin.flow.component.contextmenu.HasMenuItems;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.menubar.MenuBarVariant;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
+import com.vaadin.flow.i18n.I18NProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.lumo.LumoUtility;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import ua.findvacancies.ui.component.MenuItemComponent;
+import ua.findvacancies.ui.component.NotificationComponent;
+import ua.findvacancies.ui.localization.AppLocaleENUM;
+import ua.findvacancies.ui.localization.LocaleCookie;
 import ua.findvacancies.utils.ViewUtils;
 
 import java.util.Date;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 @Route("")
 @PageTitle("Find Vacancies")
 //
 @CssImport("./styles/app_styles.css")
+@Slf4j
 public class MainView extends AppLayout {
-    //private transient ResourceBundle resourceBundle = ResourceBundle.getBundle("messages/locales/messages", UI.getCurrent().getLocale());
-    private final transient ResourceBundle resourceBundle;
 
-    public MainView() {
-        resourceBundle = ResourceBundle.getBundle("messages/locales/messages", getLocale());
+    public MainView(@Autowired I18NProvider i18NProvider) {
 
-        HorizontalLayout navbarH = initNavBar();
+        log.info("Current locale is: {}", UI.getCurrent().getLocale() );
+
+        //cookieLang = LocaleCookie.findLocaleFromCookie();
+
+        HorizontalLayout navbarH = initNavBar(i18NProvider);
         navbarH.setId("navbarHLayout");
 
         addToNavbar(navbarH);
@@ -50,7 +54,7 @@ public class MainView extends AppLayout {
         content.setSpacing(false);
         content.setSizeFull();
 
-        VacanciesView mainContent = new VacanciesView(resourceBundle);
+        VacanciesView mainContent = new VacanciesView();
 
         content.add(mainContent);
         content.add(getFooterWrapper());
@@ -60,7 +64,7 @@ public class MainView extends AppLayout {
 
     }
 
-    private HorizontalLayout initNavBar() {
+    private HorizontalLayout initNavBar(I18NProvider i18NProvider) {
         // Title
         H1 titleH1 = new H1("Find Vacancies");
         titleH1.getStyle().set("font-size", "var(--lumo-font-size-l)").set("margin", " 0");
@@ -72,14 +76,14 @@ public class MainView extends AppLayout {
         titleVLayout.getStyle().set("padding", " 0.5em");
         titleVLayout.setMargin(false);
         // /Title
-        // Today is
 
-        H3 todayIsTextH3 = new H3(resourceBundle.getString("content.todayIsText") + " " + ViewUtils.getDateAsString(new Date(), resourceBundle.getLocale()));
+        // Today is
+        H3 todayIsTextH3 = new H3(getTranslation("content.todayIsText") + " " + ViewUtils.getDateAsString(new Date(), getLocale()));
+
         todayIsTextH3.getStyle().set("margin", "0");
         VerticalLayout todayIsVLayout = new VerticalLayout(todayIsTextH3);
         todayIsVLayout.setId("todayIsVLayout");
         todayIsVLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-
         todayIsVLayout.getStyle().set("padding", " 0.5em");
         todayIsVLayout.setMargin(false);
         // /Today is
@@ -87,10 +91,10 @@ public class MainView extends AppLayout {
         // language
         MenuBar languageMenuBar = getLanguageMenuBar();
         VerticalLayout languageMenuBarVLayout = new VerticalLayout(languageMenuBar);
+
         languageMenuBarVLayout.setId("languageMenuBarVLayout");
         languageMenuBarVLayout.getStyle().set("padding", " 0.5em");
         languageMenuBarVLayout.setWidthFull();
-        // Set the alignment
         languageMenuBarVLayout.setAlignItems(FlexComponent.Alignment.END);
         // /language
 
@@ -107,11 +111,12 @@ public class MainView extends AppLayout {
         return navbarHLayout;
     }
 
-    public Locale getLocale() {
+    /*public Locale getLocale() {
         final UI currentUI = UI.getCurrent();
         return currentUI == null ? Locale.getDefault() : currentUI.getLocale();
-    }
+    }*/
 
+    // component for selecting another language
     public MenuBar getLanguageMenuBar() {
         MenuBar menuBar = new MenuBar();
         menuBar.setId("languageMenuBar");
@@ -119,62 +124,47 @@ public class MainView extends AppLayout {
         menuBar.setOpenOnHover(true);
         menuBar.addThemeVariants(MenuBarVariant.LUMO_END_ALIGNED, MenuBarVariant.LUMO_SMALL);
 
-        MenuItem menuItemLanguage = createIconItem(menuBar, VaadinIcon.GLOBE, resourceBundle.getString("navMenu.Language"),
+        MenuItem menuItemLanguage = MenuItemComponent.createIconItem(menuBar, VaadinIcon.GLOBE, getTranslation("navMenu.language"),
                 null);
 
-        //menuBar.getStyle().set("color", "var(--lumo-header-text-color)");
-
         SubMenu subMenuLanguage = menuItemLanguage.getSubMenu();
-        MenuItem englishSubItem = subMenuLanguage.addItem(resourceBundle.getString("navMenu.Language.EN"));
-        englishSubItem.addClickListener(onClickLanguageMenuEventListener(menuItemLanguage, englishSubItem));
 
-        MenuItem ukraineSubItem = subMenuLanguage.addItem(resourceBundle.getString("navMenu.Language.UA"));
-        ukraineSubItem.addClickListener(onClickLanguageMenuEventListener(menuItemLanguage, ukraineSubItem));
+        String currentLanguage = UI.getCurrent().getLocale().getLanguage();
 
-        menuItemLanguage.getSubMenu().getItems().forEach(subMenuItem -> subMenuItem.setCheckable(true));
-        englishSubItem.setChecked(true);
+        for (AppLocaleENUM value : AppLocaleENUM.values()) {
+            MenuItem subMenuItem = subMenuLanguage.addItem(getTranslation(value.getI18Message()), onClickLanguageMenuEventListener(menuItemLanguage, value.getLocale()));
+            subMenuItem.setCheckable(true);
+            if (currentLanguage.equals(value.getLocale().getLanguage())){
+                subMenuItem.setChecked(true);
+            }
+        }
         return menuBar;
     }
 
-    // TODO remove to utils
-    private static ComponentEventListener<ClickEvent<MenuItem>> onClickLanguageMenuEventListener(MenuItem allLanguagesMenuItem, MenuItem activeMenuItem) {
-        return (ComponentEventListener<ClickEvent<MenuItem>>) event -> {setSubMenuItemCheckedValue(allLanguagesMenuItem, false); activeMenuItem.setChecked(true);};
+    private ComponentEventListener<ClickEvent<MenuItem>> onClickLanguageMenuEventListener(MenuItem allLanguagesMenuItem, Locale locale) {
+
+        return event -> {
+            saveLocalePreference(locale);
+            setSubMenuItemCheckedValue(allLanguagesMenuItem, false);
+            event.getSource().setChecked(true);
+        };
     }
+
+    private void saveLocalePreference(Locale locale) {
+        log.info("Set and save to cookie new locale: {}", locale);
+
+        UI.getCurrent().setLocale(locale);
+        UI.getCurrent().getPage().reload();
+
+        LocaleCookie.saveLocalePreference(locale);
+        NotificationComponent.basic(getTranslation("view.locale.action.saved"), Notification.Position.TOP_END);
+    }
+
     private static void setSubMenuItemCheckedValue(MenuItem menuItemLanguage, boolean isChecked) {
         menuItemLanguage.getSubMenu().getItems().forEach(subMenuItem -> subMenuItem.setChecked(isChecked));
     }
-    // /END_TODO
-    private MenuItem createIconItem(HasMenuItems menu, VaadinIcon iconName,
-                                    String label, String ariaLabel) {
-        return createIconItem(menu, iconName, label, ariaLabel, false);
-    }
-
-    private MenuItem createIconItem(HasMenuItems menu, VaadinIcon iconName,
-                                    String label, String ariaLabel, boolean isChild) {
-        Icon icon = new Icon(iconName);
-
-        if (isChild) {
-            icon.getStyle().set("width", "var(--lumo-icon-size-s)");
-            icon.getStyle().set("height", "var(--lumo-icon-size-s)");
-            icon.getStyle().set("marginRight", "var(--lumo-space-s)");
-        }
-
-        MenuItem item = menu.addItem(icon, e -> {
-        });
-
-        if (ariaLabel != null) {
-            item.getElement().setAttribute("aria-label", ariaLabel);
-        }
-
-        if (label != null) {
-            item.add(new Text(label));
-        }
-
-        return item;
-    }
 
     // TODO refactoring footer
-
     private Component getFooterWrapper() {
         FlexLayout footerWrapper = new FlexLayout();
         footerWrapper.setId("footerWrapper");
@@ -193,7 +183,7 @@ public class MainView extends AppLayout {
     private Component getOuterFooter() {
 
         Icon icon = new Icon(VaadinIcon.COPYRIGHT);
-        Label label = new Label(resourceBundle.getString("footer.copyRight") + ViewUtils.getCopyrightCurrentYear());
+        Label label = new Label(getTranslation("footer.copyRight") + ViewUtils.getCopyrightCurrentYear());
 
         FlexLayout footer = new FlexLayout(icon, label);
         footer.getStyle().set("padding", " 0.5em");

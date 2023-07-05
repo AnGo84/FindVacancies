@@ -38,6 +38,9 @@
 
         <jakarta.xml.bind-api.version>2.3.3</jakarta.xml.bind-api.version>
 
+        <!-- Excel -->
+        <poi-ooxml.version>5.2.2</poi-ooxml.version>
+
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -153,6 +156,14 @@
                 <scope>compile</scope>
             </dependency>
             <!--  /XML  -->
+
+            <!-- Excel -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi-ooxml.version}</version>
+            </dependency>
+            <!-- /Excel -->
 
             <!-- Plugins -->
             <dependency>

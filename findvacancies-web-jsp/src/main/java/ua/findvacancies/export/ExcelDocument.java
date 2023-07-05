@@ -9,6 +9,7 @@ import ua.findvacancies.utils.AppDateUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,21 +21,26 @@ public class ExcelDocument extends AbstractXlsView {
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) {
         log.info("Export to Excel");
         response.setHeader("Content-Disposition", "attachment; filename=excelVacancies.xls");
-        Sheet excelSheet = workbook.createSheet("Vacancies");
-        setExcelHeader(excelSheet, getCellStyle(workbook));
+        /*Sheet excelSheet = workbook.createSheet("Vacancies");
+        setExcelHeader(excelSheet, getCellStyle(workbook));*/
 
+        List<Vacancy> vacancyList = new ArrayList<>();
         final Object modelObject = model.get(OBJECT_NAME);
         if (modelObject != null) {
-            List<Vacancy> vacancyList = (List<Vacancy>) modelObject;
-            if (!CollectionUtils.isEmpty(vacancyList)) {
+            vacancyList = (List<Vacancy>) modelObject;
+
+            /*if (!CollectionUtils.isEmpty(vacancyList)) {
                 int rowCount = 1;
                 for (Vacancy vacancy : vacancyList) {
                     fillRowWithData(vacancy, excelSheet.createRow(rowCount++));
                 }
-                log.info("Exported to Excel {} objects", vacancyList.size());
-            }
+
+            }*/
         }
+        ExportToExcel.createSheet(workbook, vacancyList);
+        log.info("Exported to Excel {} objects", vacancyList.size());
     }
+/*
 
     private CellStyle getCellStyle(Workbook workbook) {
         CellStyle styleHeader = workbook.createCellStyle();
@@ -77,5 +83,6 @@ public class ExcelDocument extends AbstractXlsView {
         header.createCell(6).setCellValue("Date");
         header.getCell(6).setCellStyle(styleHeader);
     }
+*/
 
 }

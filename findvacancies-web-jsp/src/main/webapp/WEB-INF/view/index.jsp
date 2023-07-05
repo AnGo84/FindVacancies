@@ -79,7 +79,7 @@
                    aria-expanded="false">
                     <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
                     <%--Language--%>
-                    <spring:message code="navMenu.Language"/>
+                    <spring:message code="navMenu.language"/>
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="<%=request.getContextPath()%>?lang=en">EN</a></li>
