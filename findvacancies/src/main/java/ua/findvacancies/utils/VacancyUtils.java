@@ -1,5 +1,6 @@
 package ua.findvacancies.utils;
 
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import ua.findvacancies.model.SearchParam;
 import ua.findvacancies.model.Vacancy;
@@ -33,7 +34,7 @@ public class VacancyUtils {
         if (vacancy == null) {
             return true;
         }
-        return StringUtils.isEmpty(vacancy.getUrl());
+        return ObjectUtils.isEmpty(vacancy.getUrl());
     }
 
 }

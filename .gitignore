@@ -36,6 +36,11 @@
 .idea/modules.xml
 .idea/*.iml
 .idea/modules
+.idea/artifacts
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/encodings.xml
+
 *.iml
 *.ipr
 
@@ -95,4 +100,9 @@ fabric.properties
 target/
 
 logs/
+
+### Vaadin ###
+.vaadin-designer
+.designer
+
 # End of https://www.gitignore.io/api/java-web,intellij

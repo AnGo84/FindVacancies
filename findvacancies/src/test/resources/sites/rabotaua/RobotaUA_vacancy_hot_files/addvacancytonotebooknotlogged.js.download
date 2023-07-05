@@ -1,6 +1,0 @@
-var cityint=0;function showAddForm(){jQuery('.formAdd').dialog({appendTo:'form',modal:true,resizable:false,width:480,open:function(event,ui){$('.ui-widget-overlay').on('click',function(){$('.formAdd').dialog('close');});}});jQuery('.formAdd').dialog('open');jQuery('.formAdd').load('/Pages/service/builder_part.aspx?part='+mode);if(mode==4&&typeof(_gaq)!='undefined'){_gaq.push(['_trackEvent','Favorite','click','Vacancy_list_Registration_form']);}
-if(mode==2&&typeof(_gaq)!='undefined'){_gaq.push(['_trackEvent','Vacancy','Click','Favorites_registration_form']);}
-cityint=setInterval(_setLocation,300);}
-function hideAddForm(){jQuery('.formAdd').dialog('close');}
-function _setLocation(){if(typeof(setLocation)=='function'){setTimeout(setLocation,500);clearInterval(cityint);}}
-jQuery(document).bind('user_logged',function(){jQuery('.pnlContainerAV').show();jQuery('.pnlContainerAVUL').hide();});

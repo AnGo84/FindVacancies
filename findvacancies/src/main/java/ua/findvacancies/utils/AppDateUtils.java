@@ -10,7 +10,7 @@ import java.util.Date;
 public class AppDateUtils {
 
     public static final String DATE_FORMAT_DD_MM_YYYY = "dd.MM.yyyy";
-    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT_DD_MM_YYYY);
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT_DD_MM_YYYY);
 
     public static Date addDaysToDate(Date date, int days) {
         if (date == null) {

@@ -14,15 +14,16 @@
     <modules>
         <module>findvacancies</module>
         <module>findvacancies-web-jsp</module>
+        <module>findvacancies-web-vaadin</module>
     </modules>
 
     <properties>
         <!-- Generic properties -->
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <spring-boot.version>2.7.7</spring-boot.version>
+        <spring-boot.version>2.7.11</spring-boot.version>
 
         <!-- Test -->
         <junit-platform.version>1.8.2</junit-platform.version>
@@ -36,6 +37,9 @@
         <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
 
         <jakarta.xml.bind-api.version>2.3.3</jakarta.xml.bind-api.version>
+
+        <!-- Excel -->
+        <poi-ooxml.version>5.2.2</poi-ooxml.version>
 
     </properties>
     <dependencyManagement>
@@ -71,6 +75,17 @@
                 <version>${spring-boot.version}</version>
                 <scope>provided</scope>
             </dependency>
+
+            <!-- Hot deploy and live reload -->
+            <!-- https://vaadin.com/docs/latest/configuration/live-reload/spring-boot -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-devtools</artifactId>
+                <version>${spring-boot.version}</version>
+                <!--<optional>true</optional>-->
+            </dependency>
+            <!-- -->
+
             <!-- /Spring Boot -->
 
             <!-- Tests -->
@@ -141,6 +156,14 @@
                 <scope>compile</scope>
             </dependency>
             <!--  /XML  -->
+
+            <!-- Excel -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi-ooxml.version}</version>
+            </dependency>
+            <!-- /Excel -->
 
             <!-- Plugins -->
             <dependency>

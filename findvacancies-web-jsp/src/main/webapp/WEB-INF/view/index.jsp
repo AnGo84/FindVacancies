@@ -79,7 +79,7 @@
                    aria-expanded="false">
                     <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
                     <%--Language--%>
-                    <spring:message code="navMenu.Language"/>
+                    <spring:message code="navMenu.language"/>
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="<%=request.getContextPath()%>?lang=en">EN</a></li>
@@ -128,7 +128,7 @@
                 <div class="col-xs-12 search-line">
                     <form:input path="searchLine" id="searchInput" class="form-control"
                                 placeholder="Search by words"/>
-                    <h6 class="description"><spring:message code="content.explanetionText"/></h6>
+                    <h6 class="description"><spring:message code="content.explanationText"/></h6>
                 </div>
             </div>
                 <%--Sites list--%>
