@@ -32,7 +32,7 @@ public class VacancyService {
         List<Future<List<Vacancy>>> futuresList = strategies.stream()
                 .map(strategy -> new ProviderCallable(strategy, searchParam))
                 .map(executor::submit)
-                .collect(Collectors.toList());
+                .toList();
 
         CopyOnWriteArrayList<Vacancy> vacancyList = new CopyOnWriteArrayList<>();
 
@@ -45,7 +45,7 @@ public class VacancyService {
         }
         executor.shutdown();
 
-        Collections.sort(vacancyList, new ComparatorVacanciesByDate());
+        vacancyList.sort(new ComparatorVacanciesByDate());
         return vacancyList;
     }
 
@@ -54,7 +54,7 @@ public class VacancyService {
         for (Strategy strategy : strategies) {
             vacancyList.addAll(strategy.getVacancies(searchParam));
         }
-        Collections.sort(vacancyList, new ComparatorVacanciesByDate());
+        vacancyList.sort(new ComparatorVacanciesByDate());
         return vacancyList;
     }
 

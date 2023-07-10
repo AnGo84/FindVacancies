@@ -6,7 +6,7 @@ Build status: [![build_status](https://travis-ci.com/AnGo84/FindVacancies.svg?br
 The module contains classes for parsing data from sites:
 - [Head hunter](http://hh.ua)
 - [work.ua](http://work.ua)
-- [rabota.ua](http://rabota.ua)
+- [robota.ua](http://robota.ua)
 - [DOU.ua](http://DOU.ua)
 
 ### **For work needs:**

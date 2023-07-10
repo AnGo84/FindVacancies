@@ -13,15 +13,14 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class DOUStrategyTest {
+    private final DocumentConnect documentConnect = new DocumentConnect();
     private DOUStrategy douStrategy;
     private DocumentConnect mockDocumentConnect;
-    private final DocumentConnect documentConnect = new DocumentConnect();
 
     @BeforeEach
     public void beforeEach() {
@@ -101,7 +100,7 @@ public class DOUStrategyTest {
         when(mockDocumentConnect.getDocument(douSearchURL)).thenReturn(document);
         List<Vacancy> result = douStrategy.getVacancies(searchParam);
         assertNotNull(result);
-        assertEquals(true, result.isEmpty());
+        assertTrue(result.isEmpty());
 
     }
 
@@ -109,7 +108,7 @@ public class DOUStrategyTest {
     public void whenGetVacanciesWithWrongSearchParams_returnEmptyResult() throws IOException {
         List<Vacancy> result = douStrategy.getVacancies(null);
         assertNotNull(result);
-        assertEquals(true, result.isEmpty());
+        assertTrue(result.isEmpty());
 
         SearchParam searchParam = new SearchParam();
         String douSearchURL = String.format(douStrategy.getSiteURLPattern(), "");
@@ -117,6 +116,7 @@ public class DOUStrategyTest {
         result = douStrategy.getVacancies(searchParam);
 
         assertNotNull(result);
-        assertEquals(true, result.isEmpty());
+        assertTrue(result.isEmpty());
     }
+
 }

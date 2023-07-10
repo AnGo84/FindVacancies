@@ -22,7 +22,6 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class RabotaUAStrategy extends AbstractStrategy {
-    public static final int ELEMENTS_BEFORE_JSON = 1;
     public static final String WORD_SEPARATOR = "-";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
@@ -133,7 +132,7 @@ public class RabotaUAStrategy extends AbstractStrategy {
         try {
             return simpleDateFormat.parse(dateString);
         } catch (ParseException e) {
-            log.error("Error on parsing vacancy date '{}': {}", dateString, e.getMessage(), e);
+            log.warn("Error on parsing vacancy date '{}': {}", dateString, e.getMessage());
         }
         return new Date();
     }

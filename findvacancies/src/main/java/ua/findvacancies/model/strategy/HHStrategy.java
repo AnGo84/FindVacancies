@@ -17,7 +17,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
+/* use GRCStrategy instead */
+@Deprecated
 @Slf4j
 @RequiredArgsConstructor
 public class HHStrategy extends AbstractStrategy {
@@ -63,7 +64,7 @@ public class HHStrategy extends AbstractStrategy {
                     break;
                 }
                 Elements elements = doc.select("[data-qa=vacancy-serp__vacancy]");
-                if (elements.size() == 0) break;
+                if (CollectionUtils.isEmpty(elements)) {break;}
 
                 for (Element element : elements) {
                     String vacancyURL = element.select("[data-qa=vacancy-serp__vacancy-title]").attr("href");
@@ -121,7 +122,7 @@ public class HHStrategy extends AbstractStrategy {
             }
             return simpleDateFormat.parse(parsingDate);
         } catch (ParseException e) {
-            log.error("Error on parsing vacancy date '{}': {}", dateString, e.getMessage(), e);
+            log.warn("Error on parsing vacancy date '{}': {}", dateString, e.getMessage());
         }
         return new Date();
     }
