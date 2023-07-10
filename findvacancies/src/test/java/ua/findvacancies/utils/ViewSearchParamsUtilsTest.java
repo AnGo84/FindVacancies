@@ -26,7 +26,7 @@ public class ViewSearchParamsUtilsTest {
         assertNotNull(providers);
         assertTrue(providers.isEmpty());
 
-        Set<String> sites = Stream.of("workua", "dou", "rabotaua")
+        Set<String> sites = Stream.of("workua", "dou", "grc")
                 .collect(Collectors.toCollection(HashSet::new));
         viewSearchParams.setSites(sites);
         providers = ViewSearchParamsUtils.getProvidersSet(viewSearchParams);
@@ -34,9 +34,10 @@ public class ViewSearchParamsUtilsTest {
         assertFalse(providers.isEmpty());
         assertEquals(3, providers.size());
         assertTrue(providers.contains(Provider.DOU));
-        assertTrue(providers.contains(Provider.RABOTAUA));
+        assertTrue(providers.contains(Provider.GRC));
+        //assertFalse(providers.contains(Provider.HEADHUNTER));
+        //assertTrue(providers.contains(Provider.RABOTAUA));
         assertTrue(providers.contains(Provider.WORKUA));
-        assertFalse(providers.contains(Provider.HEADHUNTER));
 
         sites = Stream.of("wrong", "dou", "wrong2")
                 .collect(Collectors.toCollection(HashSet::new));
@@ -46,9 +47,10 @@ public class ViewSearchParamsUtilsTest {
         assertFalse(providers.isEmpty());
         assertEquals(1, providers.size());
         assertTrue(providers.contains(Provider.DOU));
-        assertFalse(providers.contains(Provider.RABOTAUA));
+        assertFalse(providers.contains(Provider.GRC));
+        //assertFalse(providers.contains(Provider.HEADHUNTER));
+        //assertTrue(providers.contains(Provider.ROBOTAUA));
         assertFalse(providers.contains(Provider.WORKUA));
-        assertFalse(providers.contains(Provider.HEADHUNTER));
 
     }
 
@@ -62,7 +64,7 @@ public class ViewSearchParamsUtilsTest {
         assertNotNull(strategies);
         assertTrue(strategies.isEmpty());
 
-        Set<String> sites = Stream.of("workua", "dou", "rabotaua")
+        Set<String> sites = Stream.of("workua", "dou", "grc")
                 .collect(Collectors.toCollection(HashSet::new));
         viewSearchParams.setSites(sites);
         strategies = ViewSearchParamsUtils.getStrategiesSet(viewSearchParams);

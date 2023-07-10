@@ -7,8 +7,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import ua.findvacancies.model.SearchParam;
 import ua.findvacancies.model.Vacancy;
+import ua.findvacancies.utils.AppStringUtils;
 
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
@@ -17,17 +19,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Slf4j
 @RequiredArgsConstructor
-public class WorkUAStrategy extends AbstractStrategy {
-    
-    private static final Pattern ANY_DIGITS_PATTERN = Pattern.compile("\\d");
-    private static final String DATE_FORMAT = "dd.MM.yyyy";
+public class GRCStrategy extends AbstractStrategy {
     private static final String DATE_FORMAT_TEXT = "dd MMMM yyyy";
-    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 
     private static final String[] months = {
             "січня", "лютого", "березня", "квітня", "травня", "червня",
@@ -46,13 +42,13 @@ public class WorkUAStrategy extends AbstractStrategy {
 
     @Override
     public String getSiteURL() {
-        return "https://work.ua";
+        return "https://grc.ua";
     }
 
 
     @Override
     public String getSiteURLPattern() {
-        return "https://www.work.ua/jobs-%s/?page=%d";
+        return "https://grc.ua/vacancies?search=%s&page=%d";
     }
 
     @Override
@@ -66,34 +62,38 @@ public class WorkUAStrategy extends AbstractStrategy {
             boolean hasData = true;
             while (hasData) {
                 String searchPageURL = String.format(getSiteURLPattern(), searchParam.getKeyWordsSearchLine(), ++pageCount);
+
+                log.debug("URL: {}", searchPageURL);
+
                 Document doc = documentConnect.getDocument(searchPageURL);
+
+                //log.info(doc.html());
+
                 if (doc == null) {
                     break;
                 }
 
-                Element vacancyListIdEl = doc.getElementById("pjax-job-list");
-                if (vacancyListIdEl == null) {
-                    break;
-                }
-                Elements vacanciesListEl = vacancyListIdEl.getElementsByClass("job-link");
+                Elements vacanciesListEl = doc.getElementsByClass("css-ax3w0k");
 
                 if (CollectionUtils.isEmpty(vacanciesListEl)) {
+                    log.debug("vacanciesListEl is null or empty");
                     break;
                 }
                 for (Element element : vacanciesListEl) {
-                    String vacancyURL = element.getElementsByTag("a").attr("href");
+                    Element vacancyEl = element.getElementsByClass("css-0").first();
+                    String vacancyURL = vacancyEl.getElementsByTag("a").attr("href");
                     if (vacancyURL.startsWith("/")) {
                         vacancyURL = getSiteURL() + vacancyURL;
                     }
                     Vacancy vacancy = getVacancy(vacancyURL);
                     vacancy.setSiteName(getSiteURL());
 
-                    checkAndAddVacancyToList(vacancy,searchParam);
+                    checkAndAddVacancyToList(vacancy, searchParam);
                 }
             }
 
         } catch (Exception e) {
-            log.error("Error on parsing WorkUA: {}", e.getMessage(), e);
+            log.error("Error on parsing GRC: {}", e.getMessage(), e);
         }
 
         return vacancies;
@@ -101,21 +101,31 @@ public class WorkUAStrategy extends AbstractStrategy {
 
     @Override
     public Vacancy getVacancy(String vacancyURL) {
+        log.debug("getVacancy: {}", vacancyURL);
         String vacancyDate = "";
         try {
             Document vacancyDoc = documentConnect.getDocument(vacancyURL);
             if (vacancyDoc != null) {
-                Element vacancyEl = vacancyDoc.getElementsByClass("wordwrap").first();
-                vacancyDate = getTextFromFirstElByClassName(vacancyEl.getElementsByClass("cut-bottom-print"), "text-muted");
+                Element vacancyEl = vacancyDoc.getElementsByClass("css-13yw1fu").first();
+                vacancyDate = vacancyEl.getElementsByClass("css-1p41x9r").text();
 
-                Element vacancyCityEl = vacancyEl.getElementsByClass("glyphicon-map-marker").first();
+                String vacancyCity = "";
+                Element vacancyCityEl = vacancyEl.getElementsByClass("css-vrn8d5-StyledContactLeft").first();
+                if (vacancyCityEl!=null){
+                    vacancyCity = vacancyCityEl.getElementsByTag("p").text();
+                }
+                String vacancySalary = "";
+                Element vacancySalaryEl = vacancyEl.getElementsByClass("css-13bru7h").first();
+                if (vacancySalaryEl!=null){
+                    vacancySalary = vacancySalaryEl.getElementsByTag("p").text();
+                }
 
                 return Vacancy.builder()
-                        .companyName(getTextFromNextTagByClassName(vacancyEl, "glyphicon-company", "b"))
-                        .title(vacancyEl.getElementById("h1-name").text())
-                        .city(vacancyCityEl.parent().text())
-                        .salary(getTextFromNextTagByClassName(vacancyEl, "glyphicon-hryvnia", "b"))
-                        .isHot(!CollectionUtils.isEmpty(vacancyEl.getElementsByClass("label-hot")))
+                        .companyName(vacancyEl.getElementsByClass("css-is0jc4-StyledContactLink").text())
+                        .title(vacancyEl.getElementsByClass("css-zugvvd").text())
+                        .city(vacancyCity)
+                        .salary(vacancySalary)
+                        //.isHot(!CollectionUtils.isEmpty(vacancyEl.getElementsByClass("label-hot")))
                         .url(vacancyURL)
                         .date(parseVacationDate(vacancyDate))
                         .build();
@@ -126,27 +136,15 @@ public class WorkUAStrategy extends AbstractStrategy {
         return new Vacancy();
     }
 
-    private String getTextFromNextTagByClassName(Element vacancyEl, String className, String tagName) {
-        try {
-            Element firstClassEl = vacancyEl.getElementsByClass(className).first();
-            return firstClassEl.nextElementSibling().getElementsByTag(tagName).first().text();
-        } catch (Exception e) {
-            return "";
-        }
-    }
-
     private Date parseVacationDate(String dateString) {
         try {
-            //dateString = dateString.substring(dateString.lastIndexOf(NON_BREAKING_SPACE_CHAR) + 1);
-            Matcher matcher = ANY_DIGITS_PATTERN.matcher(dateString);
-
-            if (matcher.find()) {
-                /*System.out.println("Start index: " + matcher.start());
-                System.out.println("End index: " + matcher.end());*/
-                dateString = dateString.substring(matcher.start());
-
-                return simpleDateTextFormat.parse(dateString);
+            int dateEndPosition = AppStringUtils.nth(dateString, " ", 3);
+            if (dateEndPosition > 0) {
+                dateString = dateString.substring(0, dateEndPosition);
             }
+
+            return simpleDateTextFormat.parse(dateString);
+
         } catch (ParseException e) {
             log.warn("Error on parsing vacancy date '{}': {}", dateString, e.getMessage());
         }

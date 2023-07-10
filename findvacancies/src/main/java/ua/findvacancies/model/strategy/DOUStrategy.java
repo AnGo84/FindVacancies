@@ -30,7 +30,7 @@ public class DOUStrategy extends AbstractStrategy {
     private static final String[] monthsUA = {
             "січня", "лютого", "березня", "квітня", "травня", "червня",
             "липня", "серпня", "вересня", "жовтня", "листопада", "грудня"};
-    private static final Locale locale = new Locale("ru");
+    private static final Locale locale = new Locale("uk");
 
     private static final DateFormatSymbols dateFormatSymbols = DateFormatSymbols.getInstance(locale);
     private static final SimpleDateFormat simpleDateFormatRU = new SimpleDateFormat(DATE_FORMAT, locale);
@@ -52,7 +52,7 @@ public class DOUStrategy extends AbstractStrategy {
 
     @Override
     public String getSiteURLPattern() {
-        return "https://jobs.dou.ua/vacancies/?search=%s&city=Киев";
+        return "https://jobs.dou.ua/vacancies/?search=%s";
     }
 
     @Override
@@ -71,7 +71,7 @@ public class DOUStrategy extends AbstractStrategy {
                 Element vacancyListIdEl = doc.getElementById("vacancyListId");
                 Element moreBtnEl = doc.getElementsByClass("more-btn").first();
                 Elements vacanciesListEl = vacancyListIdEl.getElementsByClass("l-vacancy");
-                if (vacanciesListEl.size() == 0) {
+                if (CollectionUtils.isEmpty(vacanciesListEl)) {
                     break;
                 }
 
@@ -123,14 +123,15 @@ public class DOUStrategy extends AbstractStrategy {
 
     private Date parseVacationDate(String dateString) {
         try {
-            return simpleDateFormatRU.parse(dateString);
-        } catch (ParseException e) {
-            log.error("Error on parsing vacancy date '{}': {}", dateString, e.getMessage(), e);
-        }
-        try {
             return simpleDateFormatUA.parse(dateString);
         } catch (ParseException e) {
-            log.error("Error on parsing vacancy date '{}': {}", dateString, e.getMessage(), e);
+            log.warn("Error on parsing vacancy date '{}': {}", dateString, e.getMessage());
+
+        }
+        try {
+            return simpleDateFormatRU.parse(dateString);
+        } catch (ParseException e) {
+            log.warn("Error on parsing vacancy date '{}': {}", dateString, e.getMessage());
         }
         return new Date();
     }

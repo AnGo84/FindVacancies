@@ -34,9 +34,10 @@ public class VacancyServiceTest {
         HHStrategy hhStrategy = new HHStrategy(mockDocumentConnect);
         RabotaUAStrategy rabotaUAStrategy = new RabotaUAStrategy(mockDocumentConnect);
         WorkUAStrategy workUAStrategy = new WorkUAStrategy(mockDocumentConnect);
+        GRCStrategy grcStrategy = new GRCStrategy(mockDocumentConnect);
 
         strategies = new HashSet<>(
-                Arrays.asList(douStrategy, hhStrategy, rabotaUAStrategy, workUAStrategy));
+                Arrays.asList(douStrategy, hhStrategy, rabotaUAStrategy, workUAStrategy, grcStrategy));
 
         searchParam = TestUtils.getSearchParams();
         searchParam.setDays(2000);
@@ -64,16 +65,16 @@ public class VacancyServiceTest {
                 .thenReturn(TestUtils.getDocumentByClassPath("sites/hh/HH_vacancy_without_Company_Name.html"));
 
         //mock RabotaUA
-        String rabotaSearchURL = String.format(rabotaUAStrategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(RabotaUAStrategy.WORD_SEPARATOR), 1);
+        String rabotaSearchURL = String.format(rabotaUAStrategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(RobotaUAStrategy.WORD_SEPARATOR), 1);
 
         when(mockDocumentConnect.getDocument(rabotaSearchURL))
-                .thenReturn(TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancies.html"));
+                .thenReturn(TestUtils.getDocumentByClassPath("sites/rabotaua/RabotaUA_vacancies.html"));
         when(mockDocumentConnect.getDocument("https://rabota.ua/ua/company816229/vacancy5872044"))
-                .thenReturn(TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_hot.html"));
+                .thenReturn(TestUtils.getDocumentByClassPath("sites/rabotaua/RabotaUA_vacancy_hot.html"));
         when(mockDocumentConnect.getDocument("https://rabota.ua/ua/company1042/vacancy8182405"))
-                .thenReturn(TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_with_salary.html"));
+                .thenReturn(TestUtils.getDocumentByClassPath("sites/rabotaua/RabotaUA_vacancy_with_salary.html"));
         when(mockDocumentConnect.getDocument("https://rabota.ua/ua/company794/vacancy8168568"))
-                .thenReturn(TestUtils.getDocumentByClassPath("sites/rabotaua/RobotaUA_vacancy_common.html"));
+                .thenReturn(TestUtils.getDocumentByClassPath("sites/rabotaua/RabotaUA_vacancy_common.html"));
 
         //mock WorkUA
         String workSearchURL = String.format(workUAStrategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(), 1);
@@ -86,6 +87,16 @@ public class VacancyServiceTest {
                 .thenReturn(TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancy_with_salary.html"));
         when(mockDocumentConnect.getDocument("https://www.work.ua/jobs/4031195/"))
                 .thenReturn(TestUtils.getDocumentByClassPath("sites/workua/WorkUA_vacancy_common.html"));
+
+        //mock GRC
+        String grcSearchURL = String.format(grcStrategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(), 1);
+
+        when(mockDocumentConnect.getDocument(grcSearchURL))
+                .thenReturn(TestUtils.getDocumentByClassPath("sites/grc/GRC_vacancies.html"));
+        when(mockDocumentConnect.getDocument("https://grc.ua/vacancies/69925523"))
+                .thenReturn(TestUtils.getDocumentByClassPath("sites/grc/GRC_vacancy_with_salary.html"));
+        when(mockDocumentConnect.getDocument("https://grc.ua/vacancies/69924631"))
+                .thenReturn(TestUtils.getDocumentByClassPath("sites/grc/GRC_vacancy_common.html"));
     }
 
     @Test
@@ -103,14 +114,14 @@ public class VacancyServiceTest {
 
         assertNotNull(vacancyList);
         assertFalse(vacancyList.isEmpty());
-        assertEquals(11, vacancyList.size());
+        assertEquals(13, vacancyList.size());
 
         // lazy
         List<Vacancy> vacancyList2 = vacancyService.getVacancyList(strategies, searchParam);
 
         assertNotNull(vacancyList2);
         assertFalse(vacancyList2.isEmpty());
-        assertEquals(11, vacancyList2.size());
+        assertEquals(13, vacancyList2.size());
     }
 
 }

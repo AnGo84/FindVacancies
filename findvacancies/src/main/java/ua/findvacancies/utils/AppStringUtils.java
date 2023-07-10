@@ -29,4 +29,24 @@ public class AppStringUtils {
             return 0;
         }
     }
+
+    public static int nth(String source, String pattern, int n) {
+
+        int i = 0, pos = 0, tpos = 0;
+
+        while (i < n) {
+
+            pos = source.indexOf(pattern);
+            if (pos > -1) {
+                source = source.substring(pos+1);
+                tpos += pos+1;
+                i++;
+            } else {
+                return -1;
+            }
+        }
+
+        return tpos - 1;
+    }
+
 }

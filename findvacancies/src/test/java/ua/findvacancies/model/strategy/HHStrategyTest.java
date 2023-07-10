@@ -13,15 +13,14 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class HHStrategyTest {
+    private final DocumentConnect documentConnect = new DocumentConnect();
     private HHStrategy hhStrategy;
     private DocumentConnect mockDocumentConnect;
-    private final DocumentConnect documentConnect = new DocumentConnect();
 
     @BeforeEach
     public void beforeEach() {
@@ -59,7 +58,7 @@ public class HHStrategyTest {
     public void whenGetVacanciesWithWrongDate_returnResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
         searchParam.setDays(0);
-        String searchURL = String.format(hhStrategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(),0);
+        String searchURL = String.format(hhStrategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(), 0);
 
         Document document = TestUtils.getDocumentByClassPath("sites/hh/HH_vacancies.html");
         Document documentVacancyWithWrongDate = TestUtils.getDocumentByClassPath("sites/hh/HH_vacancy_with_wrong_date.html");
@@ -81,7 +80,7 @@ public class HHStrategyTest {
     public void whenGetVacanciesWithWrongSite_returnEmptyResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
         searchParam.setDays(2000);
-        String searchURL = String.format(hhStrategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(),0);
+        String searchURL = String.format(hhStrategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(), 0);
 
         Document document = TestUtils.getDocumentByClassPath("sites/hh/HH_vacancies.html");
         Document documentVacancy = TestUtils.getDocumentByClassPath("sites/hh/HH_vacancy_with_wrong_date.html");
@@ -101,27 +100,27 @@ public class HHStrategyTest {
     public void whenGetVacanciesWithWrongVacancyLink_returnEmptyResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
         searchParam.setDays(2000);
-        String searchURL = String.format(hhStrategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(),0);
+        String searchURL = String.format(hhStrategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(), 0);
         Document document = TestUtils.getDocumentFromText("wrong text");
         when(mockDocumentConnect.getDocument(searchURL)).thenReturn(document);
         List<Vacancy> result = hhStrategy.getVacancies(searchParam);
         assertNotNull(result);
-        assertEquals(true, result.isEmpty());
-
+        assertTrue(result.isEmpty());
     }
 
     @Test
     public void whenGetVacanciesWithWrongSearchParams_returnEmptyResult() throws IOException {
         List<Vacancy> result = hhStrategy.getVacancies(null);
         assertNotNull(result);
-        assertEquals(true, result.isEmpty());
+        assertTrue(result.isEmpty());
 
         SearchParam searchParam = new SearchParam();
-        String searchURL = String.format(hhStrategy.getSiteURLPattern(), "",0);
+        String searchURL = String.format(hhStrategy.getSiteURLPattern(), "", 0);
         when(mockDocumentConnect.getDocument(searchURL)).thenReturn(null);
         result = hhStrategy.getVacancies(searchParam);
 
         assertNotNull(result);
-        assertEquals(true, result.isEmpty());
+        assertTrue(result.isEmpty());
     }
+
 }
