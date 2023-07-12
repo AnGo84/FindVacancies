@@ -94,14 +94,6 @@
 
             <!-- /Spring Boot -->
 
-            <!-- Need this to compile JSP -->
-
-            <!--<dependency>
-                <groupId>org.glassfish.web</groupId>
-                <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-            </dependency>-->
-            <!-- /Need this to compile JSP -->
-
             <!-- Tests -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>

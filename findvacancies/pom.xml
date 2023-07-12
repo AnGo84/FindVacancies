@@ -15,6 +15,7 @@
     <name>Vacancies search application domain classes</name>
     <description>Application for parsing data from sites with vacancies</description>
     <version>2.3</version>
+    <packaging>jar</packaging>
 
     <properties>
         <!-- JSON parsing -->
