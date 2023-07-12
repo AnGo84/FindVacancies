@@ -10,26 +10,27 @@ import ua.findvacancies.utils.VacancyUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractStrategy implements Strategy{
+public abstract class AbstractStrategy implements Strategy {
 
     public static final char NON_BREAKING_SPACE_CHAR = '\u00A0';
     public List<Vacancy> vacancies;
 
     public abstract String getSiteURL();
+
     public abstract String getSiteURLPattern();
 
-    public void initVacanciesList(){
+    public void initVacanciesList() {
         vacancies = new ArrayList<>();
     }
 
-    public void checkAndAddVacancyToList(Vacancy vacancy, SearchParam searchParam){
+    public void checkAndAddVacancyToList(Vacancy vacancy, SearchParam searchParam) {
         if (VacancyUtils.isApplyToSearch(vacancy, searchParam)) {
             vacancies.add(vacancy);
         }
     }
 
     public String getTextFromFirstElByClassName(Elements elements, String className) {
-        if(CollectionUtils.isEmpty(elements)){
+        if (CollectionUtils.isEmpty(elements)) {
             return "";
         }
         return getTextByClassName(elements.first(), className);
@@ -51,4 +52,5 @@ public abstract class AbstractStrategy implements Strategy{
         }
         return classEls.first().text();
     }
+
 }

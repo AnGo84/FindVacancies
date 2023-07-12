@@ -14,6 +14,12 @@ The module contains classes for parsing data from sites:
 - JDK 17
 - Maven
 
+If you are using IDEA development tools, then you can try specifying
+```
+Configurations -> Configuration -> environment -> Working directory
+```
+The value in $MODULE_DIR$ or $MODULE_WORKING_DIR$
+
 ### **Current version:**
 Release 2.1
 

@@ -31,7 +31,6 @@ import java.util.Locale;
 
 @Route("")
 @PageTitle("Find Vacancies")
-//
 @CssImport("./styles/app_styles.css")
 @Slf4j
 public class MainView extends AppLayout {
@@ -183,7 +182,7 @@ public class MainView extends AppLayout {
     private Component getOuterFooter() {
 
         Icon icon = new Icon(VaadinIcon.COPYRIGHT);
-        Label label = new Label(getTranslation("footer.copyRight") + ViewUtils.getCopyrightCurrentYear());
+        Text label = new Text(getTranslation("footer.copyRight") + ViewUtils.getCopyrightCurrentYear());
 
         FlexLayout footer = new FlexLayout(icon, label);
         footer.getStyle().set("padding", " 0.5em");

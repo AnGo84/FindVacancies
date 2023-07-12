@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 @Slf4j
 @RequiredArgsConstructor
 public class WorkUAStrategy extends AbstractStrategy {
-    
+
     private static final Pattern ANY_DIGITS_PATTERN = Pattern.compile("\\d");
     private static final String DATE_FORMAT = "dd.MM.yyyy";
     private static final String DATE_FORMAT_TEXT = "dd MMMM yyyy";
@@ -88,7 +88,7 @@ public class WorkUAStrategy extends AbstractStrategy {
                     Vacancy vacancy = getVacancy(vacancyURL);
                     vacancy.setSiteName(getSiteURL());
 
-                    checkAndAddVacancyToList(vacancy,searchParam);
+                    checkAndAddVacancyToList(vacancy, searchParam);
                 }
             }
 
@@ -109,11 +109,15 @@ public class WorkUAStrategy extends AbstractStrategy {
                 vacancyDate = getTextFromFirstElByClassName(vacancyEl.getElementsByClass("cut-bottom-print"), "text-muted");
 
                 Element vacancyCityEl = vacancyEl.getElementsByClass("glyphicon-map-marker").first();
+                String vacancyCity = "";
+                if (vacancyCityEl != null) {
+                    vacancyCity = vacancyCityEl.parent().text();
+                }
 
                 return Vacancy.builder()
                         .companyName(getTextFromNextTagByClassName(vacancyEl, "glyphicon-company", "b"))
                         .title(vacancyEl.getElementById("h1-name").text())
-                        .city(vacancyCityEl.parent().text())
+                        .city(vacancyCity)
                         .salary(getTextFromNextTagByClassName(vacancyEl, "glyphicon-hryvnia", "b"))
                         .isHot(!CollectionUtils.isEmpty(vacancyEl.getElementsByClass("label-hot")))
                         .url(vacancyURL)

@@ -3,3 +3,10 @@ spring:
     view:
       prefix: /WEB-INF/view/
       suffix: .jsp
+
+    log-request-details: true
+
+logging:
+  level:
+#    root: debug
+    web: debug

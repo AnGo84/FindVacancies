@@ -83,7 +83,7 @@
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="<%=request.getContextPath()%>?lang=en">EN</a></li>
-                    <li><a href="<%=request.getContextPath()%>?lang=ru">RU</a></li>
+                    <%--<li><a href="<%=request.getContextPath()%>?lang=ru">RU</a></li>--%>
                     <li><a href="<%=request.getContextPath()%>?lang=uk">UA</a></li>
                 </ul>
             </li>
@@ -117,18 +117,22 @@
     </c:if>
     <%--<c:if test="${not empty messageErrore}"><div>${messageErrore}</div></c:if>--%>
 
-    <form:form method="post" action="${searchVacancies_url}" modelAttribute="viewSearchParams">
+    <form:form method="POST" action="${searchVacancies_url}" modelAttribute="viewSearchParams" name="viewSearchParams">
 
         <div class="form-group row search-params">
                 <%--Search line--%>
             <div class="col-xs-12 col-lg-6">
                 <div class="has-error">
-                    <span class="error"><form:errors path="searchLine"/></span>
+                    <span class="error">
+                        <form:errors path="searchLine"/>
+                    </span>
                 </div>
                 <div class="col-xs-12 search-line">
                     <form:input path="searchLine" id="searchInput" class="form-control"
                                 placeholder="Search by words"/>
-                    <h6 class="description"><spring:message code="content.explanationText"/></h6>
+                    <h6 class="description">
+                        <spring:message code="content.explanationText"/>
+                    </h6>
                 </div>
             </div>
                 <%--Sites list--%>
@@ -266,15 +270,14 @@
             </strong></p>
         </div>
         <a class="btn btn-default export-button" href="${excelController}" role="button">
-            <img src="<c:url value="/resources/images/icon_file-xls_48_48.png"/>"/>
+            <img src="<c:url value="/resources/images/icon_file-xls_48_48.png"/>" alt="icon_file-xml_48_48.png"/>
         </a>
         <a class="btn btn-default export-button" href="${xmlController}" role="button">
-            <img src="<c:url value="/resources/images/icon_file-xml_48_48.png"/>"/>
+            <img src="<c:url value="/resources/images/icon_file-xml_48_48.png"/>" alt="icon_file-xml_48_48.png"/>
         </a>
 
     </div>
 
-    </br>
 </div>
 
 <footer id="footer" class="footer">
@@ -285,7 +288,7 @@
 
 <script>
     if ($(document).height() <= $(window).height())
-      $("footer.footer").addClass("navbar-fixed-bottom");
+        $("footer.footer").addClass("navbar-fixed-bottom");
 </script>
 
 <script>
@@ -307,7 +310,7 @@
                     "previous": '<spring:message code="table.previous" javaScriptEscape="true"/>'
                 },
                 "lengthMenu": [[10, 15, 20, 25, 50, -1], [10, 15, 20, 25, 50, "All"]],
-                "iDisplayLength": 15,
+                "iDisplayLength": 10,
                 responsive: true
             }
         );

@@ -11,7 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
 import ua.findvacancies.ui.localization.LocaleCookie;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
+
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;

@@ -1,20 +1,21 @@
 package ua.findvacancies.export;
 
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.util.CollectionUtils;
 import ua.findvacancies.model.Vacancy;
 import ua.findvacancies.model.VacancyWrapper;
 
-
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 public class XMLDocument {
@@ -36,8 +37,7 @@ public class XMLDocument {
 
         File file = new File(DEFAULT_XML_FILE_NAME);
         writeVacanciesXMLFile(file, vacancyList);
-        try (OutputStream out = response.getOutputStream();
-             FileInputStream in = new FileInputStream(file)) {
+        try (OutputStream out = response.getOutputStream(); FileInputStream in = new FileInputStream(file)) {
             byte[] buffer = new byte[4096];
             int length;
             while ((length = in.read(buffer)) > 0) {
@@ -45,11 +45,23 @@ public class XMLDocument {
             }
         }
 
+        deleteFile(file);
+
     }
 
     private void writeVacanciesXMLFile(File file, List<Vacancy> vacancyList) throws JAXBException {
         if (file != null && !CollectionUtils.isEmpty(vacancyList)) {
             marshaller.marshal(new VacancyWrapper(vacancyList), file);
+        }
+    }
+
+    private void deleteFile(File file) {
+        try {
+            if (Objects.nonNull(file)) {
+                FileUtils.delete(file);
+            }
+        } catch (IOException e) {
+            log.error("Can't delete file {}: {}", file.getName(), e.getMessage());
         }
     }
 
