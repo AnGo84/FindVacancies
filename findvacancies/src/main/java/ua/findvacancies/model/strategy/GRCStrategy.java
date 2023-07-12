@@ -7,7 +7,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
 import ua.findvacancies.model.SearchParam;
 import ua.findvacancies.model.Vacancy;
 import ua.findvacancies.utils.AppStringUtils;
@@ -102,33 +101,40 @@ public class GRCStrategy extends AbstractStrategy {
     @Override
     public Vacancy getVacancy(String vacancyURL) {
         log.debug("getVacancy: {}", vacancyURL);
-        String vacancyDate = "";
+        String vacancyDateText = "";
         try {
             Document vacancyDoc = documentConnect.getDocument(vacancyURL);
             if (vacancyDoc != null) {
                 Element vacancyEl = vacancyDoc.getElementsByClass("css-13yw1fu").first();
-                vacancyDate = vacancyEl.getElementsByClass("css-1p41x9r").text();
 
-                String vacancyCity = "";
-                Element vacancyCityEl = vacancyEl.getElementsByClass("css-vrn8d5-StyledContactLeft").first();
-                if (vacancyCityEl!=null){
-                    vacancyCity = vacancyCityEl.getElementsByTag("p").text();
-                }
-                String vacancySalary = "";
-                Element vacancySalaryEl = vacancyEl.getElementsByClass("css-13bru7h").first();
-                if (vacancySalaryEl!=null){
-                    vacancySalary = vacancySalaryEl.getElementsByTag("p").text();
-                }
+                if (vacancyEl != null) {
 
-                return Vacancy.builder()
-                        .companyName(vacancyEl.getElementsByClass("css-is0jc4-StyledContactLink").text())
-                        .title(vacancyEl.getElementsByClass("css-zugvvd").text())
-                        .city(vacancyCity)
-                        .salary(vacancySalary)
-                        //.isHot(!CollectionUtils.isEmpty(vacancyEl.getElementsByClass("label-hot")))
-                        .url(vacancyURL)
-                        .date(parseVacationDate(vacancyDate))
-                        .build();
+                    Element vacancyDateEl = vacancyEl.getElementsByClass("css-1p41x9r").first();
+                    if (vacancyDateEl != null) {
+                        vacancyDateText = vacancyDateEl.text();
+                    }
+
+                    String vacancyCity = "";
+                    Element vacancyCityEl = vacancyEl.getElementsByClass("css-vrn8d5-StyledContactLeft").first();
+                    if (vacancyCityEl != null) {
+                        vacancyCity = vacancyCityEl.getElementsByTag("p").text();
+                    }
+                    String vacancySalary = "";
+                    Element vacancySalaryEl = vacancyEl.getElementsByClass("css-13bru7h").first();
+                    if (vacancySalaryEl != null) {
+                        vacancySalary = vacancySalaryEl.getElementsByTag("p").text();
+                    }
+
+                    return Vacancy.builder()
+                            .companyName(vacancyEl.getElementsByClass("css-is0jc4-StyledContactLink").text())
+                            .title(vacancyEl.getElementsByClass("css-zugvvd").text())
+                            .city(vacancyCity)
+                            .salary(vacancySalary)
+                            //.isHot(!CollectionUtils.isEmpty(vacancyEl.getElementsByClass("label-hot")))
+                            .url(vacancyURL)
+                            .date(parseVacationDate(vacancyDateText))
+                            .build();
+                }
             }
         } catch (Exception e) {
             log.error("Error on parsing vacancy by url {}: {}", vacancyURL, e.getMessage(), e);

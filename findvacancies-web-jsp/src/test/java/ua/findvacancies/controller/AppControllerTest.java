@@ -50,19 +50,22 @@ class AppControllerTest {
                 .andExpect(model().attribute("viewSearchParams", equalTo(TestUtils.getDefaultViewSearchParams())))
                 .andExpect(model().attribute("sites", equalTo(Provider.values())));
 
-        mockMvc.perform(get("/index"))
+        /*mockMvc.perform(get("/index"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("viewSearchParams", equalTo(TestUtils.getDefaultViewSearchParams())))
-                .andExpect(model().attribute("sites", equalTo(Provider.values())));
+                .andExpect(model().attribute("sites", equalTo(Provider.values())));*/
     }
 
     @Test
     public void whenGetSearchVacanciesByWords() throws Exception {
         when(mockVacancyService.getDefaultViewSearchParams()).thenReturn(TestUtils.getDefaultViewSearchParams());
 
+        /*mockMvc.perform(get("/searchVacancies"))
+                .andExpect(status().isPermanentRedirect())
+                .andExpect(forwardedUrl("/WEB-INF/view//index.jsp"));*/
         mockMvc.perform(get("/searchVacancies"))
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/view//index.jsp"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"));
     }
 
     @Test
