@@ -4,13 +4,13 @@ Build status: [![build_status](https://travis-ci.com/AnGo84/FindVacancies.svg?br
 [![BCH compliance](https://bettercodehub.com/edge/badge/AnGo84/FindVacancies?branch=master)](https://bettercodehub.com/)
 
 The application for selection of job vacancies from most popular sites:
-- [Head hunter](http://hh.ua)
 - [work.ua](http://work.ua)
-- [rabota.ua](http://rabota.ua)
 - [DOU.ua](http://DOU.ua)
+- [grc.ua](https://grc.ua/)
 
 Separated on modules:
 - [Base logic](findvacancies/README.md)
+- [Web application with JSP](findvacancies-web-jsp/README.md)
 - [Web application with JSP](findvacancies-web-jsp/README.md)
 
 ### **For work needs:**
@@ -19,9 +19,11 @@ Separated on modules:
 - Maven
 
 ### **Current version:**
-Release 2.1
+Release 2.3
 
 ### **Release notes:**
+**Version Release 2.3:** Switch to Spring Boot 3
+**Version Release 2.2:** Add Vaadin module
 **Version Release 2.1:** Switch to Java 17, separate on modules 
 **Version Release 2.0:** Spring MVC replacing with Spring Boot, add Java Configuration, add JUnit 5
 **Version Release 1.1:** Spring MVC app with XML Configuration, JSP, Bootstrap 3, JUnit 4

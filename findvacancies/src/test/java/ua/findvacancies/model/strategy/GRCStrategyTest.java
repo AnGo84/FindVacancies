@@ -74,6 +74,7 @@ class GRCStrategyTest {
     @Test
     public void whenGetVacanciesWithWrongSite_returnEmptyResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
+        searchParam.setDays(2000);
         String searchURL = String.format(strategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(), 1);
 
         Document document = TestUtils.getDocumentByClassPath("sites/grc/GRC_vacancies.html");

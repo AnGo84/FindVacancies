@@ -2,9 +2,9 @@ package ua.findvacancies.ui.localization;
 
 import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.flow.server.VaadinService;
+import jakarta.servlet.http.Cookie;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.servlet.http.Cookie;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;

@@ -6,7 +6,7 @@
 
     <groupId>ua.findvacancies</groupId>
     <artifactId>findvacancies-service</artifactId>
-    <version>2.1</version>
+    <version>2.3</version>
     <packaging>pom</packaging>
     <name>Vacancies search application</name>
     <description>Application for parsing data from sites with vacancies</description>
@@ -23,43 +23,49 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <spring-boot.version>2.7.11</spring-boot.version>
+        <spring-boot.version>3.1.1</spring-boot.version>
 
         <!-- Test -->
-        <junit-platform.version>1.8.2</junit-platform.version>
-        <junit-jupiter.version>5.8.2</junit-jupiter.version>
+        <junit-platform.version>1.9.3</junit-platform.version>
+        <junit-jupiter.version>5.9.3</junit-jupiter.version>
 
         <mockito-core.version>4.10.0</mockito-core.version>
         <!-- /Test -->
 
-        <lombok.version>1.18.24</lombok.version>
-        <!--<hibernate-validator.version>6.1.6.Final</hibernate-validator.version>-->
-        <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
+        <lombok.version>1.18.28</lombok.version>
 
-        <jakarta.xml.bind-api.version>2.3.3</jakarta.xml.bind-api.version>
+        <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
+
+        <jakarta.xml.bind-api.version>4.0.0</jakarta.xml.bind-api.version>
 
         <!-- Excel -->
-        <poi-ooxml.version>5.2.2</poi-ooxml.version>
+        <poi-ooxml.version>5.2.3</poi-ooxml.version>
 
     </properties>
+
     <dependencyManagement>
         <dependencies>
+
             <!-- Current project -->
             <dependency>
                 <groupId>ua.findvacancies</groupId>
                 <artifactId>findvacancies</artifactId>
-                <version>2.1</version>
+                <version>2.3</version>
             </dependency>
-            <!--<dependency>
-                <groupId>ua.findvacancies</groupId>
-                <artifactId>findvacancies-web-jsp</artifactId>
-            </dependency>-->
             <!-- /Current project -->
 
             <!-- Spring Boot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
 
@@ -141,12 +147,21 @@
             <!-- /General -->
 
             <!-- Validation -->
+            <!-- add just the dependency for validation  -->
             <dependency>
                 <groupId>org.hibernate.validator</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate-validator.version}</version>
             </dependency>
             <!-- /Validation -->
+
+            <!-- Excel -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi-ooxml.version}</version>
+            </dependency>
+            <!-- /Excel -->
 
             <!--  XML  -->
             <dependency>
@@ -156,14 +171,6 @@
                 <scope>compile</scope>
             </dependency>
             <!--  /XML  -->
-
-            <!-- Excel -->
-            <dependency>
-                <groupId>org.apache.poi</groupId>
-                <artifactId>poi-ooxml</artifactId>
-                <version>${poi-ooxml.version}</version>
-            </dependency>
-            <!-- /Excel -->
 
             <!-- Plugins -->
             <dependency>
@@ -197,10 +204,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.0.0</version>
-                <!--<configuration>
-                    <mainClass>ua.findvacancies.Application</mainClass>
-                </configuration>-->
+                <version>${spring-boot.version}</version>
             </plugin>
 
             <!-- https://devcenter.heroku.com/articles/java-webapp-runner#create-a-procfile -->

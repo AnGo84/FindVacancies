@@ -32,7 +32,7 @@ public class RabotaUAStrategyTest {
     public void whenGetVacancies_returnResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
         searchParam.setDays(2000);
-        String searchURL = String.format(strategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(RobotaUAStrategy.WORD_SEPARATOR), 1);
+        String searchURL = String.format(strategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(RabotaUAStrategy.WORD_SEPARATOR), 1);
 
         Document document = TestUtils.getDocumentByClassPath("sites/rabotaua/RabotaUA_vacancies.html");
         Document documentVacancyHot = TestUtils.getDocumentByClassPath("sites/rabotaua/RabotaUA_vacancy_hot.html");
@@ -59,7 +59,7 @@ public class RabotaUAStrategyTest {
     public void whenGetVacanciesWithWrongDate_returnResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
         searchParam.setDays(0);
-        String searchURL = String.format(strategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(RobotaUAStrategy.WORD_SEPARATOR), 1);
+        String searchURL = String.format(strategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(RabotaUAStrategy.WORD_SEPARATOR), 1);
 
         Document document = TestUtils.getDocumentByClassPath("sites/rabotaua/RabotaUA_vacancies.html");
         Document documentVacancyWithSalary = TestUtils.getDocumentByClassPath("sites/rabotaua/RabotaUA_vacancy_with_salary.html");
@@ -82,7 +82,7 @@ public class RabotaUAStrategyTest {
     @Test
     public void whenGetVacanciesWithWrongSite_returnEmptyResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
-        String searchURL = String.format(strategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(RobotaUAStrategy.WORD_SEPARATOR), 1);
+        String searchURL = String.format(strategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(RabotaUAStrategy.WORD_SEPARATOR), 1);
 
         Document document = TestUtils.getDocumentByClassPath("sites/rabotaua/RabotaUA_vacancies.html");
         Document documentVacancyHot = TestUtils.getDocumentByClassPath("sites/rabotaua/RabotaUA_vacancy_hot.html");
@@ -101,7 +101,7 @@ public class RabotaUAStrategyTest {
     public void whenGetVacanciesWithWrongVacancyLink_returnEmptyResult() throws IOException {
         SearchParam searchParam = TestUtils.getSearchParams();
         searchParam.setDays(2000);
-        String searchURL = String.format(strategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(RobotaUAStrategy.WORD_SEPARATOR), 1);
+        String searchURL = String.format(strategy.getSiteURLPattern(), searchParam.getKeyWordsSearchLine(RabotaUAStrategy.WORD_SEPARATOR), 1);
         Document document = TestUtils.getDocumentFromText("wrong text");
         when(mockDocumentConnect.getDocument(searchURL)).thenReturn(document);
         List<Vacancy> result = strategy.getVacancies(searchParam);
