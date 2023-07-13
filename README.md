@@ -1,6 +1,6 @@
 # FindVacancies
-Build status: [![build_status](https://travis-ci.com/AnGo84/FindVacancies.svg?branch=master)](https://travis-ci.com/AnGo84/FindVacancies.svg) 
-[![CircleCI](https://img.shields.io/circleci/build/github/AnGo84/FindVacancies/master?token=9aee3d4ff42afd19e214490fb0eeabe61fcb019a)](https://app.circleci.com/pipelines/github/AnGo84/FindVacancies?branch=master)
+Build status: [![build_status](https://travis-ci.com/AnGo84/FindVacancies.svg?branch=master)](https://travis-ci.com/AnGo84/FindVacancies.svg)
+[![<AnGo84>](https://circleci.com/gh/AnGo84/FindVacancies.svg?style=svg)](https://app.circleci.com/pipelines/github/AnGo84/FindVacancies)
 [![BCH compliance](https://bettercodehub.com/edge/badge/AnGo84/FindVacancies?branch=master)](https://bettercodehub.com/)
 
 The application for selection of job vacancies from most popular sites:
