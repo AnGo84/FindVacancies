@@ -12,7 +12,7 @@ The application for searching for vacancies from the popular sites:
 Separated on modules:
 - [Base logic](findvacancies/README.md)
 - [Web application with JSP](findvacancies-web-jsp/README.md)
-- [Web application with JSP](findvacancies-web-jsp/README.md)
+- [Web application with Vaadin](findvacancies-web-vaadin/README.md)
 
 ### **For work needs:**
 - IDE
