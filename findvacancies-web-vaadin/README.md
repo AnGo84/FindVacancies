@@ -1,8 +1,8 @@
 # FindVacancies
 
-Web application based on Spring Boot with Vaadin for the selection of job vacancies from most popular sites:
-- [work.ua](http://work.ua)
-- [DOU.ua](http://DOU.ua)
+Web application based on Spring Boot with Vaadin for for searching for vacancies from popular sites:
+- [work.ua](https://www.work.ua/)
+- [DOU.ua](https://dou.ua/)
 - [grc.ua](https://grc.ua/)
 
 To search, you must select one or more sites, set the last days period and enter keywords.

@@ -1,11 +1,12 @@
-# FindVacancies
+# FindVacanciesfor
 Build status: [![build_status](https://travis-ci.com/AnGo84/FindVacancies.svg?branch=master)](https://travis-ci.com/AnGo84/FindVacancies.svg)
 [![<AnGo84>](https://circleci.com/gh/AnGo84/FindVacancies.svg?style=svg)](https://app.circleci.com/pipelines/github/AnGo84/FindVacancies)
-[![BCH compliance](https://bettercodehub.com/edge/badge/AnGo84/FindVacancies?branch=master)](https://bettercodehub.com/)
 
-The application for selection of job vacancies from most popular sites:
-- [work.ua](http://work.ua)
-- [DOU.ua](http://DOU.ua)
+[//]: # ([![BCH compliance]&#40;https://bettercodehub.com/edge/badge/AnGo84/FindVacancies?branch=master&#41;]&#40;https://bettercodehub.com/&#41;)
+
+The application for searching for vacancies from the popular sites:
+- [work.ua](https://www.work.ua/)
+- [DOU.ua](https://dou.ua/)
 - [grc.ua](https://grc.ua/)
 
 Separated on modules:
