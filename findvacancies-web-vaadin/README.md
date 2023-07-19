@@ -1,6 +1,6 @@
 # FindVacancies
 
-Web application based on Spring Boot with Vaadin for for searching for vacancies from popular sites:
+Web application based on Spring Boot with Vaadin for searching for vacancies from popular sites:
 - [work.ua](https://www.work.ua/)
 - [DOU.ua](https://dou.ua/)
 - [grc.ua](https://grc.ua/)
@@ -10,7 +10,7 @@ If necessary, some results can be excluded for some words. Just put the ** "-" *
 
 Results table can be exporting to **XLSX** files.
 
-#### Screenshot with example
+### Screenshot with example
 ![](src/main/resources/images/Search_result.jpg)
 
 ![](src/main/resources/images/Invalid_params.jpg)
@@ -26,4 +26,3 @@ Release 2.3
 ### **Release notes:**
 **Version Release 2.3:** Switch to Spring Boot 3 and Vaadin 24
 **Version Release 2.2:** Spring boot 2 app with Vaadin 23
-

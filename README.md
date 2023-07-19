@@ -13,6 +13,7 @@ Separated on modules:
 - [Base logic](findvacancies/README.md)
 - [Web application with JSP](findvacancies-web-jsp/README.md)
 - [Web application with Vaadin](findvacancies-web-vaadin/README.md)
+- [REST application](findvacancies-web-rest/README.md)
 
 ### **For work needs:**
 - IDE
@@ -28,6 +29,3 @@ Release 2.3
 **Version Release 2.1:** Switch to Java 17, separate on modules 
 **Version Release 2.0:** Spring MVC replacing with Spring Boot, add Java Configuration, add JUnit 5
 **Version Release 1.1:** Spring MVC app with XML Configuration, JSP, Bootstrap 3, JUnit 4
-
-
-

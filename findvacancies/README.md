@@ -13,6 +13,3 @@ The module contains classes for parsing data from sites:
 
 ### **Current version:**
 Release 2.3
-
-
-
