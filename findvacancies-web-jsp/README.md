@@ -10,7 +10,7 @@ If necessary, some results can be excluded for some words. Just put the ** "-" *
 
 Results table can be exporting to **XML** or **XLSX** files.
 
-#### Screenshot with example
+### Screenshot with example
 ![](src/main/resources/images/Search_screen.jpg)
 
 ![](src/main/resources/images/Search_result.jpg)
@@ -38,4 +38,3 @@ Release 2.3
 **Version Release 2.1:** Switch to Java 17, separate on modules
 **Version Release 2.0:** Spring MVC replacing with Spring Boot, add Java Configuration, add JUnit 5
 **Version Release 1.1:** Spring MVC app with XML Configuration, JSP, Bootstrap 3, JUnit 4
-

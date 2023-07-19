@@ -105,4 +105,5 @@ class AppControllerTest {
         vacancies.add(vacancy2);
         return vacancies;
     }
+
 }

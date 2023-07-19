@@ -88,8 +88,7 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-
-        <!-- General -->
+        <!-- /General -->
 
         <!-- Excel -->
         <dependency>
