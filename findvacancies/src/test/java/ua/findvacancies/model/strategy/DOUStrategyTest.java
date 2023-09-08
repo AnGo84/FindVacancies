@@ -18,7 +18,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class DOUStrategyTest {
-    private final DocumentConnect documentConnect = new DocumentConnect();
+
     private DOUStrategy douStrategy;
     private DocumentConnect mockDocumentConnect;
 

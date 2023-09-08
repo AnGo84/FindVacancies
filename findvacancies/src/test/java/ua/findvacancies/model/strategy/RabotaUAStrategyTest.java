@@ -18,7 +18,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class RabotaUAStrategyTest {
-    private final DocumentConnect documentConnect = new DocumentConnect();
+
     private RabotaUAStrategy strategy;
     private DocumentConnect mockDocumentConnect;
 

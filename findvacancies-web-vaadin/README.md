@@ -4,6 +4,7 @@ Web application based on Spring Boot with Vaadin for searching for vacancies fro
 - [work.ua](https://www.work.ua/)
 - [DOU.ua](https://dou.ua/)
 - [grc.ua](https://grc.ua/)
+- [djinni.co](https://djinni.co/)
 
 To search, you must select one or more sites, set the last days period and enter keywords.
 If necessary, some results can be excluded for some words. Just put the ** "-" ** in front of them. For example, to exclude junior positions for vacancies for "java developer", keywords line will be "java developer -junior".

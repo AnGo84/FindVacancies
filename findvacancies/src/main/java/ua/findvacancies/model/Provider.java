@@ -7,7 +7,9 @@ public enum Provider {
     //HEADHUNTER("HeadHunter", new HHStrategy(new DocumentConnect())),
     GRC("GRC", new GRCStrategy(new DocumentConnect())),
     //ROBOTAUA("RobotaUA", new RobotaUAStrategy(new DocumentConnect())),
-    WORKUA("WorkUA", new WorkUAStrategy(new DocumentConnect()));
+    WORKUA("WorkUA", new WorkUAStrategy(new DocumentConnect())),
+    DJINNI("Djinni", new DjinniStrategy(new DocumentConnect()))
+    ;
 
     private final String displayName;
     private final Strategy strategy;

@@ -7,6 +7,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import ua.findvacancies.model.SearchParam;
 import ua.findvacancies.model.Vacancy;
 
@@ -17,16 +18,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Slf4j
 @RequiredArgsConstructor
-public class WorkUAStrategy extends AbstractStrategy {
+public class DjinniStrategy extends AbstractStrategy {
 
-	private static final Pattern ANY_DIGITS_PATTERN = Pattern.compile("\\d");
 	private static final String DATE_FORMAT = "dd.MM.yyyy";
-	private static final String DATE_FORMAT_TEXT = "dd MMMM yyyy";
+	private static final String DATE_FORMAT_TEXT = "hh:mm dd.MM.yyyy";
 	private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 
 	private static final String[] months = {
@@ -46,14 +44,15 @@ public class WorkUAStrategy extends AbstractStrategy {
 
 	@Override
 	public String getSiteURL() {
-		return "https://work.ua";
+		return "https://djinni.co";
 	}
 
 
 	@Override
 	public String getSiteURLPattern() {
-		return "https://www.work.ua/jobs-%s/?page=%d";
+		return "https://djinni.co/jobs/?keywords=%s&page=%d";
 	}
+
 
 	@Override
 	public List<Vacancy> getVacancies(SearchParam searchParam) {
@@ -67,29 +66,61 @@ public class WorkUAStrategy extends AbstractStrategy {
 			while (hasData) {
 				String searchPageURL = String.format(getSiteURLPattern(), searchParam.getKeyWordsSearchLine(), ++pageCount);
 				Document doc = documentConnect.getDocument(searchPageURL);
-				if (doc == null) {
+				if (doc == null || doc.baseUri().endsWith("/jobs/")) {
 					break;
 				}
 
-				Element vacancyListIdEl = doc.getElementById("pjax-job-list");
+				Element vacancyListIdEl = doc.getElementsByClass("list-jobs").first();
 				if (vacancyListIdEl == null) {
 					break;
 				}
-				Elements vacanciesListEl = vacancyListIdEl.getElementsByClass("job-link");
+				Elements vacanciesListEl = vacancyListIdEl.getElementsByClass("job-list-item");
 
 				if (CollectionUtils.isEmpty(vacanciesListEl)) {
 					break;
 				}
+				//log.info("Djinni vacanciesListEl: {}", vacanciesListEl.size());
 				for (Element element : vacanciesListEl) {
-					String vacancyURL = element.getElementsByTag("a").attr("href");
+
+					Element elementVacancyURL = element.getElementsByClass("job-list-item__link").first();
+					String vacancyURL = elementVacancyURL.attr("href");
 					if (vacancyURL.startsWith("/")) {
 						vacancyURL = getSiteURL() + vacancyURL;
 					}
-					Vacancy vacancy = getVacancy(vacancyURL);
-					vacancy.setSiteName(getSiteURL());
+
+					String vacancyTitle = elementVacancyURL.text();
+
+					String vacancyCompanyName = getTextFromNextTagByClassName(element, "job-list-item__pic", "a");
+
+					Element elementCounts = element.getElementsByClass("job-list-item__counts").first();
+					Element elementDateCover = elementCounts.children().first();
+					Element elementDate = elementDateCover.children().first();
+
+					String dateString = elementDate.attr("data-original-title");
+					dateString = ObjectUtils.isEmpty(dateString) ? elementDate.attr("title") : "";
+					Date vacancyDate = parseVacationDate(dateString);
+
+					Element elementSalary = element.getElementsByClass("public-salary-item").first();
+					String vacancySalary = elementSalary == null ? "" : elementSalary.text();
+
+					Element elementLocation = element.getElementsByClass("location-text").first();
+
+					Element elementCity = elementLocation.getElementsByTag("span").first();
+					String vacancyCity = elementCity == null ? elementLocation.text() : elementCity.text();
+
+					Vacancy vacancy = Vacancy.builder()
+							.title(vacancyTitle)
+							.salary(vacancySalary)
+							.city(vacancyCity)
+							.companyName(vacancyCompanyName)
+							.siteName(getSiteURL())
+							.url(vacancyURL)
+							.date(vacancyDate)
+							.build();
 
 					checkAndAddVacancyToList(vacancy, searchParam);
 				}
+
 			}
 
 		} catch (Exception e) {
@@ -101,47 +132,13 @@ public class WorkUAStrategy extends AbstractStrategy {
 
 	@Override
 	public Vacancy getVacancy(String vacancyURL) {
-		String vacancyDate = "";
-		try {
-			Document vacancyDoc = documentConnect.getDocument(vacancyURL);
-			if (vacancyDoc != null) {
-				Element vacancyEl = vacancyDoc.getElementsByClass("wordwrap").first();
-				vacancyDate = getTextFromFirstElByClassName(vacancyEl.getElementsByClass("cut-bottom-print"), "text-muted");
-
-				Element vacancyCityEl = vacancyEl.getElementsByClass("glyphicon-map-marker").first();
-				String vacancyCity = "";
-				if (vacancyCityEl != null) {
-					vacancyCity = vacancyCityEl.parent().text();
-				}
-
-				return Vacancy.builder()
-						.companyName(getTextFromNextTagByClassName(vacancyEl, "glyphicon-company", "b"))
-						.title(vacancyEl.getElementById("h1-name").text())
-						.city(vacancyCity)
-						.salary(getTextFromNextTagByClassName(vacancyEl, "glyphicon-hryvnia", "b"))
-						.isHot(!CollectionUtils.isEmpty(vacancyEl.getElementsByClass("label-hot")))
-						.url(vacancyURL)
-						.date(parseVacationDate(vacancyDate))
-						.build();
-			}
-		} catch (Exception e) {
-			log.error("Error on parsing vacancy by url {}: {}", vacancyURL, e.getMessage(), e);
-		}
 		return new Vacancy();
 	}
 
 	private Date parseVacationDate(String dateString) {
+		//log.info("Date: {}", dateString);
 		try {
-			//dateString = dateString.substring(dateString.lastIndexOf(NON_BREAKING_SPACE_CHAR) + 1);
-			Matcher matcher = ANY_DIGITS_PATTERN.matcher(dateString);
-
-			if (matcher.find()) {
-                /*System.out.println("Start index: " + matcher.start());
-                System.out.println("End index: " + matcher.end());*/
-				dateString = dateString.substring(matcher.start());
-
-				return simpleDateTextFormat.parse(dateString);
-			}
+			return simpleDateTextFormat.parse(dateString);
 		} catch (ParseException e) {
 			log.warn("Error on parsing vacancy date '{}': {}", dateString, e.getMessage());
 		}
