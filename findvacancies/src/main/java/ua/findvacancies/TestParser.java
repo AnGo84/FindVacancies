@@ -1,6 +1,5 @@
 package ua.findvacancies;
 
-
 import ua.findvacancies.mappers.SearchParamMapper;
 import ua.findvacancies.model.Provider;
 import ua.findvacancies.model.SearchParam;
@@ -16,11 +15,11 @@ public class TestParser
     {
 //        Provider provider = new Provider(new DOUStrategy());
 //        Provider provider = new Provider(new HHStrategy());
-//        Provider provider = new Provider(new RabotaUAStrategy());
+//        Provider provider = new Provider(new RobotaUAStrategy());
 //        Provider provider = new Provider(new WorkUAStrategy());
         //String keyWords = "Java developer -senior";
-        //String keyWords = "Java developer";
-        String keyWords = "менеджер";
+        String keyWords = "Java developer";
+        //String keyWords = "менеджер";
         ViewSearchParams viewSearchParams = new ViewSearchParams(keyWords, "4", new HashSet<>());
         SearchParam searchParam = new SearchParamMapper().convert(viewSearchParams);
 
@@ -29,7 +28,7 @@ public class TestParser
 
         long startTime = System.currentTimeMillis();
 
-        List<Vacancy> vacancies = Provider.GRC.getStrategy().getVacancies(searchParam);
+        List<Vacancy> vacancies = Provider.DJINNI.getStrategy().getVacancies(searchParam);
 
         long endTime = System.currentTimeMillis();
         System.out.println("That took " + (endTime - startTime) + " milliseconds");

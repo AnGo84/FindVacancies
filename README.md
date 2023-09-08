@@ -8,6 +8,7 @@ The application for searching for vacancies from the popular sites:
 - [work.ua](https://www.work.ua/)
 - [DOU.ua](https://dou.ua/)
 - [grc.ua](https://grc.ua/)
+- [djinni.co](https://djinni.co/)
 
 Separated on modules:
 - [Base logic](findvacancies/README.md)

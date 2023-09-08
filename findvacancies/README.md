@@ -4,7 +4,8 @@ The module contains classes for parsing data from sites:
 - [work.ua](https://www.work.ua/)
 - [DOU.ua](https://dou.ua/)
 - [grc.ua](https://grc.ua/)
-
+- [djinni.co](https://djinni.co/)
+  
 ### **For work needs:**
 - IDE
 - JDK 17

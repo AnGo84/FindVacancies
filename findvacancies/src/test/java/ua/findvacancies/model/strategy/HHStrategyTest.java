@@ -18,7 +18,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class HHStrategyTest {
-    private final DocumentConnect documentConnect = new DocumentConnect();
     private HHStrategy hhStrategy;
     private DocumentConnect mockDocumentConnect;
 
