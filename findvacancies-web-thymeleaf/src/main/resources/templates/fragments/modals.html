@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Wait dialog -->
+<div th:fragment="waitModalDialog">
+    <!--<div id="waitModalDialog" class="modal" >-->
+    <div aria-hidden="true" aria-labelledby="waitModalDialogCenterTitle" class="modal fade"
+         data-bs-backdrop="static" id="waitModalDialog" tabindex="-1">
+
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" th:text="#{content.modalProcessing}">Processing...</h4>
+                </div>
+
+                <div class="modal-body text-center">
+                    <p>
+                        <span th:text="#{content.modalData}">Data is loading</span>
+                    <p class="waiting-dialog-el">
+                        <img th:src="@{/gif/timer-hourglass_240.gif}" alt="Waiting animated GIF">
+                    </p>
+                    <p>
+                        <span th:text="#{content.modalWait}">Wait...</span>
+                    </p>
+
+                </div>
+                <!--<div class="modal-footer">
+                  <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+                </div>-->
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- /Wait dialog -->
+
+</body>
+</html>
