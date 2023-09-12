@@ -26,10 +26,6 @@
         <jakarta.jsp.jstl-api.version>3.0.0</jakarta.jsp.jstl-api.version>
         <!-- /jsp -->
 
-        <!-- XML -->
-        <jaxb-impl.version>4.0.3</jaxb-impl.version>
-        <!-- /XML -->
-
     </properties>
 
     <dependencies>
@@ -134,7 +130,6 @@
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
-            <version>${jaxb-impl.version}</version>
             <scope>runtime</scope>
         </dependency>
         <!-- /XML -->

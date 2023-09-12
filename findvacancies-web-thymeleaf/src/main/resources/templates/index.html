@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html class="h-100" th:lang="${lang}"
+      th:with="lang=${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<!-- in case of multilanguage we can't just set lang="en"-->
+<!--<html lang="en">-->
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0" name="viewport">
+
+    <title>Find Vacancies</title>
+
+    <link rel="shortcut icon" th:href="@{/image/logo_16.ico}" type="image/x-icon">
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap5.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-select_1.14.0.min.css}">
+    <link rel="stylesheet" th:href="@{/fontawesome/css/all.css}">
+
+</head>
+<body class="d-flex flex-column h-100">
+<header class="header-nav">
+    <nav id="mainNav" class="navbar navbar-expand-md fixed-top bg-light p-1">
+
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">
+                <span class="me-0" th:text="#{navMenu.home}"></span>
+            </a>
+
+            <button aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"
+                    class="navbar-toggler"
+                    data-bs-target="#navbarCollapse" data-bs-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+
+                <ul class="navbar-nav me-auto">
+                    <!--<ul class="navbar-nav mx-auto"> -- position -center -->
+                    <!--<li class="nav-item">
+                        <a aria-current="page" class="nav-link" th:classappend="${pageIndex}" th:href="@{/}"
+                           th:text="#{label.action.home}">Home</a>
+                        &lt;!&ndash; active &ndash;&gt;
+                    </li>-->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <i class="fa-solid fa-file-export"></i>
+                            <span th:text="#{navMenu.export}"> Export </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" th:href="@{/excelExport}">
+                                    <i class="fa-regular fa-file-excel"></i>
+                                    <span> Excel </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" th:href="@{/xmlExport}">
+                                    <i class="fa-regular fa-file-lines"></i>
+                                    <span> XML </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="d-flex">
+                    <ul class="navbar-nav justify-content-end">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <i class="fa-solid fa-language"></i>
+                                <span th:text="#{navMenu.language}"> Language </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" th:href="@{/(lang=en)}"
+                                       th:text="#{navMenu.language.english}">EN
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" th:href="@{/(lang=uk)}"
+                                       th:text="#{navMenu.language.ukraine}">UA</a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+    </nav>
+</header>
+
+<main class="flex-shrink-0 mt-5">
+    <section id="section-top" class="container">
+        <div class="row top-row">
+            <div class="col-xs-12 col-md-8">
+                <h4 class="text-center">
+                    <span class="align-middle" th:text="#{content.aboutText}"> </span>
+                </h4>
+            </div>
+            <div class="col-xs-12 col-md-4 text-end">
+                <h6 class="text-muted">
+                    <span class="align-middle" th:text="#{content.todayIsText}"> </span>
+                    <strong class="align-middle" th:text="${#dates.format(currentDate, 'dd MMMM yyyy')}"></strong>
+                </h6>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-search" class="container my-1">
+        <form method="POST" th:action="@{/searchVacancies}" th:object="${viewSearchParams}"
+              class="needs-validation" novalidate>
+
+            <!-- Search params -->
+            <div class="row g-3">
+                <!-- Search line -->
+                <div class="col-xs-12 col-lg-6 position-relative">
+                    <input id="inputSearchLine" type="text" th:field="*{searchLine}"
+                           class="form-control" aria-label="Search by words"
+                           th:placeholder="#{content.searchLine}"
+                           th:classappend="${#fields.hasErrors('searchLine')} ? 'is-invalid'"
+                           data-bs-toggle="tooltip" data-bs-html="true" th:title="#{content.explanationText}">
+
+                    <!--<small class="text-muted" th:text="#{content.explanationText}">For exclude word set "-" before it.
+                        For example "Java Developer -Senior"</small>-->
+
+                    <!--<div class="invalid-feedback">
+                        <small>[[${#fields.errors('searchLine')}]]</small>
+                    </div>-->
+                    <div class="invalid-tooltip">
+                        <span>[[${#fields.errors('searchLine')}]]</span>
+                    </div>
+                </div>
+                <!-- Sites list -->
+                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 position-relative">
+                    <!--<label for="inputState" class="form-label">State</label>-->
+                    <!-- Do not use class selectpicker! Init by script -->
+                    <select id="selectedSites" class="w-100 border rounded" name="selectedSites"
+                            aria-label="selectedSites"
+                            th:field="*{sites}" multiple
+                            th:classappend="${#fields.hasErrors('sites')} ? 'is-invalid'">
+                        <!--<option th:value="null" th:text="#{sites.nonSelectedText}">Not selected</option>-->
+                        <option th:each="provider: ${availableProviders}"
+                                th:attr="data-tokens=${provider.displayName}"
+                                th:text="${provider.displayName}"
+                                th:value="${provider}">
+                    </select>
+                    <!--<div class="invalid-feedback">
+                        <small>[[${#fields.errors('sites')}]]</small>
+                    </div>-->
+                    <div class="invalid-tooltip">
+                        <span>[[${#fields.errors('sites')}]]</span>
+                    </div>
+
+                </div>
+                <!-- Days -->
+                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                    <div class="input-group">
+                        <label class="input-group-text" for="daysInput" th:text="#{content.vacanciesLastTest}"></label>
+                        <input th:field="*{days}" id="daysInput" class="form-control"
+                               th:classappend="${#fields.hasErrors('days')} ? 'is-invalid'"/>
+                        <label class="input-group-text rounded-end" for="daysInput" th:text="#{content.daysText}"></label>
+                        <!--<div class="invalid-feedback">
+                            <small>[[${#fields.errors('days')}]]</small>
+                        </div>-->
+                        <div class="invalid-tooltip">
+                            <span>[[${#fields.errors('days')}]]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Search params -->
+
+            <div class="form-group row mt-1">
+                <div class="col-12 text-center">
+                    <button class="btn btn-info" type="submit" style="width:200px"
+                            data-bs-target="#waitModalDialog" data-bs-toggle="modal"
+                            data-bs-backdrop="static" data-keyboard="false">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <span th:text="#{content.button.FiendVacancies}"> Search </span>
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
+    </section>
+
+    <section id="section-result-table" class="container my-1">
+        <div class="row" th:switch="*{resultVacanciesList}">
+
+            <!--<div class="col-12" th:case="null">
+              <h4>No data imported yet!</h4>
+            </div>-->
+
+            <div class="col-12">
+                <table class="table table-sm table-bordered table-hover order-column compact w-100"
+                       id="vacanciesTable">
+                    <thead class="table-light">
+                    <tr class="text-center">
+                        <!-- 0 row num -->
+                        <th class="text-center" style="width: 50px">#</th>
+                        <!-- 1 Title -->
+                        <th class="text-center align-middle"
+                            th:text="#{content.tableFieldTitle}">Title
+                        </th>
+                        <!-- 2 Company -->
+                        <th class="text-center align-middle"
+                            th:text="#{content.tableFieldCompany}">Company
+                        </th>
+                        <!-- 3 Salary -->
+                        <th class="text-center align-middle" style="width: 100px"
+                            th:text="#{content.tableFieldSalary}">Salary
+                        </th>
+                        <!-- 4 City -->
+                        <th class="text-center align-middle"
+                            th:text="#{content.tableFieldCity}">City
+                        </th>
+                        <!-- 5 Site -->
+                        <th class="text-center align-middle"
+                            th:text="#{content.tableFieldSite}">Site
+                        </th>
+                        <!-- 6 Date -->
+                        <th class="text-center align-middle" style="width: 100px" th:text="#{content.tableFieldDate}">
+                            Date
+                        </th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="vacancy,iteration : *{resultVacanciesList}">
+                        <!-- 0 -->
+                        <td class="text-center" th:text="${iteration.count}"></td>
+                        <!-- 1 -->
+                        <td class="">
+                            <a th:href="${vacancy.url}" target="_blank" th:text="${vacancy.title}"></a>
+                        </td>
+                        <!-- 2 -->
+                        <td class="text-center"
+                            th:text="${vacancy.companyName}">
+                        </td>
+                        <!-- 3 -->
+                        <td class="text-center"
+                            th:text="${vacancy.salary}">
+                        </td>
+                        <!-- 4 -->
+                        <td class=""
+                            th:text="${vacancy.city}">
+                        </td>
+                        <!-- 5 -->
+                        <td class="">
+                            <a th:href="${vacancy.siteName}" target="_blank" th:text="${vacancy.siteName}"></a>
+                        </td>
+                        <!-- 6 -->
+                        <td class="text-center" th:text="${#dates.format(vacancy.date, 'dd-MM-yyyy')}"></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </section>
+</main>
+
+
+<footer id="footer" class="footer mt-auto py-2 bg-light">
+    <div class="container text-center">
+        <span class="text-muted" th:text="#{footer.copyRight}"> © Developed by AnGo 2017-2023 </span>
+    </div>
+</footer>
+
+<div th:insert="~{fragments/modals.html :: waitModalDialog}"></div>
+
+<script th:src="@{/js/jquery-3.7.0.js}"></script>
+<script th:src="@{/js/popper_2.9.2.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/js/dataTables.bootstrap5.min.js}"></script>
+<script th:src="@{/js/bootstrap-select_1.14.0.min.js}"></script>
+
+
+<script th:inline="javascript">
+    const langMap = {
+        en: "en_US",
+        uk: "uk_UA",
+    };
+
+    //console.log("lang= " + langMap[document.documentElement.lang]);
+
+    $(document).ready(function () {
+        // https://developer.snapappointments.com/bootstrap-select/
+        $('#selectedSites').selectpicker(
+            {
+                actionsBox: true,
+                //styleBase: "form-select-sm",
+                noneSelectedText: [[#{selectpicker.noneSelectedText}]],
+                selectAllText: [[#{selectpicker.selectAllText}]],
+                deselectAllText: [[#{selectpicker.deselectAllText}]]
+                /*noneResultsText: 'Збігів не знайдено {0}',
+                countSelectedText: 'Вибрано {0} із {1}',
+                maxOptionsText: ['Досягнута межа ({n} {var} максимум)', 'Досягнута межа в групі ({n} {var} максимум)', ['items', 'item']],
+                multipleSeparator: ', ',
+                selectAllText: 'Вибрати все',
+                deselectAllText: 'Скасувати вибір усі'*/
+            }
+        );
+
+        // DataTable
+        $('#vacanciesTable').DataTable(
+            {
+                language: {
+                    //"lengthMenu": "Display _MENU_ records per page",
+                    lengthMenu: [[#{table.lengthMenu}]],
+                    zeroRecords: [[#{table.zeroRecords}]],
+                    info: [[#{table.info}]],
+                    infoEmpty: [[#{table.infoEmpty}]],
+                    infoFiltered: [[#{table.infoFiltered}]],
+                    search: [[#{table.search}]],
+                    first: [[#{table.first}]],
+                    last: [[#{table.last}]],
+                    next: [[#{table.next}]],
+                    previous: [[#{table.previous}]]
+                },
+                lengthMenu: [
+                    [10, 20, 50, 100, -1],
+                    [10, 20, 50, 100, [[#{table.show.all}]]]
+                ],
+                iDisplayLength: 10,
+            }
+        );
+    });
+</script>
+
+</body>
+</html>
