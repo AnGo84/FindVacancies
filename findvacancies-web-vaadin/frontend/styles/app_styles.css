@@ -19,3 +19,13 @@
         background: rgba(0, 0, 0, .5); /* Darkens the UI */
     }
 }
+
+vaadin-grid{
+    border-radius: .2em;
+    overflow: hidden;
+}
+
+vaadin-grid::part(header-cell) {
+    min-height: 36px;
+    background: rgba(232, 235,239, 1);
+}
