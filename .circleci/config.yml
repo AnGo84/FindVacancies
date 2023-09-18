@@ -7,12 +7,13 @@ orbs:
   maven: circleci/maven@1.3.0
   node: circleci/node@5.1.0
 
+# TODO: check is this need
 build:
   steps:
     - run:
-        name: Creating Dummy Artifacts
+        name: Creating Common Artifacts
         command: |
-          echo "my artifact file" > /findvacancies/target;
+          echo "app artifact file" > /findvacancies/target;
     - store_artifacts:
         path: /findvacancies/target
         destination: FindVacancies
@@ -28,3 +29,8 @@ workflows:
       - maven/test:
           command: '-X clean install'
           executor: java17
+          pre-steps:
+            - checkout
+            - run:
+                name: Add dependencies
+                command: mvn install:install-file -Dfile=artifacts/grid-pagination-4.0.0.jar -DgroupId=org.vaadin.klaudeta -DartifactId=grid-pagination -Dversion=4.0.0 -Dpackaging=jar -DgeneratePom=true
