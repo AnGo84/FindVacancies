@@ -20,7 +20,7 @@
     <properties>
         <!-- JSON parsing -->
         <jsoup.version>1.16.1</jsoup.version>
-        <json.version>20230618</json.version>
+        <json.version>20231013</json.version>
         <!-- /JSON parsing -->
     </properties>
 
