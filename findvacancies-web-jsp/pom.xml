@@ -21,10 +21,12 @@
     <properties>
 
         <!-- jsp -->
-        <tomcat-embed-jasper.version>10.1.10</tomcat-embed-jasper.version>
+        <tomcat-embed-jasper.version>10.1.17</tomcat-embed-jasper.version>
         <jakarta.jsp.jstl.version>3.0.1</jakarta.jsp.jstl.version>
         <jakarta.jsp.jstl-api.version>3.0.0</jakarta.jsp.jstl-api.version>
         <!-- /jsp -->
+
+        <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
 
     </properties>
 
@@ -147,7 +149,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.4.0</version>
+                <version>${maven-war-plugin.version}</version>
             </plugin>
 
             <!-- https://devcenter.heroku.com/articles/java-webapp-runner#create-a-procfile -->
@@ -166,7 +168,7 @@
                                 <artifactItem>
                                     <groupId>com.github.jsimone</groupId>
                                     <artifactId>webapp-runner</artifactId>
-                                    <version>9.0.11.0</version>
+                                    <version>9.0.27.1</version>
                                     <destFileName>webapp-runner.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
