@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>findvacancies</artifactId>
-    <name>Vacancies search application domain classes</name>
+    <name>Find vacancies common classes</name>
     <description>Application for parsing data from sites with vacancies</description>
     <version>2.3</version>
     <packaging>jar</packaging>

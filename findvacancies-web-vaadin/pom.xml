@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>findvacancies-web-vaadin</artifactId>
-    <name>Vacancies search application with vaadin</name>
+    <name>Find vacancies Vaadin</name>
     <description>Application for parsing data from sites with vacancies with Vaadin</description>
     <version>2.3</version>
 
@@ -110,15 +110,22 @@
     </dependencies>
 
     <build>
-        <finalName>FindVacancies-vaadin</finalName>
+        <finalName>find-vacancies-vaadin</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
+                <!--<version>${spring-boot.version}</version>-->
                 <!--<configuration>
                     <mainClass>ua.findvacancies.ui.MainView</mainClass>
                 </configuration>-->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>

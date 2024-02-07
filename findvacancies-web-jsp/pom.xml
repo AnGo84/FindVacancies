@@ -15,8 +15,12 @@
     <version>2.3</version>
     <packaging>war</packaging>
 
-    <name>Vacancies search application with web interface on JSP</name>
-    <description>Application for parsing data from sites with vacancies with MVC</description>
+    <!--<name>Vacancies search application with web interface on JSP</name>
+    <description>Application for parsing data from sites with vacancies with MVC</description>-->
+
+    <name>Find vacancies JSP</name>
+    <description>Application for parsing data from sites based on JSP</description>
+
 
     <properties>
 
@@ -139,12 +143,19 @@
     </dependencies>
 
     <build>
-        <finalName>FindVacancies-jsp</finalName>
+        <finalName>find-vacancies-jsp</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
+                <!--<version>${spring-boot.version}</version>-->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

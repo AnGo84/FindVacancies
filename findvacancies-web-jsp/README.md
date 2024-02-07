@@ -30,6 +30,11 @@ Configurations -> Configuration -> environment -> Working directory
 ```
 The value in $MODULE_DIR$ or $MODULE_WORKING_DIR$
 
+### **Create Docker build**
+From project root:
+```
+docker build -f findvacancies-web-jsp\Dockerfile -t fv-jsp .
+```
 
 ### **Current version:**
 Release 2.3

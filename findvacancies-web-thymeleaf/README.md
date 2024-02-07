@@ -27,5 +27,11 @@ Results table can be exporting to **XML** or **XLSX** files.
 ### **Current version:**
 Release 2.3
 
+### **Create Docker build**
+From project root:
+```
+docker build -f findvacancies-web-thymeleaf\Dockerfile -t fv-thymeleaf .
+```
+
 ### **Release notes:**
 **Version Release 2.3:** Add Thymeleaf module

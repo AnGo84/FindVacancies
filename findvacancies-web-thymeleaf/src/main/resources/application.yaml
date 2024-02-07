@@ -3,7 +3,7 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} | %-5level | %logger{1.} | %msg%n"
   level:
-    web: ${LOG_LEVEL:info}
-    root: INFO
+    web: ${LOG_LEVEL_WEB:info}
+    root: ${LOG_LEVEL:info}
     ua:
       findvacancies: ${LOG_LEVEL:info}
