@@ -35,5 +35,12 @@ You can see:
 - JDK 17
 - Maven
 
+
+### **Create Docker build**
+From project root:
+```
+docker build -f findvacancies-web-rest\Dockerfile -t fv-rest .
+```
+
 ### **Current version:**
 Release 2.3

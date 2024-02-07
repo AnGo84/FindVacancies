@@ -30,3 +30,8 @@ Release 2.3
 **Version Release 2.1:** Switch to Java 17, separate on modules 
 **Version Release 2.0:** Spring MVC replacing with Spring Boot, add Java Configuration, add JUnit 5
 **Version Release 1.1:** Spring MVC app with XML Configuration, JSP, Bootstrap 3, JUnit 4
+
+### **ToDo:**
+- add Docker files
+- add Docker-compose
+- fix jsp run in container

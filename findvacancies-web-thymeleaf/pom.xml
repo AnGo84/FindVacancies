@@ -2,16 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>ua.findvacancies</groupId>
 		<artifactId>findvacancies-service</artifactId>
 		<version>2.3</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>findvacancies-web-thymeleaf</artifactId>
 	<version>2.3</version>
-	<name>findvacancies-web-thymeleaf</name>
-	<description>findvacancies-web-thymeleaf</description>
+	<name>Find vacancies thymeleaf</name>
+	<description>Application for parsing data from sites based on thymeleaf</description>
 
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
@@ -87,10 +89,18 @@
 	</dependencies>
 
 	<build>
+		<finalName>find-vacancies-thymeleaf</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
