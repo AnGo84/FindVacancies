@@ -7,6 +7,7 @@ WORKDIR $HOME
 ADD pom.xml $HOME
 
 ADD findvacancies/pom.xml $HOME/findvacancies/pom.xml
+ADD findvacancies-web-flux/pom.xml $HOME/findvacancies-web-flux/pom.xml
 ADD findvacancies-web-jsp/pom.xml $HOME/findvacancies-web-jsp/pom.xml
 ADD findvacancies-web-rest/pom.xml $HOME/findvacancies-web-rest/pom.xml
 ADD findvacancies-web-thymeleaf/pom.xml $HOME/findvacancies-web-thymeleaf/pom.xml

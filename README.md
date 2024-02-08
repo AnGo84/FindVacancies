@@ -15,6 +15,7 @@ Separated on modules:
 - [Web application with JSP](findvacancies-web-jsp/README.md)
 - [Web application with Vaadin](findvacancies-web-vaadin/README.md)
 - [REST application](findvacancies-web-rest/README.md)
+- [Webflux application](findvacancies-web-flux/README.md)
 
 ### **For work needs:**
 - IDE
