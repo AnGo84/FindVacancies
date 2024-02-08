@@ -14,9 +14,10 @@
     <modules>
         <module>findvacancies</module>
         <module>findvacancies-web-jsp</module>
-        <module>findvacancies-web-vaadin</module>
         <module>findvacancies-web-rest</module>
         <module>findvacancies-web-thymeleaf</module>
+        <module>findvacancies-web-vaadin</module>
+        <module>findvacancies-web-flux</module>
     </modules>
 
     <properties>
@@ -50,6 +51,7 @@
         <poi-ooxml.version>5.2.5</poi-ooxml.version>
         <!-- /Excel -->
 
+        <springdoc-openapi.version>2.3.0</springdoc-openapi.version>
     </properties>
 
     <dependencyManagement>
@@ -110,6 +112,12 @@
                 <artifactId>spring-boot-devtools</artifactId>
                 <version>${spring-boot.version}</version>
                 <!--<optional>true</optional>-->
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-webflux</artifactId>
+                <version>${spring-boot.version}</version>
             </dependency>
             <!-- -->
 
@@ -175,6 +183,14 @@
                 <version>${hibernate-validator.version}</version>
             </dependency>
             <!-- /Validation -->
+
+            <!-- Swagger -->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc-openapi.version}</version>
+            </dependency>
+            <!-- /Swagger -->
 
             <!-- Excel -->
             <dependency>

@@ -1,0 +1,3 @@
+spring:
+  messages:
+    basename: classpath:messages/i18n/messages

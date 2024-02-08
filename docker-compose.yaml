@@ -40,5 +40,18 @@ services:
     #stdin_open: true
     #tty: true
 
+  app-web-flux:
+    build:
+      context: .
+      dockerfile: ./findvacancies-web-flux/Dockerfile
+    restart: on-failure
+    env_file: ./.env
+    ports:
+      - "8085:8080"
+    volumes:
+      - .m2:/root/.m2
+    #stdin_open: true
+    #tty: true
+
 
 

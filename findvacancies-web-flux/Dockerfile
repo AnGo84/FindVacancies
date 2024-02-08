@@ -16,14 +16,14 @@ ADD findvacancies-web-vaadin/pom.xml $HOME/findvacancies-web-vaadin/pom.xml
 RUN mvn -pl findvacancies verify --fail-never
 ADD findvacancies $HOME/findvacancies
 RUN mvn -pl findvacancies install
-RUN mvn -pl findvacancies-web-thymeleaf verify --fail-never
-ADD findvacancies-web-thymeleaf $HOME/findvacancies-web-thymeleaf
-RUN mvn -pl findvacancies,findvacancies-web-thymeleaf package
 
-#FROM eclipse-temurin:17-jre-alpine
+RUN mvn -pl findvacancies-web-flux verify --fail-never
+ADD findvacancies-web-flux $HOME/findvacancies-web-flux
+RUN mvn -pl findvacancies,findvacancies-web-flux package
+
 FROM openjdk:17-jdk-slim
-COPY --from=build /usr/app/findvacancies-web-thymeleaf/target/find-vacancies-thymeleaf*.jar /app/find-vacancies-thymeleaf.jar
+COPY --from=build /usr/app/findvacancies-web-flux/target/find-vacancies-web-flux*.jar /app/find-vacancies-web-flux.jar
 
 EXPOSE 8080
 
-ENTRYPOINT java -jar /app/find-vacancies-thymeleaf.jar
+ENTRYPOINT java -jar /app/find-vacancies-web-flux.jar
