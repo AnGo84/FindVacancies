@@ -22,8 +22,26 @@ ADD findvacancies-web-flux $HOME/findvacancies-web-flux
 RUN mvn -pl findvacancies,findvacancies-web-flux package
 
 FROM openjdk:17-jdk-slim
-COPY --from=build /usr/app/findvacancies-web-flux/target/find-vacancies-web-flux*.jar /app/find-vacancies-web-flux.jar
+
+ENV \
+    USER_NAME=loto1001 \
+    USER_NAME_ID=1000 \
+    USER_GROUP_ID=1000 \
+    WORKDIR=/usr/src/java
+
+WORKDIR ${WORKDIR}
+
+# create and set non-root USER
+RUN set -xe \
+    && groupadd -g ${USER_GROUP_ID} ${USER_NAME} \
+    && adduser --home ${WORKDIR} --shell /bin/bash --no-create-home --disabled-password \
+    --gecos "" --ingroup ${USER_NAME} --uid ${USER_NAME_ID} ${USER_NAME} \
+    && chown -R ${USER_NAME}:${USER_NAME} ${WORKDIR}
+
+COPY --from=build --chown="${USER_NAME}:${USER_NAME}" /usr/app/findvacancies-web-flux/target/find-vacancies-web-flux*.jar /app/find-vacancies-web-flux.jar
 
 EXPOSE 8080
 
 ENTRYPOINT java -jar /app/find-vacancies-web-flux.jar
+
+USER ${USERNAME}

@@ -19,8 +19,8 @@
 
     <properties>
         <!-- JSON parsing -->
-        <jsoup.version>1.17.1</jsoup.version>
-        <json.version>20231013</json.version>
+        <jsoup.version>1.17.2</jsoup.version>
+        <json.version>20240205</json.version>
         <!-- /JSON parsing -->
     </properties>
 
