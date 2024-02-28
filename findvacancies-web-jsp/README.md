@@ -11,13 +11,27 @@ If necessary, some results can be excluded for some words. Just put the ** "-" *
 
 Results table can be exporting to **XML** or **XLSX** files.
 
-### Screenshot with example
-![](src/main/resources/images/Search_screen.jpg)
 
-![](src/main/resources/images/Search_result.jpg)
+<details><summary><b>Screenshot with example:</b></summary>
 
-![](src/main/resources/images/Invalid_params.jpg)
+| ![](src/main/resources/images/Search_result.jpg) |
+|:------------------------------------------------:|
+|               *Page with results*                |
 
+| ![](src/main/resources/images/Search_screen.jpg) |
+|:------------------------------------------------:|
+|                 *Waiting dialog*                 |
+
+| ![](src/main/resources/images/Invalid_params.jpg) |
+|:-------------------------------------------------:|
+|                *Validation errors*                |
+</details>
+
+### Technology stack:
+- Framework: Spring boot 3
+- Build: Maven
+- Containers: Docker, Docker-compose
+- Front: jsp, Bootstrap
 
 ### **For work needs:**
 - IDE
