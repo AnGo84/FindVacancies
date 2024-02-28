@@ -22,6 +22,12 @@ Separated on modules:
 - JDK 17
 - Maven
 
+### **Local deploy**
+From project root:
+```
+docker-compose up
+```
+
 ### **Current version:**
 Release 2.3
 
