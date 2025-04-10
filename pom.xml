@@ -44,7 +44,7 @@
         <!-- /XML -->
 
         <!-- Excel -->
-        <poi-ooxml.version>5.2.5</poi-ooxml.version>
+        <poi-ooxml.version>5.4.0</poi-ooxml.version>
         <!-- /Excel -->
 
         <springdoc-openapi.version>2.3.0</springdoc-openapi.version>
