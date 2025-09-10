@@ -4,9 +4,7 @@ import ua.findvacancies.model.strategy.*;
 
 public enum Provider {
     DOU("DOU", new DOUStrategy(new DocumentConnect())),
-    //HEADHUNTER("HeadHunter", new HHStrategy(new DocumentConnect())),
     GRC("GRC", new GRCStrategy(new DocumentConnect())),
-    //ROBOTAUA("RobotaUA", new RobotaUAStrategy(new DocumentConnect())),
     WORKUA("WorkUA", new WorkUAStrategy(new DocumentConnect())),
     DJINNI("Djinni", new DjinniStrategy(new DocumentConnect()))
     ;

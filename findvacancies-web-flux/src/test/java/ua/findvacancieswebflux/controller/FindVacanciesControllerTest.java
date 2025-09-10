@@ -67,7 +67,7 @@ class FindVacanciesControllerTest {
 				.expectStatus().isBadRequest()
 
 				.expectBody()
-				.consumeWith(System.out::println)
+				//.consumeWith(System.out::println)
 				.jsonPath("$.errors").isMap()
 				.jsonPath("$.errors.length()").isEqualTo(3)
 				.jsonPath("$.errors").value(Matchers.hasKey("searchLine"))

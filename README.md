@@ -28,10 +28,19 @@ From project root:
 docker-compose up
 ```
 
+### **Maven plugins:**
+
+The org.codehaus.mojo:versions-maven-plugin is a super handy Maven plugin for managing and auditing dependency versions in your project
+mvn versions:display-dependency-updates
+
+
+
+
 ### **Current version:**
-Release 2.3
+Release 3.0
 
 ### **Release notes:**
+- **Version Release 3.0:** Switch to Java 24
 - **Version Release 2.3:** Switch to Spring Boot 3
 - **Version Release 2.2:** Add Vaadin module
 - **Version Release 2.1:** Switch to Java 17, separate on modules 

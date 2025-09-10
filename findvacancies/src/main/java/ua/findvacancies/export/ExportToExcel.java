@@ -38,7 +38,7 @@ public class ExportToExcel {
         }
     }
 
-    private static void setExcelHeader(org.apache.poi.ss.usermodel.Sheet excelSheet, CellStyle styleHeader) {
+    private static void setExcelHeader(Sheet excelSheet, CellStyle styleHeader) {
         //set Excel Header names
         Row header = excelSheet.createRow(0);
         header.createCell(0).setCellValue("Title");

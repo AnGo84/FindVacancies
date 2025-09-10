@@ -1,0 +1,11 @@
+# Enable all Actuator endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+# Optional: Change the base path for Actuator endpoint
+#    base-path: /monitor

@@ -6,20 +6,15 @@
     <parent>
         <groupId>ua.findvacancies</groupId>
         <artifactId>findvacancies-service</artifactId>
-        <version>2.3</version>
+        <version>3.0</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>findvacancies-web-vaadin</artifactId>
     <name>Find vacancies Vaadin</name>
     <description>Application for parsing data from sites with vacancies with Vaadin</description>
-    <version>2.3</version>
 
     <properties>
-        <java.version>17</java.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <vaadin.version>24.3.5</vaadin.version>
         <grid-pagination.version>4.0.0</grid-pagination.version>
     </properties>

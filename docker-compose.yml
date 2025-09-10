@@ -1,0 +1,29 @@
+version: '3.8' # Specify the Docker Compose file format version
+
+services:
+  job-parser-rest:
+    build:
+      context: .        # Build context is the root directory of your project
+      dockerfile: rest/Dockerfile # Path to the Dockerfile for the rest service
+    ports:
+      - "8080:8080" # Map host port 8080 to container port 8080
+    # Optional: If you need to mount a volume for logs or configuration
+    # volumes:
+    #   - ./logs:/app/logs # Example: Mount a local 'logs' directory to the container's /app/logs
+    container_name: job-parser-rest-app # A friendly name for the container
+    restart: unless-stopped # Always restart unless explicitly stopped
+    # Optional: Environment variables for the Spring Boot app
+    # environment:
+    #   - SPRING_PROFILES_ACTIVE=prod # Example: Activate 'prod' Spring profile
+    #   - MY_APP_PROPERTY=someValue
+    env_file: ./.env
+
+  job-parser-webflux:
+    build:
+      context: .
+      dockerfile: webflux/Dockerfile
+    ports:
+      - "8081:8080" # Map host port 8081 to container port 8080
+    container_name: job-parser-webflux-app # A friendly name for the container
+    restart: unless-stopped # Always restart unless explicitly stopped
+    env_file: ./.env

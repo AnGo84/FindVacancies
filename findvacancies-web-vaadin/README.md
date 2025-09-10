@@ -31,11 +31,11 @@ Results table can be exporting to **XLSX** files.
 
 ### **For work needs:**
 - IDE
-- JDK 17
+- JDK 21
 - Maven
 
 ### **Current version:**
-Release 2.3
+Release 3.0
 
 ### **Create Docker build**
 From project root:
@@ -44,5 +44,6 @@ docker build -f findvacancies-web-vaadin\Dockerfile -t fv-vaadin .
 ```
 
 ### **Release notes:**
+**Version Release 3.0:** Switch to Java 24
 **Version Release 2.3:** Switch to Spring Boot 3 and Vaadin 24
 **Version Release 2.2:** Spring boot 2 app with Vaadin 23
