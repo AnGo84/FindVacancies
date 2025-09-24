@@ -4,7 +4,7 @@ This module provides a RESTful API for scraping job vacancies from supported job
 
 ---
 
-## Features
+## 🚀 Features
 
 - REST endpoints for job scraping
 - Integration with `common` module for reusable services
@@ -35,9 +35,11 @@ And define the version property:
 </properties>
 ```
 
-For using the latest version do not replace `<version>` tag
+For using the latest version remove `<version>` tag
 
-## Build & Run
+---
+
+## 🛠️ Build & Run
 
 ### Build the REST Module
 
@@ -57,7 +59,9 @@ Or run the packaged JAR:
 java -jar rest/target/find-vacancies-rest.jar
 ```
 
-## Testing
+---
+
+## 🧪 Testing
 This module uses **JUnit** 5 and **Spring Boot Test**.
 
 To run tests:
@@ -66,7 +70,9 @@ To run tests:
 mvn test -pl rest
 ```
 
-## Docker Instructions
+---
+
+## 🐳 Docker Instructions
 
 This module includes a multi-stage Dockerfile for efficient builds.
 
@@ -82,7 +88,9 @@ docker build -f rest\Dockerfile -t job-parser-rest .
 docker run -p 8080:8080 job-parser-rest
 ```
 
-## API Documentation
+---
+
+## 📚 API Documentation
 
 OpenAPI documentation is available at:
 
@@ -90,8 +98,10 @@ OpenAPI documentation is available at:
 http://localhost:8080/swagger-ui.html
 ```
 
-## Configuration
-Basic configuration is provided via **application.yaml**:
+---
+
+## 🔧 Configuration
+Basic configuration is provided via **application.yml**:
 
 ``` yaml
  management:
@@ -104,7 +114,7 @@ Basic configuration is provided via **application.yaml**:
       show-details: always
  ```
 
-## REST Endpoints
+## 📂 REST Endpoints
 
 ``` 
 GET /api/v1/jobs
@@ -123,4 +133,3 @@ Scrapes job vacancies based on search criteria.
 GET /api/v1/jobs/sites
 ```
 Returns a list of all supported job sites.
-

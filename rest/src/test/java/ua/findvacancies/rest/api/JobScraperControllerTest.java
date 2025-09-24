@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(JobScraperController.class)
 @DisplayName("JobScraperController Tests")
-public class JobScraperControllerTest {
+class JobScraperControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -70,7 +70,7 @@ public class JobScraperControllerTest {
     @DisplayName("Should return a list of available sites with 200 OK status")
     void testGetAvailableSites_Success() throws Exception {
         // Given
-        Set<String> sites = Set.of(JobSite.DJINNI_CO.getSiteName(), JobSite.WORK_UA.getSiteName());
+        Set<JobSite> sites = Set.of(JobSite.DJINNI_CO, JobSite.WORK_UA);
         Mockito.when(jobService.getAvailableJobSites()).thenReturn(sites);
 
         // When & Then
@@ -78,7 +78,7 @@ public class JobScraperControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(2))
-                .andExpect(jsonPath("$", containsInAnyOrder("djinni.co", "work.ua")));
+                .andExpect(jsonPath("$", containsInAnyOrder("DJINNI_CO", "WORK_UA")));
     }
 
 }

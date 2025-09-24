@@ -9,7 +9,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import ua.findvacancies.common.model.JobSearchCriteria;
 import ua.findvacancies.common.model.JobSite;
 import ua.findvacancies.common.model.JobVacancy;
 import ua.findvacancies.common.service.JobService;
@@ -27,13 +26,13 @@ class JobScraperWebfluxControllerTest {
     @MockitoBean
     private JobService jobService;
 
-    private Set<String> availableSites;
+    private Set<JobSite> availableSites;
     private List<JobVacancy> mockVacancies;
 
     @BeforeEach
     void setUp(ApplicationContext context) {
         this.webTestClient = WebTestClient.bindToApplicationContext(context).build();
-        availableSites = Set.of("dou", "djinni");
+        availableSites = Set.of(JobSite.DOU_UA, JobSite.DJINNI_CO);
 
         mockVacancies = getJobVacancies();
 
@@ -49,7 +48,7 @@ class JobScraperWebfluxControllerTest {
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBody(Set.class)
-                .isEqualTo(Set.of("dou", "djinni"));
+                .isEqualTo(Set.of("DOU_UA", "DJINNI_CO"));
     }
 
     @Test

@@ -122,9 +122,9 @@ public class JobScraperWebfluxController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successfully retrieved available sites.",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(type = "array", implementation = String.class)))
+                                    schema = @Schema(type = "array", implementation = JobSite.class)))
             })
-    public Mono<Set<String>> getAvailableSites() {
+    public Mono<Set<JobSite>> getAvailableSites() {
         return Mono.just(jobService.getAvailableJobSites());
     }
 

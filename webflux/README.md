@@ -27,66 +27,96 @@ To use the `common` module in this project, add the following dependency to your
 </dependency>
 ```
 
-!!!!!
 And define the version property:
+
+```xml
 <properties>
 <!-- Replace with the actual version of the common module -->
 <common.version>SET_ME</common.version>
 </properties>
+```
 
+For using the latest version remove `<version>` tag
 
+---
 
 ## 🛠️ Build & Run
-Build the WebFlux Module
+### Build the WebFlux Module
+
+``` Bash
 mvn clean install -pl webflux -am
+```
 
+### Run the Application
 
-Run the Application
+``` Bash
 mvn spring-boot:run -pl webflux
-
+```
 
 Or run the packaged JAR:
+
+``` Bash
 java -jar webflux/target/find-vacancies-webflux.jar
+```
 
+---
 
+## 🧪 Testing
+This module uses **JUnit** 5 and **Spring Boot Test**.
+  
+To run tests:
 
-🧪 Testing
-This module includes tests for:
-- API endpoints (JobScraperWebfluxController)
-- Actuator health and info endpoints
-  To run tests:
-  mvn test -pl webflux
+``` Bash
+mvn test -pl webflux
+```
 
+---
 
-
-🐳 Docker Instructions
+## 🐳 Docker Instructions
 This module includes a multi-stage Dockerfile for efficient builds.
-Build the Image
+
+### Build the Image
+
+``` Bash 
 docker build -t job-parser-webflux .
+```
 
+### Run the Container
 
-Run the Container
+``` Bash
 docker run -p 8080:8080 job-parser-webflux
+```
 
+---
 
-
-📚 API Documentation
+## 📚 API Documentation
 OpenAPI documentation is available at:
+
+```
 http://localhost:8080/swagger-ui.html
+```
 
+---
 
+## 🔧 Configuration
+Basic configuration is provided via **application.yml**. Actuator endpoints are enabled for health and info monitoring.
 
-🔧 Configuration
-Basic configuration is provided via application.yaml (not shown here). Actuator endpoints are enabled for health and info monitoring.
+## 📂 REST Endpoints
 
-📂 REST Endpoints
+```
 GET /api/v1/jobs
+```
+
 Scrapes job vacancies based on search criteria and returns them as a reactive stream (Flux<JobVacancy>).
-Query Parameters:
+
+**Query Parameters**:
 - keywords (required): Comma-separated keywords (e.g., java,spring)
 - ignoredWords: Words to exclude (e.g., junior,trainee)
 - lastNDays: Filter by recency (e.g., 5)
 - maxPagesToScrape: Limit pages per site
 - sites: Comma-separated site names (e.g., djinni.co,work.ua)
-  GET /api/v1/jobs/sites
-  Returns a list of all supported job sites as a reactive Mono<Set<String>>.
+
+```
+GET /api/v1/jobs/sites
+```
+Returns a list of all supported job sites as a reactive Mono<Set<String>>.

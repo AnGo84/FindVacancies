@@ -131,10 +131,10 @@ public class JobScraperController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successfully retrieved available sites",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(type = "array", implementation = String.class)))
+                                    schema = @Schema(type = "array", implementation = JobSite.class)))
             })
-    public ResponseEntity<Set<String>> getAvailableSites() {
-        Set<String> availableScraperSites = jobService.getAvailableJobSites();
+    public ResponseEntity<Set<JobSite>> getAvailableSites() {
+        Set<JobSite> availableScraperSites = jobService.getAvailableJobSites();
         return ResponseEntity.ok(availableScraperSites);
     }
 

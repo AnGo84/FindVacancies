@@ -14,17 +14,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DisplayName("Health Check Test")
-public class HealthCheckTest {
+class HealthCheckTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    @DisplayName("Should return 200 OK with UP status for health endpoint")
-    void testHealthEndpoint() throws Exception {
-        // When & Then
+    @DisplayName("Health endpoint should be UP and show details")
+    void testHealthEndpoint_ShowsDetails() throws Exception {
         mockMvc.perform(get("/actuator/health"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value("UP"));
+                .andExpect(jsonPath("$.status").value("UP"))
+                .andExpect(jsonPath("$.components").exists());
+    }
+
+    @Test
+    @DisplayName("Info endpoint should be accessible and return 200 OK")
+    void testInfoEndpoint() throws Exception {
+        mockMvc.perform(get("/actuator/info"))
+                .andExpect(status().isOk());
     }
 }

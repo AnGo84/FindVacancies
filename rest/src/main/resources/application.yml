@@ -7,5 +7,3 @@ management:
   endpoint:
     health:
       show-details: always
-# Optional: Change the base path for Actuator endpoint
-#    base-path: /monitor
