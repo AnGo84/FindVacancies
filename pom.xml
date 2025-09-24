@@ -31,6 +31,8 @@
         <module>common</module>
         <module>rest</module>
         <module>webflux</module>
+        <module>thymeleaf-bootstrap-ui</module>
+        <module>thymeleaf-tailwind-htmx-ui</module>
     </modules>
 
     <properties>
@@ -299,6 +301,14 @@
                             <!-- the -Xlint:-options flag to suppress the annotation processing warning. -->
                             <!--<arg>-Xlint:-options</arg>-->
                         </compilerArgs>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+
                     </configuration>
                 </plugin>
 

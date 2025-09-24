@@ -28,7 +28,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(new Locale("uk"));
+        slr.setDefaultLocale(Locale.of("uk"));
         return slr;
     }
 
@@ -37,7 +37,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasenames("classpath:/messages/locales/messages",
                 "classpath:/messages/validation/ValidationMessages");
-        // messageSource.setUseCodeAsDefaultMessage(true);
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
