@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Collection;
 
 @Data
 @NoArgsConstructor
@@ -32,5 +32,5 @@ public class JobVacancyListWrapper {
      */
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "JobVacancy")
-    private List<JobVacancy> jobVacancies;
+    private Collection<JobVacancy> jobVacancies;
 }

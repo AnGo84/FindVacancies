@@ -8,10 +8,6 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-/**
- * Unit tests for the SiteName enum.
- * Verifies correct URL names and the fromUrlName lookup method.
- */
 class JobSiteTest {
 
     @Test

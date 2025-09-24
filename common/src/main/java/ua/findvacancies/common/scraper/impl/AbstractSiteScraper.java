@@ -20,6 +20,8 @@ import java.util.Optional;
 @Slf4j
 public abstract class AbstractSiteScraper implements JobScraper {
 
+    public static final String NOT_AVAILABLE = "N/A";
+
     protected final JsoupDocumentFetcher documentFetcher;
     protected final JobFilterService jobFilterService;
     protected final JobSite jobSite;
@@ -59,7 +61,7 @@ public abstract class AbstractSiteScraper implements JobScraper {
 
         log.info("Starting to scrape jobs from {}. Criteria: {}", getJobSite(), criteria);
         while (hasMorePages && currentPage <= effectiveMaxPages) {
-            String url = buildSearchUrl(criteria, currentPage);
+            final var url = buildSearchUrl(criteria, currentPage);
             log.info("Scraping page {} from {}: {}", currentPage, getJobSite(), url);
 
             try {
@@ -68,16 +70,24 @@ public abstract class AbstractSiteScraper implements JobScraper {
                 Elements jobElements = getJobElements(doc);
 
                 if (jobElements.isEmpty()) {
-                    log.info("No job elements found on page {} of {}. Assuming end of results.", currentPage,
-                            getJobSite());
+                    log.info("No job elements found on page {} of {}. Assuming end of results.",
+                            currentPage, getJobSite());
                     hasMorePages = false;
                 }
 
                 int finalCurrentPage = currentPage;
-                jobElements.stream()
+                var scrappedVacancies = jobElements.stream()
                         .map(el -> getJobVacancy(el, finalCurrentPage))
                         .flatMap(Optional::stream)
-                        .filter(jobVacancy -> matchCriteria(jobVacancy, criteria))
+                        .toList();
+
+                if (hasNonHotVacancyOutSideTimeFrame(scrappedVacancies, criteria.getLastNDays())) {
+                    log.debug("At least one non-hot vacancy was posted after the allowed timeframe (>{} days).",
+                            criteria.getLastNDays());
+                    hasMorePages = false;
+                }
+
+                scrappedVacancies.stream().filter(jobVacancy -> matchCriteria(jobVacancy, criteria))
                         .forEach(vacancies::add);
 
                 currentPage++;
@@ -92,6 +102,11 @@ public abstract class AbstractSiteScraper implements JobScraper {
                 vacancies.size(), currentPage - 1);
 
         return vacancies;
+    }
+
+    private boolean hasNonHotVacancyOutSideTimeFrame(List<JobVacancy> scrappedVacancies, int lastNDays) {
+        return scrappedVacancies.stream().anyMatch(vacancy -> !vacancy.isHot() &&
+                vacancy.getDatePosted().isAfter(LocalDate.now().minusDays(lastNDays)));
     }
 
     private Optional<JobVacancy> getJobVacancy(Element jobElement, int currentPage) {

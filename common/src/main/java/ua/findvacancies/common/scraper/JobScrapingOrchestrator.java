@@ -113,10 +113,9 @@ public class JobScrapingOrchestrator {
     /**
      * @return A list of available site names.
      */
-    public Set<String> getAvailableJobSites() {
-        return scraperRegistry.getAvailableJobSites().stream()
-                .map(JobSite::getSiteName)
-                .collect(Collectors.toUnmodifiableSet());
+    public Set<JobSite> getAvailableJobSites() {
+        return scraperRegistry.getAvailableJobSites();
+
     }
 
     /**

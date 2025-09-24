@@ -6,20 +6,17 @@ import ua.findvacancies.common.TestDataFactory;
 import ua.findvacancies.common.export.impl.JsonExportService;
 import ua.findvacancies.common.model.ExportFormat;
 import ua.findvacancies.common.model.JobVacancy;
-import ua.findvacancies.common.model.JobSite;
-import ua.findvacancies.common.util.MapHelper;
+import ua.findvacancies.common.util.JacksonUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Unit tests for the JsonExportService.
- * This class verifies that JobVacancy data is correctly exported to JSON format.
- */
 class JsonExportServiceTest {
 
     private final JsonExportService jsonExportService = new JsonExportService();
@@ -55,7 +52,7 @@ class JsonExportServiceTest {
 
         String jsonOutput = new String(jsonOutputBytes, StandardCharsets.UTF_8);
         // Parse JSON and verify content
-        JsonNode rootNode = MapHelper.JSON_MAPPER.readTree(jsonOutput);
+        JsonNode rootNode = JacksonUtils.JSON_MAPPER.readTree(jsonOutput);
         assertTrue(rootNode.isArray(), "Root node should be an array.");
         assertEquals(1, rootNode.size(), "Array should contain one vacancy.");
 
@@ -86,7 +83,7 @@ class JsonExportServiceTest {
         // Then
         assertNotNull(jsonOutputBytes);
 
-        JsonNode rootNode = MapHelper.JSON_MAPPER.readTree(jsonOutputBytes);
+        JsonNode rootNode = JacksonUtils.JSON_MAPPER.readTree(jsonOutputBytes);
         assertTrue(rootNode.isArray());
         assertEquals(2, rootNode.size());
         assertEquals("Dev 1", rootNode.get(0).get("title").asText());

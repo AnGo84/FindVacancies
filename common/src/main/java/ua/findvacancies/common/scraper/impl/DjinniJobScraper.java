@@ -77,35 +77,35 @@ public class DjinniJobScraper extends AbstractSiteScraper {
     public String getTitle(Element jobElement) {
         return Optional.ofNullable(jobElement.selectFirst("a.job-item__title-link"))
                 .map(Element::text)
-                .orElse("N/A");
+                .orElse(NOT_AVAILABLE);
     }
 
     @Override
     public String getJobUrl(Element jobElement) {
         return Optional.ofNullable(jobElement.selectFirst("a.job-item__title-link"))
                 .map(link -> getSiteUrl() + link.attr("href"))
-                .orElse("N/A");
+                .orElse(NOT_AVAILABLE);
     }
 
     @Override
     public String getCompanyName(Element jobElement) {
         return Optional.ofNullable(jobElement.selectFirst("a[data-analytics=company_page]"))
                 .map(Element::text)
-                .orElse("N/A");
+                .orElse(NOT_AVAILABLE);
     }
 
     @Override
     public String getCity(Element jobElement) {
         return Optional.ofNullable(jobElement.selectFirst("span.location-text"))
                 .map(Element::text)
-                .orElse("N/A");
+                .orElse(NOT_AVAILABLE);
     }
 
     @Override
     public String getSalary(Element jobElement) {
         return Optional.ofNullable(jobElement.selectFirst("span.public-salary"))
                 .map(Element::text)
-                .orElse("N/A");
+                .orElse(NOT_AVAILABLE);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class DjinniJobScraper extends AbstractSiteScraper {
     public String getDescription(Element jobElement) {
         return Optional.ofNullable(jobElement.selectFirst("span.js-truncated-text"))
                 .map(Element::text)
-                .orElse("N/A");
+                .orElse(NOT_AVAILABLE);
     }
 
     /**

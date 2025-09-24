@@ -71,7 +71,7 @@ class WorkUaJobScraperTest {
         assertEquals("Junior Java, Algorithm Developer (Math Guru)", vacancy1.getTitle());
         assertEquals(LocalDate.of(2025, 9, 9), vacancy1.getDatePosted());
         assertEquals("Logivations", vacancy1.getCompanyName());
-        assertEquals("Львів,", vacancy1.getCity());
+        assertEquals("Львів", vacancy1.getCity());
         assertEquals("N/A", vacancy1.getSalary());
         assertFalse(vacancy1.isHot());
         assertTrue(vacancy1.getDescription().startsWith("Повна зайнятість. Також готові взяти студента, "));

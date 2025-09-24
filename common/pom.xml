@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>common</artifactId>
-    <name>Find vacancies common classes 2</name>
+    <name>Find vacancies common classes</name>
     <description>Application for parsing data from sites with vacancies</description>
     <packaging>jar</packaging>
 
@@ -33,6 +33,11 @@
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

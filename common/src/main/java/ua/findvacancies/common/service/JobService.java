@@ -10,10 +10,10 @@ import ua.findvacancies.common.model.JobSite;
 import ua.findvacancies.common.model.JobVacancy;
 import ua.findvacancies.common.scraper.JobScrapingOrchestrator;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Implementation of the JobService interface.
@@ -35,7 +35,7 @@ public class JobService {
     /**
      * Scrapes job vacancies based on the provided criteria and target sites.
      *
-     * @param criteria The search criteria.
+     * @param criteria    The search criteria.
      * @param targetSites A set of job sites to scrape. If null or empty, all sites will be scraped.
      * @return A list of matching JobVacancy objects.
      */
@@ -45,15 +45,15 @@ public class JobService {
     }
 
     /**
-     * Exports a list of job vacancies in the specified format.
+     * Exports a collection of job vacancies in the specified format.
      *
-     * @param vacancies The list of JobVacancy objects to export.
-     * @param format The desired export format enum.
+     * @param vacancies The collection of JobVacancy objects to export.
+     * @param format    The desired export format enum.
      * @return A byte array containing the exported data.
      * For text formats, this will be UTF-8 encoded string bytes.
      * For binary formats, this will be the raw binary content.
      */
-    public byte[] exportJobs(List<JobVacancy> vacancies, ExportFormat format) {
+    public byte[] exportJobs(Collection<JobVacancy> vacancies, ExportFormat format) {
         log.info("JobService: Exporting {} vacancies in {} format.", vacancies.size(), format.getFileExtension());
         Optional<JobExportService> exporterOptional = jobExportServiceRegistry.getExporter(format);
 
@@ -68,20 +68,20 @@ public class JobService {
 
     /**
      * Retrieves a set of all available job site names.
+     *
      * @return A list of strings representing available job site names.
      */
-    public Set<String> getAvailableJobSites() {
+    public Set<JobSite> getAvailableJobSites() {
         return jobScrapingOrchestrator.getAvailableJobSites();
     }
 
     /**
      * Retrieves a set of all available export format names.
+     *
      * @return A list of strings representing available export format names.
      */
-    public Set<String> getAvailableExportFormats() {
-        return jobExportServiceRegistry.getAllExportFormats().stream()
-                .map(ExportFormat::name)
-                .collect(Collectors.toUnmodifiableSet());
+    public Set<ExportFormat> getAvailableExportFormats() {
+        return jobExportServiceRegistry.getAllExportFormats();
     }
 
     /**

@@ -35,6 +35,7 @@ Currently, supports scraping from:
 - **`JobSite`**: Enum for supported job sites
 - **`ExportFormat`**: Enum for supported export formats
 - **`JobSearchCriteria`**: Represents search filters like keywords, date range, and pagination
+- **`SetBasedDataStore`**: A generic data store implementation that uses a Set to ensure data uniqueness.
 
 ---
 

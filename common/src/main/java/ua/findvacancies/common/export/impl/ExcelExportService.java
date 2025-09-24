@@ -1,6 +1,5 @@
 package ua.findvacancies.common.export.impl;
 
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -19,6 +18,7 @@ import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,17 +30,25 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ExcelExportService implements JobExportService {
 
+    private static CellStyle getHeaderRowStyle(Workbook workbook) {
+        CellStyle headerStyle = workbook.createCellStyle();
+        Font headerFont = workbook.createFont();
+        headerFont.setBold(true);
+        headerStyle.setFont(headerFont);
+        return headerStyle;
+    }
+
     /**
-     * Exports a list of JobVacancy objects to an Excel (XLSX) file,
+     * Exports a collection of JobVacancy objects to an Excel (XLSX) file,
      * returned as a raw byte array.
      *
-     * @param vacancies The list of JobVacancy objects to export.
-     * @return A byte array of the XLSX file, or an empty byte array if an error occurs or list is empty.
+     * @param vacancies The collection of JobVacancy objects to export.
+     * @return A byte array of the XLSX file, or an empty byte array if an error occurs or collection is empty.
      */
     @Override
-    public byte[] export(List<JobVacancy> vacancies) {
+    public byte[] export(Collection<JobVacancy> vacancies) {
         if (CollectionUtils.isEmpty(vacancies)) {
-            log.warn("Attempted to export an empty or null list of vacancies to Excel.");
+            log.warn("Attempted to export an empty or null collection of vacancies to Excel.");
             return new byte[0];
         }
 
@@ -117,14 +125,6 @@ public class ExcelExportService implements JobExportService {
             }
         }
         return fieldNames;
-    }
-
-    private static CellStyle getHeaderRowStyle(Workbook workbook) {
-        CellStyle headerStyle = workbook.createCellStyle();
-        Font headerFont = workbook.createFont();
-        headerFont.setBold(true);
-        headerStyle.setFont(headerFont);
-        return headerStyle;
     }
 
     @Override

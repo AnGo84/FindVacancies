@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("JobService Unit Tests")
-public class JobServiceTest {
+class JobServiceTest {
 
     @Mock
     private JobScrapingOrchestrator jobScrapingOrchestrator;
@@ -48,7 +48,7 @@ public class JobServiceTest {
     private Set<JobSite> sites;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         criteria = JobSearchCriteria.builder()
                 .keywords(Set.of("Java"))
                 .build();
@@ -124,11 +124,11 @@ public class JobServiceTest {
     @DisplayName("Should retrieve available job sites from the orchestrator")
     void shouldRetrieveAvailableJobSites() {
         // Given a set of available sites from the orchestrator
-        Set<String> availableSites = Set.of("DOU_UA", "WORK_UA");
+        Set<JobSite> availableSites = Set.of(JobSite.DOU_UA, JobSite.WORK_UA);
         when(jobScrapingOrchestrator.getAvailableJobSites()).thenReturn(availableSites);
 
         // When the service's method is called
-        Set<String> result = jobService.getAvailableJobSites();
+        Set<JobSite> result = jobService.getAvailableJobSites();
 
         // Then the result should match the sites from the orchestrator
         assertEquals(availableSites, result);
@@ -145,12 +145,11 @@ public class JobServiceTest {
         when(jobExportServiceRegistry.getAllExportFormats()).thenReturn(availableFormats);
 
         // When the service's method is called
-        Set<String> result = jobService.getAvailableExportFormats();
+        Set<ExportFormat> result = jobService.getAvailableExportFormats();
 
         // Then the result should be a set of format names
         assertEquals(2, result.size());
-        assertTrue(result.contains("JSON"));
-        assertTrue(result.contains("XML"));
+        assertTrue(result.containsAll(availableFormats));
 
         // Verify that the registry method was called
         verify(jobExportServiceRegistry).getAllExportFormats();

@@ -1,5 +1,6 @@
 package ua.findvacancies.common.scraper;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,19 +14,14 @@ import ua.findvacancies.common.scraper.impl.WorkUaJobScraper;
 
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -67,6 +63,11 @@ class JobScrapingOrchestratorTest {
                     })
                     .toList();
         });*/
+    }
+
+    @AfterEach
+    void shutdown() {
+        jobScrapingOrchestrator.shutdown();
     }
 
     @Test
@@ -134,16 +135,16 @@ class JobScrapingOrchestratorTest {
     @DisplayName("Should return the correct set of available job sites from the registry")
     void shouldGetAvailableJobSites() {
         // Given
-        when(mockJobScraperRegistry.getAvailableJobSites()).thenReturn(Set.of(JobSite.DJINNI_CO, JobSite.WORK_UA));
+        Set<JobSite> sitesSet = Set.of(JobSite.DJINNI_CO, JobSite.WORK_UA);
+        when(mockJobScraperRegistry.getAvailableJobSites()).thenReturn(sitesSet);
 
         // When
-        Set<String> availableSites = jobScrapingOrchestrator.getAvailableJobSites();
+        Set<JobSite> availableSites = jobScrapingOrchestrator.getAvailableJobSites();
 
         // Then
         assertNotNull(availableSites);
         assertEquals(2, availableSites.size());
-        assertTrue(availableSites.contains(JobSite.DJINNI_CO.getSiteName()));
-        assertTrue(availableSites.contains(JobSite.WORK_UA.getSiteName()));
+        assertTrue(availableSites.containsAll(sitesSet));
     }
 
 }

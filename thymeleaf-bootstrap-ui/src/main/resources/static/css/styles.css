@@ -1,0 +1,66 @@
+.lang-switcher button {
+    margin-left: 5px;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+/* TOM-select */
+.ts-wrapper.form-select-sm.multi {
+    padding-top: .15rem;
+    padding-bottom: .15rem;
+}
+
+.ts-wrapper.multi .ts-control {
+    padding: 0 !important;
+}
+
+.ts-wrapper.multi.has-items .ts-control > .item {
+    margin-bottom: 1px;
+}
+
+.ts-wrapper.multi.has-items .ts-control > input {
+    min-width: 3rem;
+}
+
+.ts-wrapper.multi:not(.has-items) .ts-control > input {
+    line-height: 22px !important;
+    margin-bottom: 1px !important;
+}
+
+/* /TOM-select */
+
+.is-invalid {
+    border-color: var(--bs-form-invalid-border-color);
+}
+
+.invalid-feedback {
+    display: block; /* Make sure it's visible */
+}
+
+/* Dropdown-menu */
+.app-dropdown-menu {
+    min-width: 6rem;
+}
+
+
+/* Custom styling for full-page modal spinner */
+.loading-modal .modal-dialog {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-modal .modal-content {
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    color: white;
+    text-align: center;
+}
+
+.loading-modal .spinner-border {
+    width: 3rem;
+    height: 3rem;
+}

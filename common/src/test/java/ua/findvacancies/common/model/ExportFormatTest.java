@@ -7,10 +7,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-/**
- * Unit tests for the ExportFormat enum.
- * Verifies correct file extensions, MIME types, and lookup methods.
- */
 class ExportFormatTest {
 
     @Test

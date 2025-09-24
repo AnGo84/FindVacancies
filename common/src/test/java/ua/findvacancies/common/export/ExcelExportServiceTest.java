@@ -1,8 +1,5 @@
 package ua.findvacancies.common.export;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -11,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import ua.findvacancies.common.TestDataFactory;
 import ua.findvacancies.common.export.impl.ExcelExportService;
 import ua.findvacancies.common.model.ExportFormat;
-import ua.findvacancies.common.model.JobSite;
 import ua.findvacancies.common.model.JobVacancy;
 
 import java.io.ByteArrayInputStream;

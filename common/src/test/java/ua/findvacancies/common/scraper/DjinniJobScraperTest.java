@@ -4,11 +4,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import ua.findvacancies.common.model.JobSearchCriteria;
 import ua.findvacancies.common.model.JobSite;
 import ua.findvacancies.common.model.JobVacancy;
@@ -42,12 +38,11 @@ class DjinniJobScraperTest {
             .ignoredWords(Set.of("Junior"))
             .build();
 
-
     private final JsoupDocumentFetcher mockDocumentFetcher = Mockito.mock(JsoupDocumentFetcher.class);
 
     private final JobFilterService mockJobFilterService = Mockito.mock(JobFilterService.class);
 
-    private final DjinniJobScraper djinniJobScraper =  new DjinniJobScraper(mockDocumentFetcher, mockJobFilterService);
+    private final DjinniJobScraper djinniJobScraper = new DjinniJobScraper(mockDocumentFetcher, mockJobFilterService);
 
     @Test
     @DisplayName("Should successfully get JobSite value")

@@ -72,21 +72,21 @@ public class WorkUaJobScraper extends AbstractSiteScraper {
     protected String getTitle(Element jobElement) {
         return Optional.ofNullable(jobElement.selectFirst("h2 > a"))
                 .map(Element::text)
-                .orElse("N/A");
+                .orElse(NOT_AVAILABLE);
     }
 
     @Override
     protected String getJobUrl(Element jobElement) {
         return Optional.ofNullable(jobElement.selectFirst("h2 > a"))
                 .map(link -> jobSite.getUrl() + link.attr("href"))
-                .orElse("N/A");
+                .orElse(NOT_AVAILABLE);
     }
 
     @Override
     protected String getCompanyName(Element jobElement) {
         return Optional.ofNullable(jobElement.selectFirst("span.mr-xs > span.strong-600"))
                 .map(Element::text)
-                .orElse("N/A");
+                .orElse(NOT_AVAILABLE);
     }
 
     @Override
@@ -94,7 +94,11 @@ public class WorkUaJobScraper extends AbstractSiteScraper {
         List<Element> cityElements = jobElement.select("div.mt-xs > span").stream()
                 .filter(spanEl -> !spanEl.hasClass("distance-block"))
                 .toList();
-        return cityElements.isEmpty() ? "N/A" : cityElements.getLast().text();
+        return cityElements.isEmpty()
+                ? NOT_AVAILABLE
+                : cityElements.getLast().text()
+                .replaceAll("^[\\s,]+", "")
+                .replaceAll("[\\s,]+$", "");
     }
 
     @Override
@@ -102,7 +106,7 @@ public class WorkUaJobScraper extends AbstractSiteScraper {
         return Optional.ofNullable(jobElement.selectFirst("div > span.strong-600"))
                 .map(Element::text)
                 .map(this::cleanWorkUaSalary)
-                .orElse("N/A");
+                .orElse(NOT_AVAILABLE);
     }
 
     @Override
@@ -128,7 +132,7 @@ public class WorkUaJobScraper extends AbstractSiteScraper {
     protected String getDescription(Element jobElement) {
         return Optional.ofNullable(jobElement.selectFirst("p.ellipsis-line-3"))
                 .map(Element::text)
-                .orElse("N/A");
+                .orElse(NOT_AVAILABLE);
     }
 
     /**
@@ -140,7 +144,7 @@ public class WorkUaJobScraper extends AbstractSiteScraper {
      */
     private String cleanWorkUaSalary(String rawSalary) {
         if (rawSalary == null || rawSalary.isEmpty()) {
-            return "N/A";
+            return NOT_AVAILABLE;
         }
         // Remove HTML entities for thin space, hair space, and non-breaking space
         String cleaned = rawSalary.replace("&#8239;", "")

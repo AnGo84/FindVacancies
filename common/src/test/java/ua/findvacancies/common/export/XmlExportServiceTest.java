@@ -6,10 +6,9 @@ import org.xmlunit.diff.Diff;
 import ua.findvacancies.common.TestDataFactory;
 import ua.findvacancies.common.export.impl.XmlExportService;
 import ua.findvacancies.common.model.ExportFormat;
-import ua.findvacancies.common.model.JobSite;
 import ua.findvacancies.common.model.JobVacancy;
 import ua.findvacancies.common.model.JobVacancyListWrapper;
-import ua.findvacancies.common.util.MapHelper;
+import ua.findvacancies.common.util.JacksonUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -66,7 +65,7 @@ class XmlExportServiceTest {
         // Dynamically generate the expected XML using the same XmlMapper configuration
         // This ensures the expected XML structure and field order match the actual serialization
         JobVacancyListWrapper expectedWrapper = new JobVacancyListWrapper(vacancies);
-        String expectedXml = MapHelper.XML_MAPPER.writeValueAsString(expectedWrapper);
+        String expectedXml = JacksonUtils.XML_MAPPER.writeValueAsString(expectedWrapper);
 
         Diff diff = DiffBuilder.compare(expectedXml)
                 .withTest(xmlOutput)

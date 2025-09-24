@@ -21,7 +21,7 @@ class JobFilterServiceTest {
     private List<JobVacancy> vacancies;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         // Initialize the service and a list of sample vacancies before each test
         jobFilterService = new JobFilterService();
         vacancies = new ArrayList<>();
@@ -40,46 +40,18 @@ class JobFilterServiceTest {
                 TestDataFactory.buildJovVacancy("Senior Java Developer",
                         LocalDate.now().minusDays(3),
                         "Senior developer role. Tech stack: Java, Junit, Mockito, SQL.")
-                /*new JobVacancy(
-                "Senior Java Developer",
-                "Company B",
-                LocalDate.now().minusDays(3),
-                "Lviv",
-                "Senior developer role. Tech stack: Java, Junit, Mockito, SQL.",
-                "http://example.com/senior-java-vacancy")*/
         );
         vacancies.add(TestDataFactory.buildJovVacancy("JavaScript Frontend Developer",
                         LocalDate.now().minusDays(2),
                         "Frontend role. Tech stack: JavaScript, React, Node.js.")
-                /*new JobVacancy(
-                "JavaScript Frontend Developer",
-                "Company C",
-                LocalDate.now().minusDays(2),
-                "Remote",
-                "Frontend role. Tech stack: JavaScript, React, Node.js.",
-                "http://example.com/js-vacancy")*/
         );
         vacancies.add(TestDataFactory.buildJovVacancy("QA Engineer (Automation)",
                         LocalDate.now().minusDays(5),
                         "Testing role with a focus on automation.")
-                /*new JobVacancy(
-                "QA Engineer (Automation)",
-                "Company A",
-                LocalDate.now().minusDays(5),
-                "Kyiv",
-                "Testing role with a focus on automation.",
-                "http://example.com/qa-vacancy")*/
         );
         vacancies.add(TestDataFactory.buildJovVacancy("Golang Developer",
                         LocalDate.now().minusDays(1),
                         "Backend position. Golang, Docker, Kubernetes.")
-                /*new JobVacancy(
-                "Golang Developer",
-                "Company D",
-                LocalDate.now().minusDays(1),
-                "Kyiv",
-                "Backend position. Golang, Docker, Kubernetes.",
-                "http://example.com/golang-vacancy")*/
         );
     }
 
