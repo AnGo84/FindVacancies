@@ -1,6 +1,7 @@
 package ua.findvacancies.webflux.api;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,13 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @WebFluxTest(JobScraperWebfluxController.class)
 class JobScraperWebfluxControllerTest {
+
+    private static final Set<JobSite> availableSites = Set.of(JobSite.DOU_UA, JobSite.DJINNI_CO);
 
     @Autowired
     private WebTestClient webTestClient;
@@ -26,22 +32,17 @@ class JobScraperWebfluxControllerTest {
     @MockitoBean
     private JobService jobService;
 
-    private Set<JobSite> availableSites;
-    private List<JobVacancy> mockVacancies;
-
     @BeforeEach
     void setUp(ApplicationContext context) {
         this.webTestClient = WebTestClient.bindToApplicationContext(context).build();
-        availableSites = Set.of(JobSite.DOU_UA, JobSite.DJINNI_CO);
-
-        mockVacancies = getJobVacancies();
-
     }
 
     @Test
     void testGetAvailableSites() {
+        // Given
         Mockito.when(jobService.getAvailableJobSites()).thenReturn(availableSites);
 
+        // When | Then
         webTestClient.get().uri("/api/v1/jobs/sites")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
@@ -53,11 +54,13 @@ class JobScraperWebfluxControllerTest {
 
     @Test
     void testSearchJobs() {
+        // Given
+        var mockVacancies = getJobVacancies();
         Mockito.when(jobService.getJobs(Mockito.any(), Mockito.any())).thenReturn(mockVacancies);
 
+        // When | Then
         webTestClient.get().uri(uriBuilder -> uriBuilder.path("/api/v1/jobs")
                         .queryParam("keywords", "java")
-                        //.queryParam("sites", "djinni.co")
                         .build())
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
@@ -68,6 +71,16 @@ class JobScraperWebfluxControllerTest {
                 .isEqualTo(mockVacancies);
     }
 
+    @Test
+    @DisplayName("Should return 400 Bad Request when keywords are missing")
+    void testGetJobs_MissingKeywords() {
+        // When & Then
+        webTestClient.get().uri(uriBuilder -> uriBuilder.path("/api/v1/jobs").build())
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isBadRequest();
+    }
+
     private List<JobVacancy> getJobVacancies() {
         final var vacancy1 = JobVacancy.builder()
                 .title("Java Developer")
@@ -76,7 +89,7 @@ class JobScraperWebfluxControllerTest {
                 .datePosted(LocalDate.now())
                 .build();
 
-        JobVacancy vacancy2 = JobVacancy.builder()
+        final var vacancy2 = JobVacancy.builder()
                 .title("title2")
                 .jobSite(JobSite.WORK_UA)
                 .city("city2")

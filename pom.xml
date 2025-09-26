@@ -33,6 +33,7 @@
         <module>webflux</module>
         <module>thymeleaf-bootstrap-ui</module>
         <module>thymeleaf-tailwind-htmx-ui</module>
+        <module>vaadin-ui</module>
     </modules>
 
     <properties>
@@ -49,8 +50,10 @@
 
         <spring-boot.version>3.5.3</spring-boot.version>
 
+        <vaadin.version>24.9.0</vaadin.version>
+
         <!-- Test -->
-         <!-- todo: to remove. Junit and mockito are parts of Spring Boot test -->
+        <!-- todo: to remove. Junit and mockito are parts of Spring Boot test -->
         <junit-platform.version>1.13.3</junit-platform.version>
         <junit-jupiter.version>5.13.3</junit-jupiter.version>
         <mockito-core.version>5.18.0</mockito-core.version>
@@ -93,6 +96,14 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-bom</artifactId>
+                <version>${vaadin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
             <!-- Current project -->
             <dependency>
@@ -172,31 +183,31 @@
                 <scope>test</scope>
             </dependency>-->
 
-           <!-- <dependency>
-                <groupId>org.junit.platform</groupId>
-                <artifactId>junit-platform-commons</artifactId>
-                &lt;!&ndash;<version>${junit-platform.version}</version>&ndash;&gt;
-                <scope>test</scope>
-            </dependency>
+            <!-- <dependency>
+                 <groupId>org.junit.platform</groupId>
+                 <artifactId>junit-platform-commons</artifactId>
+                 &lt;!&ndash;<version>${junit-platform.version}</version>&ndash;&gt;
+                 <scope>test</scope>
+             </dependency>
 
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-api</artifactId>
-                &lt;!&ndash;<version>${junit-jupiter.version}</version>&ndash;&gt;
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-engine</artifactId>
-                &lt;!&ndash;<version>${junit-jupiter.version}</version>&ndash;&gt;
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-params</artifactId>
-                &lt;!&ndash;<version>${junit-jupiter.version}</version>&ndash;&gt;
-                <scope>test</scope>
-            </dependency>-->
+             <dependency>
+                 <groupId>org.junit.jupiter</groupId>
+                 <artifactId>junit-jupiter-api</artifactId>
+                 &lt;!&ndash;<version>${junit-jupiter.version}</version>&ndash;&gt;
+                 <scope>test</scope>
+             </dependency>
+             <dependency>
+                 <groupId>org.junit.jupiter</groupId>
+                 <artifactId>junit-jupiter-engine</artifactId>
+                 &lt;!&ndash;<version>${junit-jupiter.version}</version>&ndash;&gt;
+                 <scope>test</scope>
+             </dependency>
+             <dependency>
+                 <groupId>org.junit.jupiter</groupId>
+                 <artifactId>junit-jupiter-params</artifactId>
+                 &lt;!&ndash;<version>${junit-jupiter.version}</version>&ndash;&gt;
+                 <scope>test</scope>
+             </dependency>-->
 
             <!--<dependency>
                 <groupId>org.mockito</groupId>

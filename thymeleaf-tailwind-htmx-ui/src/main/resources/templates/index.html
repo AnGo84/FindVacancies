@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title th:text="#{app.title}"></title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/flag-icons.min.css}">
+
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+
+<header class="bg-white shadow p-2 mb-2">
+    <div class="container-fluid flex flex-col md:flex-row justify-between items-center">
+        <a class="text-blue-500" th:href="@{/}">
+            <span class="mb-0 text-center mb:md-0" th:text="#{app.title}"></span>
+        </a>
+        <span class="text-gray-500 text-center my-1 md:my-0 text-sm" th:text="${currentDate}">Date</span>
+
+        <div x-data="{ open: false }" class="relative">
+            <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="size-5 text-gray-400">
+                    <path d="M7.75 2.75a.75.75 0 0 0-1.5 0v1.258a32.987 32.987 0 0 0-3.599.278.75.75 0 1 0 .198 1.487A31.545 31.545 0 0 1 8.7 5.545 19.381 19.381 0 0 1 7 9.56a19.418 19.418 0 0 1-1.002-2.05.75.75 0 0 0-1.384.577 20.935 20.935 0 0 0 1.492 2.91 19.613 19.613 0 0 1-3.828 4.154.75.75 0 1 0 .945 1.164A21.116 21.116 0 0 0 7 12.331c.095.132.192.262.29.391a.75.75 0 0 0 1.194-.91c-.204-.266-.4-.538-.59-.815a20.888 20.888 0 0 0 2.333-5.332c.31.031.618.068.924.108a.75.75 0 0 0 .198-1.487 32.832 32.832 0 0 0-3.599-.278V2.75Z" />
+                    <path fill-rule="evenodd" d="M13 8a.75.75 0 0 1 .671.415l4.25 8.5a.75.75 0 1 1-1.342.67L15.787 16h-5.573l-.793 1.585a.75.75 0 1 1-1.342-.67l4.25-8.5A.75.75 0 0 1 13 8Zm2.037 6.5L13 10.427 10.964 14.5h4.073Z" clip-rule="evenodd" />
+                </svg>
+                <span th:text="${currentLocale}">Locale</span>
+            </button>
+            <div x-show="open" @click.outside="open = false" class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu">
+                <a href="?lang=en" hx-get="?lang=en" hx-push-url="true" hx-target="body" hx-swap="outerHTML"
+                   class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100">
+                    <span class="fi fi-gb fis mr-2"></span>
+                    <span>English</span>
+                </a>
+                <a href="?lang=uk" hx-get="?lang=uk" hx-push-url="true" hx-target="body" hx-swap="outerHTML"
+                   class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100">
+                    <span class="fi fi-ua fis mr-2"></span>
+                    <span>Українська</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</header>
+
+<main class="container mx-auto mt-5 px-3"
+      hx-on::before-request="htmx.find('#loadingModal').classList.remove('hidden');"
+      hx-on::after-request="htmx.find('#loadingModal').classList.add('hidden');">
+
+    <div class="row">
+        <div class="col-12 col-lg-8 offset-lg-2">
+            <div id="search-form-container">
+                <div th:replace="~{fragments/search-form :: formContent}"></div>
+            </div>
+            <div id="search-results-container">
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="mt-auto py-3 bg-light text-center text-secondary">
+    <p class="mb-0">© 2025 Job Vacancy Search</p>
+</footer>
+
+<div th:replace="~{fragments/loading-modal :: loadingModal}"></div>
+
+<script th:src="@{/js/htmx.min.js}"></script>
+
+<script>
+
+    // debug only
+    // htmx.logAll();
+
+    /*document.addEventListener('DOMContentLoaded', (evt) => {
+        console.log("Start DOMContentLoaded");
+        const languageButton = document.getElementById('language-menu-button');
+        const languageMenu = languageButton.nextElementSibling;
+        languageButton.addEventListener('click', () => {
+            console.log("Language Button click");
+            languageMenu.classList.toggle('hidden');
+        });
+
+        // Close language dropdown if the user clicks outside of it
+        document.addEventListener('click', (event) => {
+            if (!languageButton.contains(event.target) && !languageMenu.contains(event.target)) {
+                languageMenu.classList.add('hidden');
+            }
+        });
+
+        attachToggleListener(evt);
+    });*/
+
+    // Function to attach the click listener
+    /*function attachToggleListener(event) {
+        console.log("attachToggleListener called.");
+        console.log("Event type:", event.type);
+
+        // Log details about the event source
+        if (event.type === 'htmx:afterSettle') {
+            console.log("Called by HTMX swap.");
+            console.log("HTMX target:", event.detail.target);
+        } else if (event.type === 'DOMContentLoaded') {
+            console.log("Called on initial page load.");
+        }
+
+        const toggleButton = document.querySelector('[data-target="#advancedOptionsCollapse"]');
+        if (toggleButton) {
+            toggleButton.addEventListener('click', () => {
+                const targetId = toggleButton.getAttribute('data-target');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.classList.toggle('hidden');
+                    const isExpanded = targetElement.classList.contains('hidden') ? 'false' : 'true';
+                    toggleButton.setAttribute('aria-expanded', isExpanded);
+                }
+            });
+        }
+    }*/
+
+    /*document.body.addEventListener('htmx:afterSettle', function(evt) {
+        const exportButton = document.getElementById('export-menu-button');
+        const exportMenu = exportButton ? exportButton.nextElementSibling : null;
+
+        if (exportButton) {
+            // Toggle the dropdown on button click
+            exportButton.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent the body listener from firing immediately
+                exportMenu.classList.toggle('hidden');
+            });
+
+            // Hide dropdown when clicking a link inside it
+            const dropdownLinks = exportMenu.querySelectorAll('a[role="menuitem"]');
+            dropdownLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    exportMenu.classList.add('hidden');
+                });
+            });
+
+            // Hide the dropdown when clicking outside of it
+            document.body.addEventListener('click', (event) => {
+                if (!exportButton.contains(event.target) && !exportMenu.contains(event.target)) {
+                    exportMenu.classList.add('hidden');
+                }
+            });
+        }
+
+        attachToggleListener(evt);
+    });*/
+
+</script>
+
+</body>
+</html>

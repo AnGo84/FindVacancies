@@ -19,7 +19,6 @@ public class SearchCriteriaDto {
     @NotBlank(message = "{searchParams.SearchLine.Blank}")
     private String searchLine;
 
-    //@NotBlank(message = "{searchParams.Days.Blank}")
     @Min(value = 0, message = "{searchParams.Days.MinValue}")
     private int days;
 

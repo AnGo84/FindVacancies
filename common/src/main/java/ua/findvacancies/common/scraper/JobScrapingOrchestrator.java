@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class JobScrapingOrchestrator {
 
-    private static final int MAX_CURRENT_SCRAPPER = 4;
+    private static final int MAX_CURRENT_SCRAPPER = JobSite.values().length;
 
     private final JobScraperRegistry scraperRegistry;
     private final ExecutorService executorService;
@@ -68,9 +68,8 @@ public class JobScrapingOrchestrator {
             return allVacancies;
         }
 
-        log.info("Running scrapers for sites: {}",
-                scrapersToRun.stream().map(scraper ->
-                        scraper.getJobSite().getSiteName()).collect(Collectors.joining(", ")));
+        var sitesToScrap = scrapersToRun.stream().map(JobScraper::getJobSite).collect(Collectors.toUnmodifiableSet());
+        log.info("Running scrapers for sites: {}", JobSite.joinSiteNames(sitesToScrap));
 
         // Use CompletableFuture to run scrapers concurrently
         List<CompletableFuture<List<JobVacancy>>> futures = scrapersToRun.stream()
@@ -115,7 +114,6 @@ public class JobScrapingOrchestrator {
      */
     public Set<JobSite> getAvailableJobSites() {
         return scraperRegistry.getAvailableJobSites();
-
     }
 
     /**

@@ -122,6 +122,6 @@ Basic configuration is provided via the `application.yml` file, which enables th
 |----------|--------|-------------|
 | `/`      | GET    | Displays the main page with the search form |
 | `/search`      | POST   | Performs a job search based on the provided criteria and displays the results |
-| `/export`      | GET    | Exports the search results to a file in a specified format (e.g., PDF or CSV |
-
-
+| `/export`      | GET    | Triggers a file download (JSON, XML, or XLSX) of the current search results |
+| `/actuator/health`      | GET    | Spring Boot Actuator health check endpoint |
+| `/actuator/info`      | GET    | Spring Boot Actuator information endpoint |

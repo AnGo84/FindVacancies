@@ -53,16 +53,10 @@ class AppControllerTest {
     private JobService mockJobService;
 
     @MockitoBean
-    private JobSearchCriteriaMapper mockJobSearchCriteriaMapper;
-
-    @MockitoBean
     private LocaleResolver mockLocaleResolver;
 
     @MockitoBean
     private DataStore<JobVacancy> mockDataStore;
-
-    @Autowired
-    private MessageSource messageSource;
 
     @BeforeEach
     void beforeAll() {
@@ -96,8 +90,6 @@ class AppControllerTest {
         // Given
         List<JobVacancy> testJobVacanciesList = getTestJobVacanciesList();
 
-        Mockito.when(mockJobSearchCriteriaMapper.toEntity(Mockito.any(SearchCriteriaDto.class)))
-                .thenReturn(JobSearchCriteria.builder().build());
         Mockito.when(mockJobService.getJobs(Mockito.any(JobSearchCriteria.class), Mockito.any()))
                 .thenReturn(testJobVacanciesList);
 
