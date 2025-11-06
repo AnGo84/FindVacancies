@@ -1,0 +1,21 @@
+vaadin:
+  launch-browser: true
+  frontend:
+    optimize-bundle: true
+
+spring:
+  application:
+    name: Vaadin UI
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: health,info
+    endpoint:
+      health:
+        show-details: always
+
+  # Multilingual Configuration
+  messages:
+    encoding: UTF-8

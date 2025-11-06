@@ -98,8 +98,8 @@ public abstract class AbstractSiteScraper implements JobScraper {
             }
         }
 
-        log.info("Finished scraping {}. Found {} vacancies matching criteria across {} pages.", getJobSite(),
-                vacancies.size(), currentPage - 1);
+        log.debug("Finished scraping {}. Found {} vacancies matching criteria across {} pages.",
+                getJobSite(), vacancies.size(), currentPage - 1);
 
         return vacancies;
     }
