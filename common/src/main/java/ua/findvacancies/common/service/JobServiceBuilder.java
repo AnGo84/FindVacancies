@@ -12,6 +12,7 @@ import ua.findvacancies.common.scraper.JobScraperRegistry;
 import ua.findvacancies.common.scraper.JobScrapingOrchestrator;
 import ua.findvacancies.common.scraper.JsoupDocumentFetcher;
 import ua.findvacancies.common.scraper.impl.DjinniJobScraper;
+import ua.findvacancies.common.scraper.impl.DouJobScraper;
 import ua.findvacancies.common.scraper.impl.WorkUaJobScraper;
 
 import java.util.Arrays;
@@ -54,7 +55,7 @@ public class JobServiceBuilder {
      * @return A set containing the default job sites.
      */
     private static Set<JobSite> getDefaultJobSites() {
-        return Set.of(JobSite.DJINNI_CO, JobSite.WORK_UA);
+        return Set.of(JobSite.DJINNI_CO, JobSite.WORK_UA, JobSite.DOU_UA);
     }
 
     /**
@@ -78,7 +79,8 @@ public class JobServiceBuilder {
     private static Set<JobScraper> getDefaultScrapers(final JsoupDocumentFetcher documentFetcher,
                                                       final JobFilterService jobFilterService) {
         return Set.of(new DjinniJobScraper(documentFetcher, jobFilterService),
-                new WorkUaJobScraper(documentFetcher, jobFilterService));
+                new WorkUaJobScraper(documentFetcher, jobFilterService),
+                new DouJobScraper(jobFilterService));
     }
 
     /**

@@ -13,9 +13,7 @@ import java.util.stream.Collectors;
 public enum JobSite {
     DJINNI_CO("djinni.co", "https://djinni.co"),
     WORK_UA("work.ua", "https://www.work.ua"),
-    DOU_UA("jobs.dou.ua", "https://www.jobs.dou.ua"),
-    GRC_UA("grc.ua", "https://www.grc.ua")
-    ;
+    DOU_UA("jobs.dou.ua", "https://jobs.dou.ua");
 
     private final String siteName;
     private final String url;

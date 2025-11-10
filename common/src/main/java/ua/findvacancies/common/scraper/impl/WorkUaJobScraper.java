@@ -70,23 +70,18 @@ public class WorkUaJobScraper extends AbstractSiteScraper {
 
     @Override
     protected String getTitle(Element jobElement) {
-        return Optional.ofNullable(jobElement.selectFirst("h2 > a"))
-                .map(Element::text)
-                .orElse(NOT_AVAILABLE);
+        return getTextOrDefault(jobElement.selectFirst("h2 > a"));
     }
 
     @Override
     protected String getJobUrl(Element jobElement) {
-        return Optional.ofNullable(jobElement.selectFirst("h2 > a"))
-                .map(link -> jobSite.getUrl() + link.attr("href"))
-                .orElse(NOT_AVAILABLE);
+        Element linkEl = jobElement.selectFirst("h2 > a");
+        return getSiteUrl() + getAttributeOrDefault(linkEl, "href");
     }
 
     @Override
     protected String getCompanyName(Element jobElement) {
-        return Optional.ofNullable(jobElement.selectFirst("span.mr-xs > span.strong-600"))
-                .map(Element::text)
-                .orElse(NOT_AVAILABLE);
+        return getTextOrDefault(jobElement.selectFirst("span.mr-xs > span.strong-600"));
     }
 
     @Override
@@ -103,10 +98,11 @@ public class WorkUaJobScraper extends AbstractSiteScraper {
 
     @Override
     protected String getSalary(Element jobElement) {
-        return Optional.ofNullable(jobElement.selectFirst("div > span.strong-600"))
-                .map(Element::text)
-                .map(this::cleanWorkUaSalary)
-                .orElse(NOT_AVAILABLE);
+        var salaryEl = jobElement.selectFirst("div > span.strong-600");
+        if (salaryEl == null) {
+            return NOT_AVAILABLE;
+        }
+        return cleanWorkUaSalary(salaryEl.text());
     }
 
     @Override
@@ -130,9 +126,7 @@ public class WorkUaJobScraper extends AbstractSiteScraper {
 
     @Override
     protected String getDescription(Element jobElement) {
-        return Optional.ofNullable(jobElement.selectFirst("p.ellipsis-line-3"))
-                .map(Element::text)
-                .orElse(NOT_AVAILABLE);
+        return getTextOrDefault(jobElement.selectFirst("p.ellipsis-line-3"));
     }
 
     /**

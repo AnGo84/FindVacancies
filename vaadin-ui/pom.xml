@@ -76,44 +76,45 @@
 
     <build>
         <finalName>find-vacancies-vaadin</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <version>${vaadin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-frontend</goal>
+                            <goal>build-frontend</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+
     </build>
-
-    <!--<profiles>
-        <profile>
-            <id>production</id>
-            <dependencies>
-                <dependency>
-                    <groupId>com.vaadin</groupId>
-                    <artifactId>vaadin-core</artifactId>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>com.vaadin</groupId>
-                            <artifactId>vaadin-dev</artifactId>
-                        </exclusion>
-                    </exclusions>
-                </dependency>
-
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.vaadin</groupId>
-                        <artifactId>vaadin-maven-plugin</artifactId>
-                        <version>${vaadin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>frontend</id>
-                                <phase>compile</phase>
-                                <goals>
-                                    <goal>prepare-frontend</goal>
-                                    <goal>build-frontend</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>-->
 
 </project>

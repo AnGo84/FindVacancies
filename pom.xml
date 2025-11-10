@@ -17,17 +17,11 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.3</version> <!-- Use a recent stable Spring Boot version -->
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>3.5.7</version>
+        <relativePath/>
     </parent>
 
     <modules>
-        <module>findvacancies</module>
-        <module>findvacancies-web-jsp</module>
-        <module>findvacancies-web-rest</module>
-        <module>findvacancies-web-thymeleaf</module>
-        <module>findvacancies-web-vaadin</module>
-        <module>findvacancies-web-flux</module>
         <module>common</module>
         <module>rest</module>
         <module>webflux</module>
@@ -48,50 +42,53 @@
         <project.build.sourceEncoding>${default.encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${default.encoding}</project.reporting.outputEncoding>
 
-        <spring-boot.version>3.5.3</spring-boot.version>
+        <spring-boot.version>3.5.7</spring-boot.version>
 
-        <vaadin.version>24.9.0</vaadin.version>
+        <vaadin.version>24.9.4</vaadin.version>
 
         <!-- Test -->
         <!-- todo: to remove. Junit and mockito are parts of Spring Boot test -->
-        <junit-platform.version>1.13.3</junit-platform.version>
+        <!--<junit-platform.version>1.13.3</junit-platform.version>
         <junit-jupiter.version>5.13.3</junit-jupiter.version>
-        <mockito-core.version>5.18.0</mockito-core.version>
+        <mockito-core.version>5.18.0</mockito-core.version>-->
         <!-- /Test -->
 
-        <lombok.version>1.18.38</lombok.version>
+        <lombok.version>1.18.42</lombok.version>
 
-        <hibernate-validator.version>9.0.1.Final</hibernate-validator.version>
+        <hibernate-validator.version>9.1.0.Final</hibernate-validator.version>
 
         <!-- JSON parsing -->
-        <jsoup.version>1.21.1</jsoup.version>
+        <jsoup.version>1.21.2</jsoup.version>
         <json.version>20250517</json.version>
 
         <!-- XML -->
-        <jakarta.xml.bind-api.version>4.0.2</jakarta.xml.bind-api.version>
-        <jaxb-impl.version>4.0.5</jaxb-impl.version>
+        <jakarta.xml.bind-api.version>4.0.4</jakarta.xml.bind-api.version>
+        <jaxb-impl.version>4.0.6</jaxb-impl.version>
 
         <!-- Excel -->
         <poi-ooxml.version>5.4.1</poi-ooxml.version>
 
         <!-- Swagger -->
-        <springdoc-openapi.version>2.8.9</springdoc-openapi.version>
+        <springdoc-openapi.version>2.8.14</springdoc-openapi.version>
 
         <!-- Plugins -->
 
         <!-- check this-->
         <maven-site-plugin.version>4.0.0-M13</maven-site-plugin.version>
 
-        <maven.compiler.plugin.version>3.14.0</maven.compiler.plugin.version>
-        <maven.dependency.plugin.version>3.8.1</maven.dependency.plugin.version>
+        <maven.compiler.plugin.version>3.14.1</maven.compiler.plugin.version>
+        <maven.dependency.plugin.version>3.9.0</maven.dependency.plugin.version>
 
-        <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
         <!-- Define the version of the byte-buddy-agent used by Mockito -->
         <byte-buddy-agent.version>1.17.6</byte-buddy-agent.version>
 
-        <maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
+        <maven-failsafe-plugin.version>3.5.4</maven-failsafe-plugin.version>
 
-        <maven.versions.plugin.version>2.18.0</maven.versions.plugin.version>
+        <maven.versions.plugin.version>2.19.1</maven.versions.plugin.version>
+        <maven.owasp.dependency.check.plugin.version>12.1.8</maven.owasp.dependency.check.plugin.version>
+        <selenium-java.version>4.38.0</selenium-java.version>
+        <webdrivermanager.version>6.3.3</webdrivermanager.version>
     </properties>
 
     <dependencyManagement>
@@ -117,105 +114,6 @@
                 <version>${project.version}</version>
             </dependency>
             <!-- /Current project -->
-
-            <!-- Spring Boot -->
-            <!--<dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-validation</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-actuator</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-tomcat</artifactId>
-                <version>${spring-boot.version}</version>
-                <scope>provided</scope>
-            </dependency>-->
-
-            <!-- Hot deploy and live reload -->
-            <!-- https://vaadin.com/docs/latest/configuration/live-reload/spring-boot -->
-            <!--<dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-devtools</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-webflux</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>-->
-            <!-- -->
-
-            <!-- /Spring Boot -->
-
-            <!-- Tests -->
-            <!--<dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <version>${spring-boot.version}</version>
-                <scope>test</scope>
-            </dependency>-->
-
-            <!-- <dependency>
-                 <groupId>org.junit.platform</groupId>
-                 <artifactId>junit-platform-commons</artifactId>
-                 &lt;!&ndash;<version>${junit-platform.version}</version>&ndash;&gt;
-                 <scope>test</scope>
-             </dependency>
-
-             <dependency>
-                 <groupId>org.junit.jupiter</groupId>
-                 <artifactId>junit-jupiter-api</artifactId>
-                 &lt;!&ndash;<version>${junit-jupiter.version}</version>&ndash;&gt;
-                 <scope>test</scope>
-             </dependency>
-             <dependency>
-                 <groupId>org.junit.jupiter</groupId>
-                 <artifactId>junit-jupiter-engine</artifactId>
-                 &lt;!&ndash;<version>${junit-jupiter.version}</version>&ndash;&gt;
-                 <scope>test</scope>
-             </dependency>
-             <dependency>
-                 <groupId>org.junit.jupiter</groupId>
-                 <artifactId>junit-jupiter-params</artifactId>
-                 &lt;!&ndash;<version>${junit-jupiter.version}</version>&ndash;&gt;
-                 <scope>test</scope>
-             </dependency>-->
-
-            <!--<dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${mockito-core.version}</version>
-                <scope>test</scope>
-            </dependency>-->
-            <!-- /Tests -->
 
             <!-- General -->
             <dependency>
@@ -249,6 +147,20 @@
                 <version>${springdoc-openapi.version}</version>
             </dependency>
             <!-- /Swagger -->
+
+            <!-- Selenium -->
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-java</artifactId>
+                <version>${selenium-java.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.bonigarcia</groupId>
+                <artifactId>webdrivermanager</artifactId>
+                <version>${webdrivermanager.version}</version>
+            </dependency>
+            <!-- /Selenium -->
 
             <!-- jsoup HTML parser library @ https://jsoup.org/ -->
             <dependency>
@@ -339,28 +251,16 @@
                             -javaagent:"${settings.localRepository}/net/bytebuddy/byte-buddy-agent/${byte-buddy-agent.version}/byte-buddy-agent-${byte-buddy-agent.version}.jar"
                         </argLine>
                     </configuration>
-                    <!--<configuration>
-                        <argLine>@{argLine}</argLine>
-                    </configuration>-->
                 </plugin>
+
                 <!-- Maven Failsafe Plugin for running integration tests (optional, but good practice) -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven-failsafe-plugin.version}</version>
-                    <!--<executions>
-                        <execution>
-                            <goals>
-                                <goal>integration-test</goal>
-                                <goal>verify</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <argLine>@{argLine}</argLine>
-                    </configuration>-->
                 </plugin>
 
+                <!-- Dependency version management -->
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>versions-maven-plugin</artifactId>
@@ -370,6 +270,7 @@
                     </configuration>
                 </plugin>
 
+                <!-- Scans dependencies -->
                 <plugin>
                     <groupId>org.owasp</groupId>
                     <artifactId>dependency-check-maven</artifactId>
@@ -386,32 +287,16 @@
                     </configuration>
                 </plugin>
 
-                <!-- Spring Boot Maven Plugin for packaging executable JARs -->
-                <!--<plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${spring-boot.version}</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>repackage</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>-->
-
-
             </plugins>
         </pluginManagement>
 
-        <plugins>
+        <!--<plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
             </plugin>
-
-        </plugins>
+        </plugins>-->
     </build>
 
 </project>

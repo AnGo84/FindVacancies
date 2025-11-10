@@ -65,14 +65,13 @@
 
     <build>
         <finalName>find-vacancies-rest</finalName>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <!-- Explicitly specify the main class for the REST application -->
-                    <!--<mainClass>ua.findvacancies.rest.JobParserRestApplication</mainClass>-->
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
@@ -89,5 +88,7 @@
                 </executions>
             </plugin>
         </plugins>
+
     </build>
+
 </project>

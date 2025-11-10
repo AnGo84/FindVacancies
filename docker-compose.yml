@@ -1,29 +1,114 @@
-version: '3.8' # Specify the Docker Compose file format version
+version: '3.8'
 
 services:
   job-parser-rest:
     build:
-      context: .        # Build context is the root directory of your project
-      dockerfile: rest/Dockerfile # Path to the Dockerfile for the rest service
+      context: .
+      dockerfile: rest/Dockerfile
     ports:
-      - "8080:8080" # Map host port 8080 to container port 8080
-    # Optional: If you need to mount a volume for logs or configuration
-    # volumes:
-    #   - ./logs:/app/logs # Example: Mount a local 'logs' directory to the container's /app/logs
-    container_name: job-parser-rest-app # A friendly name for the container
-    restart: unless-stopped # Always restart unless explicitly stopped
-    # Optional: Environment variables for the Spring Boot app
-    # environment:
-    #   - SPRING_PROFILES_ACTIVE=prod # Example: Activate 'prod' Spring profile
-    #   - MY_APP_PROPERTY=someValue
-    env_file: ./.env
+      - "${REST_PORT}:8080"
+    env_file:
+      - .env
+    container_name: job-parser-rest-api
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - maven-repo:/root/.m2
+    networks:
+      - job-parser-network
+    restart: on-failure # for development
+    #restart: on-failure unless-stopped # for production
 
   job-parser-webflux:
     build:
       context: .
       dockerfile: webflux/Dockerfile
     ports:
-      - "8081:8080" # Map host port 8081 to container port 8080
-    container_name: job-parser-webflux-app # A friendly name for the container
-    restart: unless-stopped # Always restart unless explicitly stopped
-    env_file: ./.env
+      - "${WEBFLUX_PORT}:8080"
+    env_file:
+      - .env
+    container_name: job-parser-webflux-api
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - maven-repo:/root/.m2
+    networks:
+      - job-parser-network
+    restart: on-failure # for development
+    #restart: on-failure unless-stopped # for production
+
+  job-parser-vaadin:
+    build:
+      context: .
+      dockerfile: vaadin-ui/Dockerfile
+    ports:
+      - "${VAADIN_PORT}:8080"
+    env_file:
+      - .env
+    container_name: job-parser-vaadin-ui
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - maven-repo:/root/.m2
+    networks:
+      - job-parser-network
+    restart: on-failure # for development
+    #restart: on-failure unless-stopped # for production
+
+  job-parser-thymeleaf-bootstrap:
+    build:
+      context: .
+      dockerfile: thymeleaf-bootstrap-ui/Dockerfile
+    ports:
+      - "${BOOTSTRAP_UI_PORT}:8080"
+    env_file:
+      - .env
+    container_name: job-parser-bootstrap-ui
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - maven-repo:/root/.m2
+    networks:
+      - job-parser-network
+    restart: on-failure # for development
+    #restart: on-failure unless-stopped # for production
+
+  job-parser-thymeleaf-tailwind-htmx:
+    build:
+      context: .
+      dockerfile: thymeleaf-tailwind-htmx-ui/Dockerfile
+    ports:
+      - "${TAILWIND_UI_PORT}:8080"
+    env_file:
+      - .env
+    container_name: job-parser-tailwind-ui
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - maven-repo:/root/.m2
+    networks:
+      - job-parser-network
+    restart: on-failure # for development
+    #restart: on-failure unless-stopped # for production
+
+volumes:
+  maven-repo:
+
+networks:
+  job-parser-network:
+    driver: bridge

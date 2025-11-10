@@ -15,7 +15,6 @@ class JobSiteTest {
         assertEquals("djinni.co", JobSite.DJINNI_CO.getSiteName());
         assertEquals("work.ua", JobSite.WORK_UA.getSiteName());
         assertEquals("jobs.dou.ua", JobSite.DOU_UA.getSiteName());
-        assertEquals("grc.ua", JobSite.GRC_UA.getSiteName());
     }
 
     @Test
@@ -23,7 +22,6 @@ class JobSiteTest {
         assertEquals(Optional.of(JobSite.DJINNI_CO), JobSite.fromUrlName("djinni.co"));
         assertEquals(Optional.of(JobSite.WORK_UA), JobSite.fromUrlName("work.ua"));
         assertEquals(Optional.of(JobSite.DOU_UA), JobSite.fromUrlName("jobs.dou.ua"));
-        assertEquals(Optional.of(JobSite.GRC_UA), JobSite.fromUrlName("grc.ua"));
         // Test case-insensitivity
         assertEquals(Optional.of(JobSite.DJINNI_CO), JobSite.fromUrlName("DJINNI.CO"));
     }

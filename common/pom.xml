@@ -45,6 +45,18 @@
         </dependency>
         <!-- /General -->
 
+        <!-- Selenium -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+        </dependency>
+        <!-- /Selenium -->
+
         <!-- JSON parsing -->
         <dependency>
             <groupId>org.jsoup</groupId>
@@ -120,14 +132,10 @@
         <!-- /Test -->
 
     </dependencies>
+
     <build>
 
         <plugins>
-            <!--
-                Exclude spring-boot-maven-plugin's repackage goal from the common module.
-                This ensures that 'common.jar' is a regular library JAR and not an executable JAR,
-                preventing its classes from being moved into BOOT-INF.
-            -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -139,6 +147,7 @@
                 </executions>
             </plugin>
         </plugins>
+
     </build>
 
 </project>

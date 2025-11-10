@@ -1,0 +1,24 @@
+# Maven build artifacts
+target/
+
+# Vaadin frontend build cache
+node_modules/
+frontend/generated/
+frontend/build/
+frontend/node_modules/
+
+# IDE and OS clutter
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Git and environment
+.git/
+.gitignore
+.env
+
+# Logs and temp files
+*.log
+*.swp

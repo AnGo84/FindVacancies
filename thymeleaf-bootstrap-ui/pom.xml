@@ -67,8 +67,10 @@
         <!-- /Test -->
 
     </dependencies>
+
     <build>
         <finalName>find-vacancies-thymeleaf</finalName>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -91,5 +93,7 @@
                 </executions>
             </plugin>
         </plugins>
+
     </build>
+
 </project>

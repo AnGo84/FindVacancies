@@ -1,108 +1,95 @@
+# ----------------------------------------
+# 1. BUILD ARTIFACTS (MAVEN & GENERAL)
+# ----------------------------------------
+# Standard Maven output directory
+/target/
+# IntelliJ's default output directory
+/out/
+# Project build logs
+*.log
+# Package and coverage reports
+/jacoco
+/surefire-reports
+/failsafe-reports
 
-# Created by https://www.gitignore.io/api/java-web,intellij
-# Edit at https://www.gitignore.io/?templates=java-web,intellij
+# ----------------------------------------
+# 2. VAADIN FLOW SPECIFIC
+# ----------------------------------------
+# Node modules folder used by Vaadin/Vite for frontend dependencies.
+/node_modules/
+# Package manager configuration and cache (npm, pnpm, yarn)
+/pnpm-lock.yaml
+/pnpm-store
+/pnpmfile.js
+/package-lock.json
 
-### Intellij ###
-# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
-# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+# Vaadin generated files (may contain Vite cache, etc.)
+# This folder caches the front-end modules that the project depends upon.
+/frontend/
+# NOTE: If you have custom CSS/TS/JS in frontend/src, you MUST NOT ignore the entire /frontend/
+# Instead, ignore just the generated files/directories within it:
+#/frontend/target/ 
+#/frontend/generated-flow-grizzly-server
+#/frontend/vaadin-dev-server-settings.json
 
-# User-specific stuff
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/**/usage.statistics.xml
-.idea/**/dictionaries
-.idea/**/shelf
+# Auto-generated index.html (if applicable)
+/index.html
 
-# Generated files
-.idea/**/contentModel.xml
+# Browser drivers for local integration tests (TestBench)
+/drivers/
 
-# Sensitive or high-churn files
-.idea/**/dataSources/
-.idea/**/dataSources.ids
-.idea/**/dataSources.local.xml
-.idea/**/sqlDataSources.xml
-.idea/**/dynamic.xml
-.idea/**/uiDesigner.xml
-.idea/**/dbnavigator.xml
+# ----------------------------------------
+# 3. IDE
+# ----------------------------------------
 
-# Gradle
-.idea/**/gradle.xml
-.idea/**/libraries
-
-# Gradle and Maven with auto-import
-# When using Gradle or Maven with auto-import, you should exclude module files,
-# since they will be recreated, and may cause churn.  Uncomment if using
-# auto-import.
-.idea/modules.xml
-.idea/*.iml
-.idea/modules
-.idea/artifacts
-.idea/compiler.xml
-.idea/jarRepositories.xml
-.idea/encodings.xml
-
+### 3.1 INTELLIJ IDEA ###
+# IntelliJ project files
+.idea/
+# Specific files that may exist
 *.iml
-*.ipr
-
-# CMake
-cmake-build-*/
-
-# Mongo Explorer plugin
-.idea/**/mongoSettings.xml
-
-# File-based project format
 *.iws
+*.ipr
+# Temporary files
+*.swp
 
-# IntelliJ
-out/
 
-# mpeltonen/sbt-idea plugin
-.idea_modules/
+### 3.2 Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
-# JIRA plugin
-atlassian-ide-plugin.xml
+### 3.3 NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-# Cursive Clojure plugin
-.idea/replstate.xml
+### 3.4 VS Code ###
+.vscode/
 
-# Crashlytics plugin (for Android Studio and IntelliJ)
-com_crashlytics_export_strings.xml
-crashlytics.properties
-crashlytics-build.properties
-fabric.properties
 
-# Editor-based Rest Client
-.idea/httpRequests
+# ----------------------------------------
+# 4. OPERATING SYSTEM
+# ----------------------------------------
+# Mac OS
+.DS_Store
+# Windows
+Thumbs.db
+Desktop.ini
 
-# Android studio 3.1+ serialized cache file
-.idea/caches/build_file_checksums.ser
 
-### Intellij Patch ###
-# Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
-
-# *.iml
-# modules.xml
-.idea/misc.xml
-# *.ipr
-
-# Sonarlint plugin
-.idea/**/sonarlint/
-
-# SonarQube Plugin
-.idea/**/sonarIssues.xml
-
-# Markdown Navigator plugin
-.idea/**/markdown-navigator.xml
-.idea/**/markdown-navigator/
-
-### Java-Web ###
-## ignoring target file
-target/
-
-logs/
-
-### Vaadin ###
-.vaadin-designer
-.designer
-
-# End of https://www.gitignore.io/api/java-web,intellij
+# ----------------------------------------
+# 5. MAVEN WRAPPER
+# ----------------------------------------
+# Maven wrapper files are usually committed, but the JAR is often ignored.
+# You can commit the wrapper scripts (mvnw, mvnw.cmd) and the .mvn folder
+# but ignore the downloaded binary:
+/.mvn/wrapper/maven-wrapper.jar

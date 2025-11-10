@@ -2,7 +2,6 @@
 Build status: [![build_status](https://travis-ci.com/AnGo84/FindVacancies.svg?branch=master)](https://travis-ci.com/AnGo84/FindVacancies.svg)
 [![<AnGo84>](https://circleci.com/gh/AnGo84/FindVacancies.svg?style=svg)](https://app.circleci.com/pipelines/github/AnGo84/FindVacancies)
 
-[//]: # ([![BCH compliance]&#40;https://bettercodehub.com/edge/badge/AnGo84/FindVacancies?branch=master&#41;]&#40;https://bettercodehub.com/&#41;)
 
 The application for searching for vacancies from the popular sites:
 - [work.ua](https://www.work.ua/)
