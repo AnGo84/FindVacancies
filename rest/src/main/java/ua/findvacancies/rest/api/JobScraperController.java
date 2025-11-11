@@ -34,7 +34,8 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/api/v1/jobs")
-@Tag(name = "Job Vacancy Parser API", description = "Operations related to scraping and exporting job vacancies.")
+@Tag(name = "Job Vacancies Parser REST API", description = "REST API for searching job vacancies.")
+
 @Slf4j
 public class JobScraperController {
 

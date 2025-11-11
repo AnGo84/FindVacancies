@@ -28,8 +28,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/jobs")
-@Tag(name = "Job Vacancies WebFlux API", description = "WebFlux API for searching and exporting job vacancies")
-@Validated
+@Tag(name = "Job Vacancies Parser WebFlux API", description = "WebFlux API for searching job vacancies.")@Validated
 @Slf4j
 public class JobScraperWebfluxController {
 
