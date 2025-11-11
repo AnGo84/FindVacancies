@@ -35,7 +35,7 @@ public class DjinniJobScraper extends AbstractSiteScraper {
     }
 
     @Override
-    public Elements getJobElements(Document doc) {
+    public Elements getJobElements(final Document doc) {
         return doc.select("ul.list-jobs li[id^=job-item-]");
     }
 
@@ -48,7 +48,7 @@ public class DjinniJobScraper extends AbstractSiteScraper {
      * @return The constructed URL.
      */
     @Override
-    public String buildSearchUrl(JobSearchCriteria criteria, int page) {
+    public String buildSearchUrl(final JobSearchCriteria criteria, final int page) {
         StringBuilder urlBuilder = new StringBuilder(getSiteUrl()).append("/jobs/");
         boolean firstParam = true;
 
@@ -74,33 +74,33 @@ public class DjinniJobScraper extends AbstractSiteScraper {
     }
 
     @Override
-    public String getTitle(Element jobElement) {
+    public String getTitle(final Element jobElement) {
         return getTextOrDefault(jobElement.selectFirst("a.job-item__title-link"));
     }
 
     @Override
-    public String getJobUrl(Element jobElement) {
+    public String getJobUrl(final Element jobElement) {
         Element linkEl = jobElement.selectFirst("a.job-item__title-link");
         return getSiteUrl() + getAttributeOrDefault(linkEl, "href");
     }
 
     @Override
-    public String getCompanyName(Element jobElement) {
+    public String getCompanyName(final Element jobElement) {
         return getTextOrDefault(jobElement.selectFirst("a[data-analytics=company_page]"));
     }
 
     @Override
-    public String getCity(Element jobElement) {
+    public String getCity(final Element jobElement) {
         return getTextOrDefault(jobElement.selectFirst("span.location-text"));
     }
 
     @Override
-    public String getSalary(Element jobElement) {
+    public String getSalary(final Element jobElement) {
         return getTextOrDefault(jobElement.selectFirst("span.public-salary"));
     }
 
     @Override
-    public LocalDate getDatePosted(Element jobElement, String title) {
+    public LocalDate getDatePosted(final Element jobElement, final String title) {
         Optional<String> dateTooltipString =
                 Optional.ofNullable(jobElement.selectFirst("span.text-nowrap[data-toggle=tooltip]"))
                         .map(element -> element.attr("title"));
@@ -114,12 +114,12 @@ public class DjinniJobScraper extends AbstractSiteScraper {
     }
 
     @Override
-    public boolean isHot(Element jobElement) {
+    public boolean isHot(final Element jobElement) {
         return jobElement.select("span.icon-hot").first() != null;
     }
 
     @Override
-    public String getDescription(Element jobElement) {
+    public String getDescription(final Element jobElement) {
         return getTextOrDefault(jobElement.selectFirst("span.js-truncated-text"));
     }
 
@@ -131,7 +131,7 @@ public class DjinniJobScraper extends AbstractSiteScraper {
      * @return A LocalDate object, or null if parsing fails.
      */
     @Override
-    public LocalDate parseDateElementValue(String dateString) {
+    public LocalDate parseDateElementValue(final String dateString) {
         if (StringUtils.isBlank(dateString)) {
             return null;
         }

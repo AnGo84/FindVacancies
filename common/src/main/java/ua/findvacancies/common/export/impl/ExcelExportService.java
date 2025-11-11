@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ExcelExportService implements JobExportService {
 
-    private static CellStyle getHeaderRowStyle(Workbook workbook) {
+    private static CellStyle getHeaderRowStyle(final Workbook workbook) {
         CellStyle headerStyle = workbook.createCellStyle();
         Font headerFont = workbook.createFont();
         headerFont.setBold(true);
@@ -46,7 +46,7 @@ public class ExcelExportService implements JobExportService {
      * @return A byte array of the XLSX file, or an empty byte array if an error occurs or collection is empty.
      */
     @Override
-    public byte[] export(Collection<JobVacancy> vacancies) {
+    public byte[] export(final Collection<JobVacancy> vacancies) {
         if (CollectionUtils.isEmpty(vacancies)) {
             log.warn("Attempted to export an empty or null collection of vacancies to Excel.");
             return new byte[0];
@@ -87,7 +87,7 @@ public class ExcelExportService implements JobExportService {
         }
     }
 
-    private void setCellValue(JobVacancy vacancy, String fieldName, Cell cell) {
+    private void setCellValue(final JobVacancy vacancy, final String fieldName, final Cell cell) {
         try {
             Field field = JobVacancy.class.getDeclaredField(fieldName);
             field.setAccessible(true);
@@ -110,8 +110,8 @@ public class ExcelExportService implements JobExportService {
         }
     }
 
-    // Create header row dynamically based on JobVacancy fields
-    private List<String> createHeaderRow(Row headerRow, CellStyle headerStyle) {
+    // Create a header row dynamically based on JobVacancy fields
+    private List<String> createHeaderRow(final Row headerRow, final CellStyle headerStyle) {
         Field[] fields = JobVacancy.class.getDeclaredFields();
         List<String> fieldNames = new ArrayList<>();
 
@@ -135,7 +135,7 @@ public class ExcelExportService implements JobExportService {
     /**
      * Helper method to capitalize the first letter of a string.
      */
-    private String capitalizeFirstLetter(String str) {
+    private String capitalizeFirstLetter(final String str) {
         if (str == null || str.isEmpty()) {
             return str;
         }

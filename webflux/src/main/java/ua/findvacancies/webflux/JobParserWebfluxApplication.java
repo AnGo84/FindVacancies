@@ -19,9 +19,8 @@ import org.springframework.context.annotation.ComponentScan;
 )
 public class JobParserWebfluxApplication {
 
-    public static void main(String[] args) {
+    static void main(final String[] args) {
         SpringApplication.run(JobParserWebfluxApplication.class, args);
     }
 
 }
-

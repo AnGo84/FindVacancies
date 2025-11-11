@@ -16,9 +16,12 @@ import java.util.Set;
  * outside a full web application.
  */
 @Slf4j
-public class JobScraperMain {
+public final class JobScraperMain {
 
-    public static void main(String[] args) {
+    private JobScraperMain() {
+    }
+
+    static void main() {
         JobSearchCriteria criteria = JobSearchCriteria.builder()
                 .keywords(Set.of("java", "developer"))
                 .ignoredWords(Set.of("junior", "trainee"))

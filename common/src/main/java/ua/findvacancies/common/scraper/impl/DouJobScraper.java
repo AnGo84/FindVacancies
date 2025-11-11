@@ -43,11 +43,11 @@ public class DouJobScraper extends AbstractSeleniumScraper {
             Map.entry("грудня", 12)
     );
 
-    public DouJobScraper(JobFilterService jobFilterService) {
+    public DouJobScraper(final JobFilterService jobFilterService) {
         super(jobFilterService, JobSite.DOU_UA);
     }
 
-    public static void main(String[] args) {
+    static void main() {
         JobSearchCriteria criteria = JobSearchCriteria.builder()
                 .keywords(Set.of("java"))
                 .ignoredWords(Set.of("junior", "trainee"))
@@ -61,18 +61,18 @@ public class DouJobScraper extends AbstractSeleniumScraper {
     }
 
     @Override
-    protected List<WebElement> getVacancyElements(WebDriver driver) {
+    protected List<WebElement> getVacancyElements(final WebDriver driver) {
         return driver.findElements(By.cssSelector(".l-vacancy"));
     }
 
-    private String replaceWebSymbols(String text) {
-        return text.replaceAll("\u00A0", " ").trim();
+    private String replaceWebSymbols(final String text) {
+        return text.replace("\u00A0", " ").trim();
     }
 
     /**
      * Converts a DOU date string (e.g., "5 листопада" or "сьогодні") to a LocalDate object.
      */
-    private LocalDate parseDOUDate(String dateString) {
+    private LocalDate parseDOUDate(final String dateString) {
         String normalizedDate = dateString.toLowerCase(Locale.of("uk", "UA"));
         LocalDate today = LocalDate.now();
 
@@ -109,12 +109,12 @@ public class DouJobScraper extends AbstractSeleniumScraper {
 
 
     @Override
-    protected Elements getJobElements(Document doc) {
+    protected Elements getJobElements(final Document doc) {
         return doc.select("li.l-vacancy");
     }
 
     @Override
-    public String buildSearchUrl(JobSearchCriteria criteria, int page) {
+    public String buildSearchUrl(final JobSearchCriteria criteria, final int page) {
         StringBuilder urlBuilder = new StringBuilder(getSiteUrl()).append("/vacancies/");
 
         if (criteria != null && criteria.hasKeywords()) {
@@ -130,33 +130,33 @@ public class DouJobScraper extends AbstractSeleniumScraper {
     }
 
     @Override
-    protected String getTitle(Element jobElement) {
+    protected String getTitle(final Element jobElement) {
         return getTextOrDefault(jobElement.selectFirst("div.title a.vt"));
     }
 
     @Override
-    protected String getJobUrl(Element jobElement) {
+    protected String getJobUrl(final Element jobElement) {
         return getAttributeOrDefault(jobElement.selectFirst("div.title a.vt"), "href");
     }
 
     @Override
-    protected String getCompanyName(Element jobElement) {
+    protected String getCompanyName(final Element jobElement) {
         String textOrDefault = getTextOrDefault(jobElement.selectFirst("div.title a.company"));
         return replaceWebSymbols(textOrDefault);
     }
 
     @Override
-    protected String getCity(Element jobElement) {
+    protected String getCity(final Element jobElement) {
         return getTextOrDefault(jobElement.selectFirst("span.cities"));
     }
 
     @Override
-    protected String getSalary(Element jobElement) {
+    protected String getSalary(final Element jobElement) {
         return getTextOrDefault(jobElement.selectFirst("span.salary"));
     }
 
     @Override
-    protected LocalDate getDatePosted(Element jobElement, String title) {
+    protected LocalDate getDatePosted(final Element jobElement, final String title) {
         var dateEl = jobElement.selectFirst("div.date");
         if (dateEl == null || dateEl.text().isBlank()) {
             return null;
@@ -165,22 +165,22 @@ public class DouJobScraper extends AbstractSeleniumScraper {
     }
 
     @Override
-    protected boolean isHot(Element jobElement) {
+    protected boolean isHot(final Element jobElement) {
         return jobElement.hasClass("__hot");
     }
 
     @Override
-    protected String getDescription(Element jobElement) {
+    protected String getDescription(final Element jobElement) {
         return getTextOrDefault(jobElement.selectFirst("div.sh-info"));
     }
 
     @Override
-    protected LocalDate parseDateElementValue(String dateString) {
+    protected LocalDate parseDateElementValue(final String dateString) {
         return parseDOUDate(dateString);
     }
 
     @Override
-    protected WebElement getWebElementForMoreResults(WebDriver driver) {
+    protected WebElement getWebElementForMoreResults(final WebDriver driver) {
         return driver.findElement(By.cssSelector("div.more-btn > a"));
     }
 

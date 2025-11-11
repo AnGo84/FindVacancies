@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class JobSearchCriteriaMapper {
 
-    public JobSearchCriteria toEntity(SearchCriteriaDto dto) {
+    public JobSearchCriteria toEntity(final SearchCriteriaDto dto) {
         Set<String> keywords = parseWords(dto.getSearchLine());
         Set<String> ignoredWords = parseWords(dto.getIgnoreWords());
 
@@ -22,7 +22,7 @@ public class JobSearchCriteriaMapper {
                 .build();
     }
 
-    private Set<String> parseWords(String input) {
+    private Set<String> parseWords(final String input) {
         if (input == null || input.isBlank()) {
             return Collections.emptySet();
         }

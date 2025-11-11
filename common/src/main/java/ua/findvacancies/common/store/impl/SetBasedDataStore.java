@@ -25,7 +25,7 @@ public class SetBasedDataStore<T> implements DataStore<T> {
      * @return true if the item was added (i.e., it was not already present), false otherwise.
      */
     @Override
-    public boolean add(T item) {
+    public boolean add(final T item) {
         return data.add(item);
     }
 
@@ -36,7 +36,7 @@ public class SetBasedDataStore<T> implements DataStore<T> {
      * @return true if the set was changed as a result of the call.
      */
     @Override
-    public boolean addAll(Collection<T> items) {
+    public boolean addAll(final Collection<T> items) {
         return data.addAll(items);
     }
 

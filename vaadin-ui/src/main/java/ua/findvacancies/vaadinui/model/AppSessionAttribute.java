@@ -5,7 +5,7 @@ public enum AppSessionAttribute {
 
     private final String label;
 
-    AppSessionAttribute(String label) {
+    AppSessionAttribute(final String label) {
         this.label = label;
     }
 

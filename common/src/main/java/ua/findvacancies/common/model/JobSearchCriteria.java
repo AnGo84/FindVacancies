@@ -25,7 +25,7 @@ public class JobSearchCriteria {
 
     //@Schema(description = "Keywords to search for (e.g., 'java developer')")
     @Builder.Default
-    Set<String> keywords =  new HashSet<>();
+    Set<String> keywords = new HashSet<>();
 
     //@Schema(description = "Words to ignore in the search results (e.g., 'junior', 'trainee')")
     @Builder.Default
@@ -47,10 +47,10 @@ public class JobSearchCriteria {
      */
     @JsonIgnore
     public boolean isEmpty() {
-        return (keywords == null || keywords.isEmpty()) &&
-                (ignoredWords == null || ignoredWords.isEmpty()) &&
-                (lastNDays == null) &&
-                (maxPagesToScrape == null);
+        return (keywords == null || keywords.isEmpty())
+                && (ignoredWords == null || ignoredWords.isEmpty())
+                && (lastNDays == null)
+                && (maxPagesToScrape == null);
     }
 
     /**

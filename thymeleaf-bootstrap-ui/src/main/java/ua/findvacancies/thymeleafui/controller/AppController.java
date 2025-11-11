@@ -44,10 +44,10 @@ public class AppController {
 
     private final DataStore<JobVacancy> dataStore;
 
-    public AppController(MessageSource messageSource,
-                         JobSearchCriteriaMapper jobSearchCriteriaMapper,
-                         JobService jobService,
-                         DataStore<JobVacancy> dataStore) {
+    public AppController(final MessageSource messageSource,
+                         final JobSearchCriteriaMapper jobSearchCriteriaMapper,
+                         final JobService jobService,
+                         final DataStore<JobVacancy> dataStore) {
         this.messageSource = messageSource;
         this.jobSearchCriteriaMapper = jobSearchCriteriaMapper;
         this.jobService = jobService;
@@ -60,29 +60,30 @@ public class AppController {
     }
 
     @ModelAttribute("currentDate")
-    public String getCurrentDate(Locale locale) {
+    public String getCurrentDate(final Locale locale) {
         String todayPrefix = messageSource.getMessage("today.is", null, locale);
         return UIUtils.getDateInfo(todayPrefix, LocalDate.now(), locale);
     }
 
     @ModelAttribute("currentLocale")
-    public String getCurrentLocale(Locale locale) {
+    public String getCurrentLocale(final Locale locale) {
         return locale.getLanguage();
     }
 
     @GetMapping("/")
-    public String index(Model model, Locale locale) {
+    public String index(final Model model, final Locale locale) {
         model.addAttribute("searchCriteria", new SearchCriteriaDto());
         updateModelAttributes(model, locale, dataStore.getAll());
         return MAIN_PAGE;
     }
 
     @PostMapping("/search")
-    public String search(@Valid @ModelAttribute("searchCriteria") SearchCriteriaDto searchCriteriaDto,
-                         BindingResult bindingResult,
-                         Model model,
-                         Locale locale) {
-
+    public String search(@Valid @ModelAttribute("searchCriteria")
+                             final SearchCriteriaDto searchCriteriaDto,
+                         final BindingResult bindingResult,
+                         final Model model,
+                         final Locale locale) {
+        log.info("Perform search for criteria: {}", searchCriteriaDto);
         if (bindingResult.hasErrors()) {
             log.warn("Validation Errors occurred. Returning search form with errors.");
             for (ObjectError objectError : bindingResult.getAllErrors()) {
@@ -90,8 +91,8 @@ public class AppController {
             }
             return MAIN_PAGE;
         }
+
         dataStore.clear();
-        log.info("Performing job search with DTO: {}", searchCriteriaDto);
 
         JobSearchCriteria jobSearchCriteria = jobSearchCriteriaMapper.toEntity(searchCriteriaDto);
 
@@ -104,7 +105,8 @@ public class AppController {
     }
 
     @GetMapping("/export")
-    public ResponseEntity<byte[]> exportJobs(@RequestParam("format") ExportFormat format) {
+    public ResponseEntity<byte[]> exportJobs(@RequestParam("format") final ExportFormat format) {
+        log.info("Exporting jobs in {} format.", format.name());
 
         Collection<JobVacancy> jobVacancies = dataStore.getAll();
 
@@ -126,7 +128,9 @@ public class AppController {
         }
     }
 
-    private void updateModelAttributes(Model model, Locale locale, Collection<JobVacancy> jobVacancies) {
+    private void updateModelAttributes(final Model model,
+                                       final Locale locale,
+                                       final Collection<JobVacancy> jobVacancies) {
         model.addAttribute("jobVacancies", jobVacancies);
         model.addAttribute("searchResultsMessage",
                 messageSource.getMessage("search.results.message", new Object[]{jobVacancies.size()}, locale));

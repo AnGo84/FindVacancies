@@ -96,7 +96,7 @@ public class JobScrapingOrchestrator {
         return allVacancies;
     }
 
-    private List<JobVacancy> getJobVacancies(JobSearchCriteria criteria, JobScraper scraper) {
+    private List<JobVacancy> getJobVacancies(final JobSearchCriteria criteria, final JobScraper scraper) {
         final var siteName = scraper.getJobSite().getSiteName();
         try {
             log.info("Starting scraping for site: {}", siteName);

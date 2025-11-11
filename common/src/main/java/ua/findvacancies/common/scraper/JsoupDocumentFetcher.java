@@ -9,8 +9,11 @@ import java.io.IOException;
 @Slf4j
 public class JsoupDocumentFetcher {
 
-    public static final String DEFAULT_USER_AGENT =
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36";
+    public static final String DEFAULT_USER_AGENT = """
+            Mozilla/5.0 (Windows NT 10.0; Win64; x64)
+            AppleWebKit/537.36 (KHTML, like Gecko)
+            Chrome/119.0.0.0 Safari/537.36
+            """;
 
     /**
      * Fetches an HTML document from the given URL.
@@ -19,7 +22,7 @@ public class JsoupDocumentFetcher {
      * @return The Jsoup Document object.
      * @throws IOException If a connection error occurs or the URL is invalid.
      */
-    public Document fetchDocument(String url) throws IOException {
+    public Document fetchDocument(final String url) throws IOException {
         log.debug("Fetching document from URL: {}", url);
         try {
             // Connect to the URL

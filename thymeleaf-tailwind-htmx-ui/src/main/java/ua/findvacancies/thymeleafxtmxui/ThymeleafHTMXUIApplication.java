@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = "ua.findvacancies")
 public class ThymeleafHTMXUIApplication {
 
-    public static void main(String[] args) {
+    static void main(final String[] args) {
         SpringApplication.run(ThymeleafHTMXUIApplication.class, args);
     }
 

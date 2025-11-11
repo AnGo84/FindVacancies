@@ -37,7 +37,7 @@ public class WorkUaJobScraper extends AbstractSiteScraper {
     }
 
     @Override
-    protected Elements getJobElements(Document doc) {
+    protected Elements getJobElements(final Document doc) {
         return doc.select("div.card.card-hover.card-visited.wordwrap.job-link");
     }
 
@@ -50,7 +50,7 @@ public class WorkUaJobScraper extends AbstractSiteScraper {
      * @return The constructed URL.
      */
     @Override
-    protected String buildSearchUrl(JobSearchCriteria criteria, int page) {
+    protected String buildSearchUrl(final JobSearchCriteria criteria, final int page) {
         StringBuilder urlBuilder = new StringBuilder(getSiteUrl()).append("/jobs-");
 
         if (criteria != null && criteria.hasKeywords()) {
@@ -69,23 +69,23 @@ public class WorkUaJobScraper extends AbstractSiteScraper {
     }
 
     @Override
-    protected String getTitle(Element jobElement) {
+    protected String getTitle(final Element jobElement) {
         return getTextOrDefault(jobElement.selectFirst("h2 > a"));
     }
 
     @Override
-    protected String getJobUrl(Element jobElement) {
+    protected String getJobUrl(final Element jobElement) {
         Element linkEl = jobElement.selectFirst("h2 > a");
         return getSiteUrl() + getAttributeOrDefault(linkEl, "href");
     }
 
     @Override
-    protected String getCompanyName(Element jobElement) {
+    protected String getCompanyName(final Element jobElement) {
         return getTextOrDefault(jobElement.selectFirst("span.mr-xs > span.strong-600"));
     }
 
     @Override
-    protected String getCity(Element jobElement) {
+    protected String getCity(final Element jobElement) {
         List<Element> cityElements = jobElement.select("div.mt-xs > span").stream()
                 .filter(spanEl -> !spanEl.hasClass("distance-block"))
                 .toList();
@@ -97,7 +97,7 @@ public class WorkUaJobScraper extends AbstractSiteScraper {
     }
 
     @Override
-    protected String getSalary(Element jobElement) {
+    protected String getSalary(final Element jobElement) {
         var salaryEl = jobElement.selectFirst("div > span.strong-600");
         if (salaryEl == null) {
             return NOT_AVAILABLE;
@@ -106,7 +106,7 @@ public class WorkUaJobScraper extends AbstractSiteScraper {
     }
 
     @Override
-    protected LocalDate getDatePosted(Element jobElement, String title) {
+    protected LocalDate getDatePosted(final Element jobElement, final String title) {
         String dateTimeAttribute = Optional.ofNullable(jobElement.selectFirst("time"))
                 .map(element -> element.attr("datetime"))
                 .orElse(null);
@@ -120,12 +120,12 @@ public class WorkUaJobScraper extends AbstractSiteScraper {
     }
 
     @Override
-    protected boolean isHot(Element jobElement) {
+    protected boolean isHot(final Element jobElement) {
         return false;
     }
 
     @Override
-    protected String getDescription(Element jobElement) {
+    protected String getDescription(final Element jobElement) {
         return getTextOrDefault(jobElement.selectFirst("p.ellipsis-line-3"));
     }
 
@@ -136,18 +136,15 @@ public class WorkUaJobScraper extends AbstractSiteScraper {
      * @param rawSalary The raw salary string (e.g., "40&#8239;000&thinsp;–&thinsp;60&#8239;000&nbsp;грн").
      * @return A cleaned salary string (e.g., "40000 – 60000").
      */
-    private String cleanWorkUaSalary(String rawSalary) {
+    private String cleanWorkUaSalary(final String rawSalary) {
         if (rawSalary == null || rawSalary.isEmpty()) {
             return NOT_AVAILABLE;
         }
         // Remove HTML entities for thin space, hair space, and non-breaking space
-        String cleaned = rawSalary.replace("&#8239;", "")
+        return rawSalary.replace("&#8239;", "")
                 .replace("&thinsp;", "")
-                .replace("&nbsp;", " ");
-        // Remove "грн" and trim whitespace
-        //cleaned = cleaned.replace("грн", "").trim();
-        cleaned = cleaned.trim();
-        return cleaned;
+                .replace("&nbsp;", " ")
+                .trim();
     }
 
     /**
@@ -158,7 +155,7 @@ public class WorkUaJobScraper extends AbstractSiteScraper {
      * @return A LocalDate object, or null if parsing fails.
      */
     @Override
-    public LocalDate parseDateElementValue(String dateString) {
+    public LocalDate parseDateElementValue(final String dateString) {
         if (StringUtils.isBlank(dateString)) {
             return null;
         }

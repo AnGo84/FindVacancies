@@ -26,8 +26,8 @@ public class JobService {
     private final JobScrapingOrchestrator jobScrapingOrchestrator;
     private final JobExportServiceRegistry jobExportServiceRegistry;
 
-    public JobService(JobScrapingOrchestrator jobScrapingOrchestrator,
-                      JobExportServiceRegistry jobExportServiceRegistry) {
+    public JobService(final JobScrapingOrchestrator jobScrapingOrchestrator,
+                      final JobExportServiceRegistry jobExportServiceRegistry) {
         this.jobScrapingOrchestrator = jobScrapingOrchestrator;
         this.jobExportServiceRegistry = jobExportServiceRegistry;
     }
@@ -39,7 +39,7 @@ public class JobService {
      * @param targetSites A set of job sites to scrape. If null or empty, all sites will be scraped.
      * @return A list of matching JobVacancy objects.
      */
-    public List<JobVacancy> getJobs(JobSearchCriteria criteria, Set<JobSite> targetSites) {
+    public List<JobVacancy> getJobs(final JobSearchCriteria criteria, final Set<JobSite> targetSites) {
         log.info("JobService: Scraping jobs with criteria: {} and target sites: {}", criteria, targetSites);
         return jobScrapingOrchestrator.scrapeJobs(criteria, targetSites);
     }
@@ -53,7 +53,7 @@ public class JobService {
      * For text formats, this will be UTF-8 encoded string bytes.
      * For binary formats, this will be the raw binary content.
      */
-    public byte[] exportJobs(Collection<JobVacancy> vacancies, ExportFormat format) {
+    public byte[] exportJobs(final Collection<JobVacancy> vacancies, final ExportFormat format) {
         log.info("JobService: Exporting {} vacancies in {} format.", vacancies.size(), format.getFileExtension());
         Optional<JobExportService> exporterOptional = jobExportServiceRegistry.getExporter(format);
 

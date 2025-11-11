@@ -11,7 +11,7 @@ public final class FileUtils {
         throw new IllegalStateException("Utility class");
     }
 
-    public static String getFileName(ExportFormat format) {
+    public static String getFileName(final ExportFormat format) {
         if (format == null) {
             throw new IllegalArgumentException("Export format must not be null");
         }
@@ -19,14 +19,14 @@ public final class FileUtils {
         return DEFAULT_FILE_NAME + "." + format.getFileExtension();
     }
 
-    public static String getAttachedFileHeaderValue(String filename) {
+    public static String getAttachedFileHeaderValue(final String filename) {
         if (StringUtils.isBlank(filename)) {
             throw new IllegalArgumentException("File name must not be blank");
         }
         return "attachment; filename=\"" + filename + "\"";
     }
 
-    public static String getAttachedFileHeaderValue(ExportFormat format) {
+    public static String getAttachedFileHeaderValue(final ExportFormat format) {
         return getAttachedFileHeaderValue(getFileName(format));
     }
 

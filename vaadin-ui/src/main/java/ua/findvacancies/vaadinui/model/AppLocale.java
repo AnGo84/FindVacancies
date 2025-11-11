@@ -12,7 +12,7 @@ public enum AppLocale {
 
     private final Locale locale;
 
-    AppLocale(Locale locale) {
+    AppLocale(final Locale locale) {
         this.locale = locale;
     }
 

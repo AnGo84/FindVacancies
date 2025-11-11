@@ -13,12 +13,12 @@ import ua.findvacancies.common.service.JobFilterService;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
+//TODO: move Elements parsing to Util class
 public abstract class AbstractScraper implements JobScraper {
 
     public static final String NOT_AVAILABLE = "N/A";
@@ -39,7 +39,7 @@ public abstract class AbstractScraper implements JobScraper {
      * @param text the input string possibly containing web-specific symbols
      * @return cleaned string with regular spaces and trimmed edges
      */
-    protected static String normalizeWebText(String text) {
+    protected static String normalizeWebText(final String text) {
         if (text == null || text.isEmpty()) {
             return "";
         }
@@ -53,7 +53,8 @@ public abstract class AbstractScraper implements JobScraper {
      * @param daysBack  the number of days to look back from today
      * @return true if at least one non-hot vacancy was posted within the time frame
      */
-    protected static boolean hasRecentNonHotVacancy(Collection<JobVacancy> vacancies, int daysBack) {
+    protected static boolean hasRecentNonHotVacancy(final Collection<JobVacancy> vacancies,
+                                                    final int daysBack) {
         if (vacancies == null || vacancies.isEmpty()) {
             return false;
         }
@@ -66,6 +67,32 @@ public abstract class AbstractScraper implements JobScraper {
                 .anyMatch(date -> date.isBefore(thresholdDate));
     }
 
+    /**
+     * Extracts the value of a specified attribute from a Jsoup Element,
+     * returning a default value if the element is null or the attribute is missing.
+     *
+     * @param element      the Jsoup Element to extract the attribute from
+     * @param attr         the name of the attribute to retrieve
+     * @param defaultValue the fallback value if the element is null or lacks the attribute
+     * @return the attribute value or the default value
+     */
+    protected static String getAttributeOrDefault(final Element element,
+                                                  final String attr,
+                                                  final String defaultValue) {
+        return (element != null && element.hasAttr(attr)) ? element.attr(attr).trim() : defaultValue;
+    }
+
+    /**
+     * Overload with a predefined fallback value.
+     *
+     * @param element the Jsoup Element to extract the attribute from
+     * @param attr    the name of the attribute to retrieve
+     * @return the attribute value or a predefined fallback
+     */
+    protected static String getAttributeOrDefault(final Element element, final String attr) {
+        return getAttributeOrDefault(element, attr, NOT_AVAILABLE);
+    }
+
     @Override
     public JobSite getJobSite() {
         return jobSite;
@@ -75,7 +102,7 @@ public abstract class AbstractScraper implements JobScraper {
         return jobSite.getUrl();
     }
 
-    protected Optional<JobVacancy> getJobVacancy(Element jobElement, int currentPage) {
+    protected Optional<JobVacancy> getJobVacancy(final Element jobElement, final int currentPage) {
         try {
             var vacancy = parseSingleJobElement(jobElement);
             log.debug("Parsed vacancy: {}", vacancy);
@@ -87,9 +114,9 @@ public abstract class AbstractScraper implements JobScraper {
         return Optional.empty();
     }
 
-    protected boolean matchCriteria(JobVacancy vacancy, JobSearchCriteria criteria) {
+    protected boolean matchCriteria(final JobVacancy vacancy, final JobSearchCriteria criteria) {
         var result = jobFilterService.matches(vacancy, criteria);
-        log.debug("Vacancy '{}' from {} matches criteria: {}", vacancy.getTitle(), vacancy.getJobSite(), result);
+        log.debug("Vacancy '{}' from {} matches criteria: {}", vacancy.getTitle(), vacancy.getJobSite().name(), result);
         return result;
     }
 
@@ -100,7 +127,7 @@ public abstract class AbstractScraper implements JobScraper {
      * @param defaultValue the fallback value if the element is null
      * @return the element's text or the default value
      */
-    protected String getTextOrDefault(Element element, String defaultValue) {
+    protected String getTextOrDefault(final Element element, final String defaultValue) {
         return (element != null && element.hasText()) ? normalizeWebText(element.text()) : defaultValue;
     }
 
@@ -110,32 +137,8 @@ public abstract class AbstractScraper implements JobScraper {
      * @param element the Jsoup Element to extract text from
      * @return the element's text or a predefined fallback
      */
-    protected String getTextOrDefault(Element element) {
+    protected String getTextOrDefault(final Element element) {
         return getTextOrDefault(element, NOT_AVAILABLE);
-    }
-
-    /**
-     * Extracts the value of a specified attribute from a Jsoup Element,
-     * returning a default value if the element is null or the attribute is missing.
-     *
-     * @param element      the Jsoup Element to extract the attribute from
-     * @param attr         the name of the attribute to retrieve
-     * @param defaultValue the fallback value if the element is null or lacks the attribute
-     * @return the attribute value or the default value
-     */
-    protected static String getAttributeOrDefault(Element element, String attr, String defaultValue) {
-        return (element != null && element.hasAttr(attr)) ? element.attr(attr).trim() : defaultValue;
-    }
-
-    /**
-     * Overload with a predefined fallback value.
-     *
-     * @param element the Jsoup Element to extract the attribute from
-     * @param attr    the name of the attribute to retrieve
-     * @return the attribute value or a predefined fallback
-     */
-    protected static String getAttributeOrDefault(Element element, String attr) {
-        return getAttributeOrDefault(element, attr, NOT_AVAILABLE);
     }
 
     /**
@@ -185,7 +188,7 @@ public abstract class AbstractScraper implements JobScraper {
      * @param jobElement The Jsoup Element representing a single job listing from the search results page.
      * @return A JobVacancy object populated with extracted data.
      */
-    private JobVacancy parseSingleJobElement(Element jobElement) {
+    private JobVacancy parseSingleJobElement(final Element jobElement) {
         String title = getTitle(jobElement);
 
         String jobUrl = getJobUrl(jobElement);

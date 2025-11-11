@@ -1,5 +1,6 @@
 package ua.findvacancies.vaadinui.component;
 
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -11,13 +12,10 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.i18n.LocaleChangeEvent;
-import com.vaadin.flow.i18n.LocaleChangeObserver;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.servlet.LocaleResolver;
 import ua.findvacancies.common.util.UIUtils;
 import ua.findvacancies.vaadinui.model.AppLocale;
 import ua.findvacancies.vaadinui.model.AppSessionAttribute;
@@ -125,7 +123,7 @@ public class TopNavbarComponent extends HorizontalLayout {
     /**
      * Action to switch the UI language.
      */
-    private void switchLanguage(Locale newLocale) {
+    private void switchLanguage(final Locale newLocale) {
         log.info("Switch to {} from {}", newLocale, UI.getCurrent().getLocale());
 
         // 1. Store the chosen locale in the VaadinSession.
@@ -159,7 +157,7 @@ public class TopNavbarComponent extends HorizontalLayout {
 
     // Vaadin Flow best practice: update on attach (useful if component is added dynamically)
     @Override
-    protected void onAttach(com.vaadin.flow.component.AttachEvent attachEvent) {
+    protected void onAttach(final AttachEvent attachEvent) {
         super.onAttach(attachEvent);
         log.info("Call navBar onAttach. Is initial: {}", attachEvent.isInitialAttach());
         updateContent();

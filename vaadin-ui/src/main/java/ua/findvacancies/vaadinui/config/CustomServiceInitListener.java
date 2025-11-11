@@ -1,8 +1,6 @@
 package ua.findvacancies.vaadinui.config;
 
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.page.AppShellConfigurator;
-import com.vaadin.flow.component.page.LoadingIndicatorConfiguration;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.UIInitEvent;
 import com.vaadin.flow.server.VaadinService;
@@ -24,13 +22,13 @@ public class CustomServiceInitListener implements VaadinServiceInitListener {
     public static final Locale DEFAULT_LOCALE = Locale.ENGLISH;
 
     @Override
-    public void serviceInit(ServiceInitEvent event) {
+    public void serviceInit(final ServiceInitEvent event) {
         VaadinService service = event.getSource();
 
         service.addUIInitListener(this::uiLocaleChange);
     }
 
-    private void uiLocaleChange(UIInitEvent event) {
+    private void uiLocaleChange(final UIInitEvent event) {
         UI ui = event.getUI();
         // This method runs after the UI is created but before any components are attached.
         Locale sessionLocale = (Locale) ui.getSession().getAttribute(AppSessionAttribute.CUSTOM_LOCALE.getLabel());

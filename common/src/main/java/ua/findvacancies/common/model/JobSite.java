@@ -18,27 +18,9 @@ public enum JobSite {
     private final String siteName;
     private final String url;
 
-    JobSite(String siteName, String url) {
+    JobSite(final String siteName, final String url) {
         this.siteName = siteName;
         this.url = url;
-    }
-
-    /**
-     * Returns the common URL-friendly name for the site.
-     *
-     * @return The site's URL name.
-     */
-    public String getSiteName() {
-        return siteName;
-    }
-
-    /**
-     * Returns the URL for the site.
-     *
-     * @return The site's URL.
-     */
-    public String getUrl() {
-        return url;
     }
 
     /**
@@ -47,7 +29,7 @@ public enum JobSite {
      * @param siteName The URL-friendly name of the site (e.g., "djinni.co").
      * @return An Optional containing the matching SiteName, or empty if not found.
      */
-    public static Optional<JobSite> fromUrlName(String siteName) {
+    public static Optional<JobSite> fromUrlName(final String siteName) {
         for (JobSite site : JobSite.values()) {
             if (site.siteName.equalsIgnoreCase(siteName)) {
                 return java.util.Optional.of(site);
@@ -67,7 +49,7 @@ public enum JobSite {
      * @param sites the set of {@link JobSite} instances to extract names from; may be {@code null} or empty
      * @return a comma-separated string of site names, or an empty string if the input is empty
      */
-    public static String joinSiteNames(Set<JobSite> sites) {
+    public static String joinSiteNames(final Set<JobSite> sites) {
         if (CollectionUtils.isEmpty(sites)) {
             return "";
         }
@@ -75,5 +57,23 @@ public enum JobSite {
                 .map(JobSite::getSiteName)
                 .sorted()
                 .collect(Collectors.joining(", "));
+    }
+
+    /**
+     * Returns the common URL-friendly name for the site.
+     *
+     * @return The site's URL name.
+     */
+    public String getSiteName() {
+        return siteName;
+    }
+
+    /**
+     * Returns the URL for the site.
+     *
+     * @return The site's URL.
+     */
+    public String getUrl() {
+        return url;
     }
 }

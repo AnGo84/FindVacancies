@@ -10,16 +10,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ua.findvacancies.common.model.ExportFormat;
 import ua.findvacancies.common.model.JobSearchCriteria;
 import ua.findvacancies.common.model.JobSite;
 import ua.findvacancies.common.model.JobVacancy;
@@ -103,11 +99,11 @@ public class JobScraperController {
             )
     })
     public ResponseEntity<List<JobVacancy>> getJobs(
-            @RequestParam @NotEmpty Set<String> keywords,
-            @RequestParam(required = false) Set<String> ignoredWords,
+            @RequestParam @NotEmpty final Set<String> keywords,
+            @RequestParam(required = false)final  Set<String> ignoredWords,
             @RequestParam(required = false, defaultValue = DEFAULT_LAST_N_DAYS) final Integer lastNDays,
-            @RequestParam(required = false) Integer maxPagesToScrape,
-            @RequestParam(required = false) Set<JobSite> sites) {
+            @RequestParam(required = false) final Integer maxPagesToScrape,
+            @RequestParam(required = false) final Set<JobSite> sites) {
 
         final var criteria = JobSearchCriteria.builder()
                 .keywords(keywords)

@@ -1,6 +1,5 @@
 package ua.findvacancies.vaadinui.component;
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
@@ -57,7 +56,6 @@ public class LoadingModalComponent extends Dialog {
         loadingIcon.addClassName("vaadin-spinner-rotate"); // Placeholder for CSS animation
 
         // 3. Configure Messages
-
         processMessage.getStyle().set("font-size", "1.25rem"); // fs-5
         processMessage.addClassName("mt-3");
         processMessage.setText(getTranslation("modal.process.message"));
@@ -111,10 +109,9 @@ public class LoadingModalComponent extends Dialog {
         ui.getPage().executeJs("document.querySelector('vaadin-dialog-overlay[opened]').removeAttribute('opened');"+
                 "console.log('Closed modal');");*/
 
-
-        log.info("Is attached: {}, isPresent: {}", this.isAttached(),this.getUI().isPresent());
+        log.info("Is attached: {}, isPresent: {}", this.isAttached(), this.getUI().isPresent());
         this.setOpened(false);
-        log.info("Is attached: {}, isPresent: {}", this.isAttached(),this.getUI().isPresent());
+        log.info("Is attached: {}, isPresent: {}", this.isAttached(), this.getUI().isPresent());
 
     }
 

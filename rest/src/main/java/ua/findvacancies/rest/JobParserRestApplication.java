@@ -22,7 +22,7 @@ import org.springframework.context.annotation.ComponentScan;
 )
 public class JobParserRestApplication {
 
-    public static void main(String[] args) {
+    static void main(final String[] args) {
         SpringApplication.run(JobParserRestApplication.class, args);
     }
 

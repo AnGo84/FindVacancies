@@ -40,9 +40,10 @@ public class AppController {
     private final JobService jobService;
     private final DataStore<JobVacancy> dataStore;
 
-    public AppController(MessageSource messageSource,
-                         JobSearchCriteriaMapper jobSearchCriteriaMapper,
-                         JobService jobService, DataStore<JobVacancy> dataStore) {
+    public AppController(final MessageSource messageSource,
+                         final JobSearchCriteriaMapper jobSearchCriteriaMapper,
+                         final JobService jobService,
+                         final DataStore<JobVacancy> dataStore) {
         this.messageSource = messageSource;
         this.jobSearchCriteriaMapper = jobSearchCriteriaMapper;
         this.jobService = jobService;
@@ -55,7 +56,7 @@ public class AppController {
     }
 
     @ModelAttribute("currentDate")
-    public String getCurrentDate(Locale currentLocale) {
+    public String getCurrentDate(final Locale currentLocale) {
         String todayPrefix = messageSource.getMessage("today.is", null, currentLocale);
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", currentLocale);
@@ -63,13 +64,13 @@ public class AppController {
     }
 
     @ModelAttribute("currentLocale")
-    public String getCurrentLocale(Locale locale) {
+    public String getCurrentLocale(final Locale locale) {
         return locale.getLanguage();
     }
 
     @GetMapping("/")
-    public String showIndexPage(Model model, Locale locale) {
-        log.info("Showing index page");
+    public String showIndexPage(final Model model, final Locale locale) {
+        log.info("Showing index page for locale: {}", locale);
         if (!model.containsAttribute(SearchCriteriaDto.VIEW_PARAM)) {
             log.debug("Search criteria not in model");
             model.addAttribute("searchCriteria", new SearchCriteriaDto());
@@ -81,11 +82,11 @@ public class AppController {
 
     @PostMapping("/search")
     public String performSearch(@Valid @ModelAttribute(SearchCriteriaDto.VIEW_PARAM)
-                                SearchCriteriaDto searchCriteriaDto,
-                                BindingResult bindingResult,
-                                Model model,
-                                Locale locale) {
-
+                                    final SearchCriteriaDto searchCriteriaDto,
+                                final BindingResult bindingResult,
+                                final Model model,
+                                final Locale locale) {
+        log.info("Perform search for criteria: {}", searchCriteriaDto);
         if (bindingResult.hasErrors()) {
             log.warn("Validation Errors occurred. Returning search form with errors.");
             for (ObjectError objectError : bindingResult.getAllErrors()) {
@@ -94,7 +95,6 @@ public class AppController {
             return "fragments/search-form :: formContent";
         }
 
-        log.info("Performing job search with DTO: {}", searchCriteriaDto);
         dataStore.clear();
         JobSearchCriteria jobSearchCriteria = jobSearchCriteriaMapper.toEntity(searchCriteriaDto);
 
@@ -109,8 +109,8 @@ public class AppController {
     }
 
     @GetMapping("/export")
-    public ResponseEntity<byte[]> exportJobs(@RequestParam("format") ExportFormat format) {
-
+    public ResponseEntity<byte[]> exportJobs(@RequestParam("format") final ExportFormat format) {
+        log.info("Exporting jobs in {} format.", format.name());
         Collection<JobVacancy> jobVacancies = dataStore.getAll();
 
         if (jobVacancies == null || jobVacancies.isEmpty()) {
@@ -131,7 +131,9 @@ public class AppController {
         }
     }
 
-    private void updateModelAttributes(Model model, Locale locale, Collection<JobVacancy> jobVacancies) {
+    private void updateModelAttributes(final Model model,
+                                       final Locale locale,
+                                       final Collection<JobVacancy> jobVacancies) {
         model.addAttribute("jobVacancies", jobVacancies);
         model.addAttribute("searchResultsMessage",
                 messageSource.getMessage("search.results.message", new Object[]{jobVacancies.size()}, locale));

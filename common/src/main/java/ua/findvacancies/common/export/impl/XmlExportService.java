@@ -10,7 +10,6 @@ import ua.findvacancies.common.util.JacksonUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Service for exporting a collection of JobVacancy objects to XML format.
@@ -28,11 +27,11 @@ public class XmlExportService implements JobExportService {
      * @return A byte array representing the XML data, or an empty byte array if an error occurs or collection is empty.
      */
     @Override
-    public byte[] export(Collection<JobVacancy> vacancies) {
+    public byte[] export(final Collection<JobVacancy> vacancies) {
         return getXMLAsString(vacancies).getBytes(StandardCharsets.UTF_8);
     }
 
-    private String getXMLAsString(Collection<JobVacancy> vacancies) {
+    private String getXMLAsString(final Collection<JobVacancy> vacancies) {
         if (CollectionUtils.isEmpty(vacancies)) {
             log.warn("Attempted to export an empty or null collection of vacancies to XML.");
             return EMPTY_VACANCIES_LIST;
@@ -52,4 +51,5 @@ public class XmlExportService implements JobExportService {
     public ExportFormat getFormat() { // Implement the new method
         return ExportFormat.XML;
     }
+
 }

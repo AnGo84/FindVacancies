@@ -34,7 +34,7 @@ public class JobScraperWebfluxController {
 
     private final JobService jobService;
 
-    public JobScraperWebfluxController(JobService jobService) {
+    public JobScraperWebfluxController(final JobService jobService) {
         this.jobService = jobService;
     }
 
@@ -92,11 +92,11 @@ public class JobScraperWebfluxController {
             )
     })
     public Flux<JobVacancy> searchJobs(
-            @RequestParam @NotEmpty Set<String> keywords,
-            @RequestParam(required = false) Set<String> ignoredWords,
+            @RequestParam @NotEmpty final Set<String> keywords,
+            @RequestParam(required = false) final Set<String> ignoredWords,
             @RequestParam(required = false) final Integer lastNDays,
-            @RequestParam(required = false) Integer maxPagesToScrape,
-            @RequestParam(required = false) Set<JobSite> sites) {
+            @RequestParam(required = false) final Integer maxPagesToScrape,
+            @RequestParam(required = false) final Set<JobSite> sites) {
 
         final var criteria = JobSearchCriteria.builder()
                 .keywords(keywords)

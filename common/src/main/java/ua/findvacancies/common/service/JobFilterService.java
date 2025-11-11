@@ -25,13 +25,13 @@ public class JobFilterService {
      * @param criteria     The search criteria to apply.
      * @return A filtered list of JobVacancy objects.
      */
-    public List<JobVacancy> filter(List<JobVacancy> rawVacancies, JobSearchCriteria criteria) {
+    public List<JobVacancy> filter(final List<JobVacancy> rawVacancies, final JobSearchCriteria criteria) {
         if (CollectionUtils.isEmpty(rawVacancies)) {
             log.info("The list of job vacancies is empty.");
             return Collections.emptyList();
         }
 
-        if ( criteria == null || criteria.isEmpty()) {
+        if (criteria == null || criteria.isEmpty()) {
             log.info("No search criteria provided or criteria is empty. Returning all {} raw vacancies.",
                     rawVacancies.size());
             return rawVacancies;
@@ -53,15 +53,15 @@ public class JobFilterService {
      * @param criteria The search criteria to apply.
      * @return true if the vacancy matches all criteria, false otherwise.
      */
-    public boolean matches(JobVacancy vacancy, JobSearchCriteria criteria) {
+    public boolean matches(final JobVacancy vacancy, final JobSearchCriteria criteria) {
         if (criteria == null || criteria.isEmpty()) {
             return true;
         }
 
         // Combine title and description for keyword/ignored word checks
         // Ensure description is not null, even if it's a placeholder like "N/A"
-        String titleAndDescription = (vacancy.getTitle() + " " +
-                Optional.ofNullable(vacancy.getDescription()).orElse(""))
+        String titleAndDescription = (vacancy.getTitle() + " "
+                + Optional.ofNullable(vacancy.getDescription()).orElse(""))
                 .toLowerCase();
 
         // 1. Keyword filter
@@ -74,7 +74,7 @@ public class JobFilterService {
             }
         }
 
-        // 2. Ignored words filter
+        // 2. Ignored word filter
         if (criteria.hasIgnoredWords()) {
             boolean containsIgnoredWord = criteria.getIgnoredWords().stream()
                     .anyMatch(ignoredWord -> titleAndDescription.contains(ignoredWord.toLowerCase()));
@@ -87,7 +87,7 @@ public class JobFilterService {
         // 3. Last N Days filter
         if (criteria.getLastNDays() != null) {
             if (vacancy.getDatePosted() == null) {
-                // If date is unparseable or empty, include it if a date filter is present.
+                // If the date is unparseable or empty, include it if a date filter is present.
                 // This ensures jobs with missing date info aren't silently dropped,
                 // as we can't confirm they are outside the N days.
                 log.debug("Vacancy '{}' included despite null date due to lastNDays filter presence.",
@@ -103,4 +103,5 @@ public class JobFilterService {
         }
         return true;
     }
+
 }

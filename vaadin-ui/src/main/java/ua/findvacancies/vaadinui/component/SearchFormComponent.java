@@ -4,8 +4,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.MultiSelectComboBox;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
@@ -42,7 +40,6 @@ public class SearchFormComponent extends VerticalLayout {
     private final TextField ignoreWords = new TextField();
     private final Button searchButton = new Button();
     // Advanced Options
-    //private final VerticalLayout advancedOptionsLayout = new VerticalLayout();
     private final VerticalLayout advancedOptionsLayout = new VerticalLayout(ignoreWords);
     private final Button toggleAdvancedButton = new Button();
     private final HorizontalLayout toggleRow = new HorizontalLayout(toggleAdvancedButton);
@@ -52,7 +49,7 @@ public class SearchFormComponent extends VerticalLayout {
     private SearchCriteriaDto searchCriteria;
 
     // Constructor with injected dependencies (Spring Boot feature)
-    public SearchFormComponent(JobService jobService) {
+    public SearchFormComponent(final JobService jobService) {
         this.jobService = jobService;
 
         // Initial setup

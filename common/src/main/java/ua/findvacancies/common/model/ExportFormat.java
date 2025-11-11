@@ -14,7 +14,7 @@ public enum ExportFormat {
     private final String fileExtension;
     private final String mimeType;
 
-    ExportFormat(String fileExtension, String mimeType) {
+    ExportFormat(final String fileExtension, final String mimeType) {
         this.fileExtension = fileExtension;
         this.mimeType = mimeType;
     }
@@ -32,7 +32,7 @@ public enum ExportFormat {
      * @param fileExtension The file extension string (e.g., "json", "XLSX").
      * @return An Optional containing the matching ExportFormat, or empty if not found.
      */
-    public static Optional<ExportFormat> fromFileExtension(String fileExtension) {
+    public static Optional<ExportFormat> fromFileExtension(final String fileExtension) {
         if (fileExtension == null || fileExtension.isEmpty()) {
             return Optional.empty();
         }
@@ -49,7 +49,7 @@ public enum ExportFormat {
      * @param mimeType The MIME type string (e.g., "application/json").
      * @return An Optional containing the matching ExportFormat, or empty if not found.
      */
-    public static Optional<ExportFormat> fromMimeType(String mimeType) {
+    public static Optional<ExportFormat> fromMimeType(final String mimeType) {
         if (mimeType == null || mimeType.isEmpty()) {
             return Optional.empty();
         }

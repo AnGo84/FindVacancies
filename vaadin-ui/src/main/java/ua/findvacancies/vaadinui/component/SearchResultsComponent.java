@@ -46,7 +46,7 @@ public class SearchResultsComponent extends VerticalLayout {
     // Date formatter matching the Thymeleaf example (dd.MM.yyyy)
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.ENGLISH);
 
-    public SearchResultsComponent(DataStore<JobVacancy> dataStore, JobService jobService) {
+    public SearchResultsComponent(final DataStore<JobVacancy> dataStore, final JobService jobService) {
         this.dataStore = dataStore;
         this.jobService = jobService;
         this.exportDropdown = new ExportDropdown(jobService, dataStore);
@@ -74,7 +74,8 @@ public class SearchResultsComponent extends VerticalLayout {
         }).setHeader(getTranslation("table.header.title")).setFlexGrow(3);
 
         // Company Name
-        resultsGrid.addColumn(JobVacancy::getCompanyName).setHeader(getTranslation("table.header.company")).setFlexGrow(2);
+        resultsGrid.addColumn(JobVacancy::getCompanyName)
+                .setHeader(getTranslation("table.header.company")).setFlexGrow(2);
 
         // Site Name
         resultsGrid.addColumn(vacancy -> vacancy.getJobSite().getSiteName())

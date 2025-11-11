@@ -27,11 +27,11 @@ public class JsonExportService implements JobExportService {
      * empty.
      */
     @Override
-    public byte[] export(Collection<JobVacancy> vacancies) {
+    public byte[] export(final Collection<JobVacancy> vacancies) {
         return getJsonAsString(vacancies).getBytes(StandardCharsets.UTF_8);
     }
 
-    private String getJsonAsString(Collection<JobVacancy> vacancies) {
+    private String getJsonAsString(final Collection<JobVacancy> vacancies) {
         if (CollectionUtils.isEmpty(vacancies)) {
             log.warn("Attempted to export an empty or null collection of vacancies to JSON.");
             return EMPTY_ARRAY_JSON;
