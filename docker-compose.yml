@@ -1,0 +1,114 @@
+version: '3.8'
+
+services:
+  job-parser-rest:
+    build:
+      context: .
+      dockerfile: rest/Dockerfile
+    ports:
+      - "${REST_PORT}:8080"
+    env_file:
+      - .env
+    container_name: job-parser-rest-api
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - maven-repo:/root/.m2
+    networks:
+      - job-parser-network
+    restart: on-failure # for development
+    #restart: on-failure unless-stopped # for production
+
+  job-parser-webflux:
+    build:
+      context: .
+      dockerfile: webflux/Dockerfile
+    ports:
+      - "${WEBFLUX_PORT}:8080"
+    env_file:
+      - .env
+    container_name: job-parser-webflux-api
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - maven-repo:/root/.m2
+    networks:
+      - job-parser-network
+    restart: on-failure # for development
+    #restart: on-failure unless-stopped # for production
+
+  job-parser-vaadin:
+    build:
+      context: .
+      dockerfile: vaadin-ui/Dockerfile
+    ports:
+      - "${VAADIN_PORT}:8080"
+    env_file:
+      - .env
+    container_name: job-parser-vaadin-ui
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - maven-repo:/root/.m2
+    networks:
+      - job-parser-network
+    restart: on-failure # for development
+    #restart: on-failure unless-stopped # for production
+
+  job-parser-thymeleaf-bootstrap:
+    build:
+      context: .
+      dockerfile: thymeleaf-bootstrap-ui/Dockerfile
+    ports:
+      - "${BOOTSTRAP_UI_PORT}:8080"
+    env_file:
+      - .env
+    container_name: job-parser-bootstrap-ui
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - maven-repo:/root/.m2
+    networks:
+      - job-parser-network
+    restart: on-failure # for development
+    #restart: on-failure unless-stopped # for production
+
+  job-parser-thymeleaf-tailwind-htmx:
+    build:
+      context: .
+      dockerfile: thymeleaf-tailwind-htmx-ui/Dockerfile
+    ports:
+      - "${TAILWIND_UI_PORT}:8080"
+    env_file:
+      - .env
+    container_name: job-parser-tailwind-ui
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - maven-repo:/root/.m2
+    networks:
+      - job-parser-network
+    restart: on-failure # for development
+    #restart: on-failure unless-stopped # for production
+
+volumes:
+  maven-repo:
+
+networks:
+  job-parser-network:
+    driver: bridge

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title th:text="#{app.title}"></title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-icons.min.css}">
+    <link rel="stylesheet" th:href="@{/css/tom-select.css}">
+    <link rel="stylesheet" th:href="@{/css/flag-icons.min.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<header class="bg-light shadow-sm px-4 py-2 mb-2">
+    <div th:replace="~{fragments/top-navbar :: top-navbar}"></div>
+</header>
+
+<main class="flex-grow-1">
+    <div class="container">
+        <div id="search-form-container">
+            <h2 th:text="#{search.form.title}" class="text-center mb-2">Title</h2>
+
+            <form th:action="@{/search}" th:object="${searchCriteria}" method="post"
+                  class="needs-validation" novalidate>
+
+                <div class="row g-3 align-items-top">
+                    <div class="col-12 col-lg-6 mt-2">
+                        <label for="searchLine" class="form-label" th:text="#{search.keywords.label}">Keywords</label>
+                        <input type="text" class="form-control form-control-sm" id="searchLine"
+                               th:field="*{searchLine}"
+                               th:placeholder="#{search.keywords.placeholder}"
+                               th:classappend="${#fields.hasErrors('searchLine') ? 'is-invalid' : ''}">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('searchLine')}"
+                             th:errors="*{searchLine}"></div>
+                    </div>
+                    <div class="col-12 col-md-4 col-lg-2 mt-2">
+                        <label for="days" class="form-label" th:text="#{search.days.label}">Days</label>
+                        <input type="number" class="form-control form-control-sm" id="days"
+                               th:field="*{days}" min="1"
+                               th:classappend="${#fields.hasErrors('days') ? 'is-invalid' : ''}">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('days')}" th:errors="*{days}"></div>
+                    </div>
+                    <div class="col-12 col-md-8 col-lg-4 mt-2">
+                        <label for="sites" class="form-label" th:text="#{search.sites.label}">Sites</label>
+                        <select multiple class="form-select form-select-sm" id="sites"
+                                th:field="*{sites}"
+                                th:classappend="${#fields.hasErrors('sites') ? 'is-invalid' : ''}">
+                            <option th:each="site : ${availableJobSites}" th:value="${site.name()}"
+                                    th:text="${site.name}"></option>
+                        </select>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('sites')}"
+                             th:errors="*{sites}"></div>
+                    </div>
+                </div>
+                <button class="btn btn-link btn-sm text-decoration-none mt-2" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#advancedOptionsCollapse"
+                        aria-expanded="false" aria-controls="advancedOptionsCollapse">
+                    <i id="toggleIcon" class="bi bi-plus-circle-fill"></i>
+                    <span th:text="#{search.options.advanced.button}">Advanced Options</span>
+                </button>
+                <div class="collapse" id="advancedOptionsCollapse">
+                    <div class="form-group mb-3 mt-1">
+                        <label for="ignoreWords" class="form-label"
+                               th:text="#{search.ignore.words.label}">Ignore words</label>
+                        <input type="text" class="form-control" id="ignoreWords" th:field="*{ignoreWords}"
+                               th:placeholder="#{search.ignore.words.placeholder}">
+                    </div>
+                </div>
+                <div class="d-grid gap-2 mt-2 mb-4">
+                    <button type="submit" class="btn btn-primary btn-sm"
+                            data-bs-toggle="modal" data-bs-target="#loadingModal">
+                        <i class="bi bi-search"></i> <span th:text="#{search.button}"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div id="search-results-container" class="mt-2">
+            <div th:replace="~{fragments/search-results :: results-table}"></div>
+        </div>
+    </div>
+</main>
+
+<footer class="bg-light text-center text-secondary py-2 mt-2">
+    <div class="container">
+        <p class="mb-0">© 2025 Job Vacancy Search</p>
+    </div>
+</footer>
+
+<div th:replace="~{fragments/loading-modal :: loading-modal}"></div>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/tom-select.complete.min.js}"></script>
+
+<script th:inline="javascript">
+    // @formatter:off
+    const sitesEl = new TomSelect("#sites", {
+        maxItems: 3,
+        plugins: {
+            'remove_button': {
+                title: [[#{action.remove}]]
+            }
+        }
+    });
+    // @formatter:on
+
+    const advancedOptionsCollapseEl = document.getElementById('advancedOptionsCollapse');
+    const toggleIconEL = document.getElementById('toggleIcon');
+
+    // Change icon to 'minus' when the collapse is shown
+    advancedOptionsCollapseEl.addEventListener('show.bs.collapse', function () {
+        toggleIconEL.classList.remove('bi-plus-circle-fill');
+        toggleIconEL.classList.add('bi-dash-circle-fill');
+    });
+
+    // Change icon back to 'plus' when the collapse is hidden
+    advancedOptionsCollapseEl.addEventListener('hide.bs.collapse', function () {
+        toggleIconEL.classList.remove('bi-dash-circle-fill');
+        toggleIconEL.classList.add('bi-plus-circle-fill');
+    });
+
+</script>
+
+</body>
+</html>

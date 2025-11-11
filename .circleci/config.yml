@@ -1,36 +1,51 @@
 version: 2.1
+
 executors:
-  java17:
+  maven-executor:
     docker:
-      - image: 'cimg/openjdk:17.0'
-orbs:
-  maven: circleci/maven@1.3.0
-  node: circleci/node@5.1.0
+      #- image: cimg/openjdk:21.0
+      - image: cimg/openjdk:25.0.0
+    working_directory: ~/project
 
-# TODO: check is this need
-build:
-  steps:
-    - run:
-        name: Creating Common Artifacts
-        command: |
-          echo "app artifact file" > /findvacancies/target;
-    - store_artifacts:
-        path: /findvacancies/target
-        destination: FindVacancies
+jobs:
+  build:
+    executor: maven-executor
+    steps:
+      - checkout
 
-#workflows:
-#  maven_test:
-#    jobs:
-#      # checkout, build, test, and upload test results
-#      - maven/test
+      - restore_cache:
+          keys:
+            - maven-deps-{{ checksum "pom.xml" }}
+            - maven-deps-
+
+      - run:
+          name: Build all modules
+          command: mvn -B clean package -DskipTests
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: maven-deps-{{ checksum "pom.xml" }}
+
+  test:
+    executor: maven-executor
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - maven-deps-{{ checksum "pom.xml" }}
+            - maven-deps-
+
+      - run:
+          name: Run tests
+          command: mvn -B test
+
 workflows:
-  maven_test:
+  version: 2
+  build-and-test:
     jobs:
-      - maven/test:
-          command: '-X clean install'
-          executor: java17
-          pre-steps:
-            - checkout
-            - run:
-                name: Add dependencies
-                command: mvn install:install-file -Dfile=artifacts/grid-pagination-4.0.0.jar -DgroupId=org.vaadin.klaudeta -DartifactId=grid-pagination -Dversion=4.0.0 -Dpackaging=jar -DgeneratePom=true
+      - build
+      - test:
+          requires:
+            - build

@@ -6,160 +6,107 @@
 
     <groupId>ua.findvacancies</groupId>
     <artifactId>findvacancies-service</artifactId>
-    <version>2.3</version>
+    <version>3.0</version>
     <packaging>pom</packaging>
+
     <name>Vacancies search application root service</name>
     <description>Application for parsing data from sites with vacancies</description>
 
+    <url>https://github.com/AnGo84/FindVacancies</url>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.7</version>
+        <relativePath/>
+    </parent>
+
     <modules>
-        <module>findvacancies</module>
-        <module>findvacancies-web-jsp</module>
-        <module>findvacancies-web-rest</module>
-        <module>findvacancies-web-thymeleaf</module>
-        <module>findvacancies-web-vaadin</module>
-        <module>findvacancies-web-flux</module>
+        <module>common</module>
+        <module>rest</module>
+        <module>webflux</module>
+        <module>thymeleaf-bootstrap-ui</module>
+        <module>thymeleaf-tailwind-htmx-ui</module>
+        <module>vaadin-ui</module>
     </modules>
 
     <properties>
+        <!-- App version -->
+        <app.version>3.0</app.version>
+
         <!-- Generic properties -->
-        <java.version>17</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <default.encoding>UTF-8</default.encoding>
+        <java.version>25</java.version>
+        <maven.version>3.9.6</maven.version>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
+        <project.build.sourceEncoding>${default.encoding}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${default.encoding}</project.reporting.outputEncoding>
 
-        <spring-boot.version>3.2.3</spring-boot.version>
+        <spring-boot.version>3.5.7</spring-boot.version>
 
-        <!-- Test -->
-        <junit-platform.version>1.10.2</junit-platform.version>
-        <junit-jupiter.version>5.10.2</junit-jupiter.version>
-        <mockito-core.version>5.10.0</mockito-core.version>
-        <!-- /Test -->
+        <vaadin.version>24.9.4</vaadin.version>
 
-        <lombok.version>1.18.30</lombok.version>
+        <lombok.version>1.18.42</lombok.version>
 
-        <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
+        <hibernate-validator.version>9.1.0.Final</hibernate-validator.version>
+
+        <!-- JSON parsing -->
+        <jsoup.version>1.21.2</jsoup.version>
+        <json.version>20250517</json.version>
 
         <!-- XML -->
-        <jakarta.xml.bind-api.version>4.0.1</jakarta.xml.bind-api.version>
-        <jaxb-impl.version>4.0.4</jaxb-impl.version>
-        <!-- /XML -->
+        <jakarta.xml.bind-api.version>4.0.4</jakarta.xml.bind-api.version>
+        <jaxb-impl.version>4.0.6</jaxb-impl.version>
 
         <!-- Excel -->
-        <poi-ooxml.version>5.2.5</poi-ooxml.version>
-        <!-- /Excel -->
+        <poi-ooxml.version>5.4.1</poi-ooxml.version>
 
-        <springdoc-openapi.version>2.3.0</springdoc-openapi.version>
+        <!-- Swagger -->
+        <springdoc-openapi.version>2.8.14</springdoc-openapi.version>
+
+        <!-- Plugins -->
+
+        <!-- check this-->
+        <maven-site-plugin.version>4.0.0-M13</maven-site-plugin.version>
+
+        <maven.compiler.plugin.version>3.14.1</maven.compiler.plugin.version>
+        <maven.dependency.plugin.version>3.9.0</maven.dependency.plugin.version>
+
+        <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
+        <!-- Define the version of the byte-buddy-agent used by Mockito -->
+        <byte-buddy-agent.version>1.17.6</byte-buddy-agent.version>
+
+        <maven-failsafe-plugin.version>3.5.4</maven-failsafe-plugin.version>
+
+        <maven.versions.plugin.version>2.19.1</maven.versions.plugin.version>
+        <maven.owasp.dependency.check.plugin.version>12.1.8</maven.owasp.dependency.check.plugin.version>
+        <selenium-java.version>4.38.0</selenium-java.version>
+        <webdrivermanager.version>6.3.3</webdrivermanager.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
 
-            <!-- Current project -->
             <dependency>
-                <groupId>ua.findvacancies</groupId>
-                <artifactId>findvacancies</artifactId>
-                <version>2.3</version>
-            </dependency>
-            <!-- /Current project -->
-
-            <!-- Spring Boot -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-bom</artifactId>
+                <version>${vaadin.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
 
+            <!-- Current project -->
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-validation</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-actuator</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-tomcat</artifactId>
-                <version>${spring-boot.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <!-- Hot deploy and live reload -->
-            <!-- https://vaadin.com/docs/latest/configuration/live-reload/spring-boot -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-devtools</artifactId>
-                <version>${spring-boot.version}</version>
-                <!--<optional>true</optional>-->
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-webflux</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-            <!-- -->
-
-            <!-- /Spring Boot -->
-
-            <!-- Tests -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <version>${spring-boot.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.junit.platform</groupId>
-                <artifactId>junit-platform-commons</artifactId>
-                <version>${junit-platform.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-api</artifactId>
-                <version>${junit-jupiter.version}</version>
-                <scope>test</scope>
+                <groupId>ua.findvacancies</groupId>
+                <artifactId>findvacancies</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-engine</artifactId>
-                <version>${junit-jupiter.version}</version>
-                <scope>test</scope>
+                <groupId>ua.findvacancies</groupId>
+                <artifactId>common</artifactId>
+                <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-params</artifactId>
-                <version>${junit-jupiter.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${mockito-core.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <!-- /Tests -->
+            <!-- /Current project -->
 
             <!-- General -->
             <dependency>
@@ -186,7 +133,41 @@
                 <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
                 <version>${springdoc-openapi.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+                <version>${springdoc-openapi.version}</version>
+            </dependency>
             <!-- /Swagger -->
+
+            <!-- Selenium -->
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-java</artifactId>
+                <version>${selenium-java.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.bonigarcia</groupId>
+                <artifactId>webdrivermanager</artifactId>
+                <version>${webdrivermanager.version}</version>
+            </dependency>
+            <!-- /Selenium -->
+
+            <!-- jsoup HTML parser library @ https://jsoup.org/ -->
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>${jsoup.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>${json.version}</version>
+            </dependency>
+            <!-- /JSON parsing -->
 
             <!-- Excel -->
             <dependency>
@@ -215,7 +196,7 @@
             <dependency>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>4.0.0-M13</version>
+                <version>${maven-site-plugin.version}</version>
             </dependency>
             <!-- /Plugins -->
 
@@ -229,23 +210,79 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <!--<version>3.11.0</version>-->
+                    <version>${maven.compiler.plugin.version}</version>
                     <configuration>
-                        <source>${java.version}</source>
-                        <target>${java.version}</target>
+                        <compilerArgs>
+                            <arg>-parameters</arg>
+                            <!-- the -Xlint:-options flag to suppress the annotation processing warning. -->
+                            <!--<arg>-Xlint:-options</arg>-->
+                        </compilerArgs>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+
                     </configuration>
                 </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven.dependency.plugin.version}</version>
+                </plugin>
+
+                <!-- Maven Surefire Plugin for running unit tests -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                    <configuration>
+                        <argLine>
+                            -javaagent:"${settings.localRepository}/net/bytebuddy/byte-buddy-agent/${byte-buddy-agent.version}/byte-buddy-agent-${byte-buddy-agent.version}.jar"
+                        </argLine>
+                    </configuration>
+                </plugin>
+
+                <!-- Maven Failsafe Plugin for running integration tests (optional, but good practice) -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven-failsafe-plugin.version}</version>
+                </plugin>
+
+                <!-- Dependency version management -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${maven.versions.plugin.version}</version>
+                    <configuration>
+                        <ignoredVersions>(?i).*-(alpha|beta|m|rc)([-.]?\d+)?</ignoredVersions>
+                    </configuration>
+                </plugin>
+
+                <!-- Scans dependencies -->
+                <plugin>
+                    <groupId>org.owasp</groupId>
+                    <artifactId>dependency-check-maven</artifactId>
+                    <version>${maven.owasp.dependency.check.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <skipProvidedScope>true</skipProvidedScope>
+                    </configuration>
+                </plugin>
+
             </plugins>
         </pluginManagement>
 
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
-            </plugin>
-
-        </plugins>
     </build>
 
 </project>

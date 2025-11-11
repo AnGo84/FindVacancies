@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="results-table"
+     id="search-results-container"
+     class="card card-body shadow-sm"
+     th:if="${jobVacancies != null}">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 th:text="#{search.results.title}" class="mb-0">Search Results</h4>
+
+        <div class="dropdown">
+            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="exportDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-download me-2"></i>Export
+            </button>
+            <ul class="dropdown-menu dropdown-menu-sm-end app-dropdown-menu" aria-labelledby="exportDropdown">
+                <li>
+                    <a class="dropdown-item" th:href="@{/export(format='JSON')}">
+                        <i class="bi bi-filetype-json me-2"></i>JSON
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" th:href="@{/export(format='XML')}">
+                        <i class="bi bi-filetype-xml me-2"></i>XML
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" th:href="@{/export(format='XLSX')}">
+                        <i class="bi bi-file-earmark-excel me-2"></i>XLSX
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div th:if="${jobVacancies != null and !jobVacancies.isEmpty()}">
+        <p th:text="${searchResultsMessage}" class="alert alert-info p-2 mb-2"></p>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover mb-0">
+                <thead>
+                <tr>
+                    <th th:text="#{table.header.title}">Title</th>
+                    <th th:text="#{table.header.company}">Company</th>
+                    <th th:text="#{table.header.site}">Site</th>
+                    <th th:text="#{table.header.date}">Date Posted</th>
+                    <th th:text="#{table.header.salary}">Salary</th>
+                    <th th:text="#{table.header.city}">City</th>
+                    <th>Hot</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="vacancy : ${jobVacancies}"
+                    th:classappend="${vacancy.isHot() ? 'table-warning' : ''}">
+                    <td><a th:href="${vacancy.url}" th:text="${vacancy.title}" target="_blank">Job Title</a></td>
+                    <td th:text="${vacancy.companyName}">Company Name</td>
+                    <td th:text="${vacancy.jobSite.name}">Site Name</td>
+                    <td th:text="${#temporals.format(vacancy.datePosted, 'dd.MM.yyyy')}">Date Posted</td>
+                    <td th:text="${vacancy.salary}">Salary</td>
+                    <td th:text="${vacancy.city}">City</td>
+                    <td class="text-center">
+                        <span th:if="${vacancy.isHot()}" class="badge bg-danger">🔥</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div th:unless="${jobVacancies != null and !jobVacancies.isEmpty()}">
+        <p class="text-muted text-center">No job vacancies found matching your criteria.</p>
+    </div>
+</div>
+
+</body>
+</html>
