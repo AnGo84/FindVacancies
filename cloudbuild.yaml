@@ -1,24 +1,27 @@
+# An example for building and deploying to Cloud Run
+# Deploy thymeleaf-bootstrap-ui module
+
 steps:
 # Build the container image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build','-f', 'findvacancies-web-thymeleaf/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/findvacancies-thymeleaf:$COMMIT_SHA', '.']
+  args: ['build','-f', 'thymeleaf-bootstrap-ui/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/job-parser-thymeleaf-ui:$COMMIT_SHA', '.']
 # fix port issues For M1: Web server failed to start. Port 8080 was already in use.
-#  args: ['buildx','build','--platform', 'linux/amd64' ,'-f', 'findvacancies-web-thymeleaf/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/findvacancies-thymeleaf:$COMMIT_SHA', '.']
+#  args: ['buildx','build','--platform', 'linux/amd64' ,'-f', 'thymeleaf-bootstrap-ui/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/job-parser-thymeleaf-ui:$COMMIT_SHA', '.']
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/findvacancies-thymeleaf:$COMMIT_SHA']
+  args: ['push', 'gcr.io/$PROJECT_ID/job-parser-thymeleaf-ui:$COMMIT_SHA']
 # Deploy container image to Cloud Run
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
   args:
     - 'run'
     - 'deploy'
-    - 'findvacancies-thymeleaf'
+    - 'job-parser-thymeleaf-ui'
     - '--image'
-    - 'gcr.io/$PROJECT_ID/findvacancies-thymeleaf:$COMMIT_SHA'
+    - 'gcr.io/$PROJECT_ID/job-parser-thymeleaf-ui:$COMMIT_SHA'
     - '--region'
     - 'us-central1'
 options:
   logging: CLOUD_LOGGING_ONLY
 images:
-  - 'gcr.io/$PROJECT_ID/findvacancies-thymeleaf:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/job-parser-thymeleaf-ui:$COMMIT_SHA'

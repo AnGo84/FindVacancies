@@ -1,0 +1,21 @@
+# Enable all Actuator endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+# Optional: Change the base path for Actuator endpoint
+#    base-path: /monitor
+
+
+logging:
+  #  pattern:
+  #    console: "%d{yyyy-MM-dd HH:mm:ss} | %-5level | %logger{1.} | %msg%n"
+  level:
+    web: ${LOG_LEVEL_WEB:info}
+    root: ${LOG_LEVEL_ROOT:info}
+    ua:
+      findvacancies: ${LOG_LEVEL:info}

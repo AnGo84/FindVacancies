@@ -1,0 +1,21 @@
+# Build artifacts
+target/
+build/
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# OS clutter
+.DS_Store
+Thumbs.db
+
+# Git and environment
+.git/
+.gitignore
+.env
+
+# Logs and temp
+*.log
+*.swp

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="resultsTable"
+     id="search-results-container"
+     class="bg-white shadow-md rounded-sm p-4">
+
+    <h4 class="mb-2 text-lg font-semibold text-gray-800" th:text="#{search.results.title}">Search Results</h4>
+
+    <div class="flex justify-end mb-2"
+         th:if="${jobVacancies != null and !jobVacancies.isEmpty()}" x-data="{ exportMenuOpen: false }">
+        <div class="relative inline-block text-left">
+            <button type="button" @click="exportMenuOpen = !exportMenuOpen"
+                    class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-3 py-1 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                    <path d="M10.75 2.75a.75.75 0 0 0-1.5 0v8.614L6.295 8.235a.75.75 0 1 0-1.09 1.03l4.25 4.5a.75.75 0 0 0 1.09 0l4.25-4.5a.75.75 0 0 0-1.09-1.03l-2.955 3.129V2.75Z"/>
+                    <path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z"/>
+                </svg>
+                <span th:text="#{export.button}">Export</span>
+            </button>
+            <div x-show="exportMenuOpen" @click.outside="exportMenuOpen = false"
+                 class="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                 role="menu" aria-orientation="vertical" aria-labelledby="export-menu-button">
+                <div class="py-1">
+                    <a th:href="@{/export(format='JSON')}" role="menuitem"
+                       @click="exportMenuOpen = false"
+                       class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100">
+                        <span th:text="#{export.format.json}">JSON</span>
+                    </a>
+                    <a th:href="@{/export(format='XML')}" role="menuitem"
+                       @click="exportMenuOpen = false"
+                       class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100">
+                        <span th:text="#{export.format.xml}">XML</span>
+                    </a>
+                    <a th:href="@{/export(format='XLSX')}" role="menuitem"
+                       @click="exportMenuOpen = false"
+                       class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100">
+                        <span th:text="#{export.format.xlsx}">XLSX</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+            <tr>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    th:text="#{table.header.title}">Title
+                </th>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    th:text="#{table.header.date}">Date Posted
+                </th>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    th:text="#{table.header.site}">Job Site
+                </th>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    th:text="#{table.header.company}">Company
+                </th>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    th:text="#{table.header.salary}">Salary
+                </th>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    th:text="#{table.header.city}">City
+                </th>
+                <th class="px-3 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Hot</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="vacancy, stat : ${jobVacancies}"
+                th:classappend="${stat.odd} ? 'bg-gray-50' : 'bg-white'">
+                <td class="px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <a th:href="${vacancy.url}" th:text="${vacancy.title}" target="_blank">Title</a>
+                </td>
+                <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-500"
+                    th:text="${#temporals.format(vacancy.datePosted, 'dd.MM.yyyy')}">Date
+                </td>
+                <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-500" th:text="${vacancy.jobSite.name}">Site
+                </td>
+                <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-500" th:text="${vacancy.companyName}">Company
+                </td>
+                <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-500" th:text="${vacancy.salary}">Salary</td>
+                <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-500" th:text="${vacancy.city}">City</td>
+                <td class="px-3 py-2 whitespace-nowrap text-sm text-center">
+                    <span th:if="${vacancy.isHot()}"
+                          class="px-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">🔥</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:unless="${jobVacancies != null and !jobVacancies.isEmpty()}" class="text-center mt-3">
+        <p class="text-gray-500 text-sm" th:text="#{search.results.none}">No job vacancies found matching your
+            criteria.</p>
+    </div>
+</div>
+
+<div th:replace="~{fragments/search-form :: formContent}" hx-swap-oob="true"></div>
+
+</body>
+</html>

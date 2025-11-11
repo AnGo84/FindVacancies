@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="formContent" x-data="{ advancedOptionsOpen: false }">
+
+    <h2 th:text="#{search.form.title}" class="text-center mb-2 text-lg font-semibold text-gray-800">Title</h2>
+
+    <form th:action="@{/search}" th:object="${searchCriteria}" method="post"
+          class="needs-validation" novalidate
+          hx-post="/search" hx-target="#search-form-container" hx-swap="innerHTML">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-2 items-top">
+            <div class="col-span-full md:col-span-1 lg:col-span-3">
+                <label for="searchLine" class="block text-xs font-medium text-gray-700"
+                       th:text="#{search.keywords.label}">Keywords</label>
+                <input type="text"
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm text-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                       id="searchLine" th:field="*{searchLine}"
+                       th:classappend="${#fields.hasErrors('searchLine')} ? 'border-red-500 border-2'"
+                       th:placeholder="#{search.keywords.placeholder}">
+
+                <div class="mt-1 text-xs text-red-600" th:if="${#fields.hasErrors('searchLine')}"
+                     th:errors="*{searchLine}"></div>
+            </div>
+            <div class="col-span-full md:col-span-1 lg:col-span-1">
+                <label for="days" class="block text-xs font-medium text-gray-700"
+                       th:text="#{search.days.label}">Days</label>
+                <input type="number"
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm text-md focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                       id="days" th:field="*{days}" min="1"
+                       th:classappend="${#fields.hasErrors('days')} ? 'border-red-500 border-2' : ''">
+                <div class="mt-1 text-xs text-red-600" th:if="${#fields.hasErrors('days')}"
+                     th:errors="*{days}"></div>
+            </div>
+            <div class="col-span-full md:col-span-2 lg:col-span-2">
+                <label id="sites-container-label" class="block text-xs font-medium text-gray-700"
+                       for="sites-checkbox-container"
+                       th:text="#{search.sites.label}">Sites</label>
+                <div id="sites-checkbox-container" class="checkbox-container text-md rounded-md"
+                     th:classappend="${#fields.hasErrors('sites')} ? 'border-red-500 border-2'"
+                     aria-ali>
+                    <div th:each="site, status : ${jobSites}" class="checkbox-item py-1">
+                        <input type="checkbox"
+                               th:field="*{sites}"
+                               th:value="${site}"
+                               th:id="'site_' + ${status.index}"/>
+
+                        <label th:for="'site_' + ${status.index}" th:text="${site}"></label>
+                    </div>
+                </div>
+                <div class="mt-1 text-xs text-red-600" th:if="${#fields.hasErrors('sites')}"
+                     th:errors="*{sites}"></div>
+            </div>
+        </div>
+
+        <button class="text-blue-500 hover:text-blue-700 font-medium my-2 toggle-button text-sm" type="button"
+                @click="advancedOptionsOpen = !advancedOptionsOpen"
+                :aria-expanded="advancedOptionsOpen" aria-controls="advancedOptionsCollapse">
+            <span th:text="#{search.options.advanced.button}">Advanced Options</span>
+        </button>
+
+        <div x-show="advancedOptionsOpen" id="advancedOptionsCollapse">
+            <div class="mt-2">
+                <label for="ignoreWords" class="block text-xs font-medium text-gray-700"
+                       th:text="#{search.ignore.words.label}">Ignore words</label>
+                <input type="text"
+                       class="mt-1 block w-full rounded-sm border-gray-300 shadow-sm text-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                       id="ignoreWords" th:field="*{ignoreWords}"
+                       th:placeholder="#{search.ignore.words.placeholder}">
+            </div>
+        </div>
+
+        <div class="mt-2">
+            <button type="submit"
+                    class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent
+                    text-sm font-medium rounded-md shadow-sm text-white bg-blue-600
+                    hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                     fill="currentColor" class="size-5">
+                    <path fill-rule="evenodd"
+                          d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
+                          clip-rule="evenodd"/>
+                </svg>
+
+                <span th:text="#{search.button}">Search</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

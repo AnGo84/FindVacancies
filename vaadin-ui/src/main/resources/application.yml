@@ -1,0 +1,30 @@
+vaadin:
+  launch-browser: true
+  frontend:
+    optimize-bundle: true
+
+spring:
+  application:
+    name: Vaadin UI
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: health,info
+    endpoint:
+      health:
+        show-details: always
+
+  # Multilingual Configuration
+  messages:
+    encoding: UTF-8
+
+logging:
+  #  pattern:
+  #    console: "%d{yyyy-MM-dd HH:mm:ss} | %-5level | %logger{1.} | %msg%n"
+  level:
+    web: ${LOG_LEVEL_WEB:info}
+    root: ${LOG_LEVEL_ROOT:info}
+    ua:
+      findvacancies: ${LOG_LEVEL:info}
