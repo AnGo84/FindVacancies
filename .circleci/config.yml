@@ -3,7 +3,8 @@ version: 2.1
 executors:
   maven-executor:
     docker:
-      - image: cimg/openjdk:21.0
+      #- image: cimg/openjdk:21.0
+      - image: cimg/openjdk:25.0.0
     working_directory: ~/project
 
 jobs:

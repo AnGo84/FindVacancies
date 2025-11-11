@@ -36,7 +36,7 @@
 
         <!-- Generic properties -->
         <default.encoding>UTF-8</default.encoding>
-        <java.version>21</java.version>
+        <java.version>25</java.version>
         <maven.version>3.9.6</maven.version>
         <maven.compiler.release>${java.version}</maven.compiler.release>
         <project.build.sourceEncoding>${default.encoding}</project.build.sourceEncoding>
@@ -45,13 +45,6 @@
         <spring-boot.version>3.5.7</spring-boot.version>
 
         <vaadin.version>24.9.4</vaadin.version>
-
-        <!-- Test -->
-        <!-- todo: to remove. Junit and mockito are parts of Spring Boot test -->
-        <!--<junit-platform.version>1.13.3</junit-platform.version>
-        <junit-jupiter.version>5.13.3</junit-jupiter.version>
-        <mockito-core.version>5.18.0</mockito-core.version>-->
-        <!-- /Test -->
 
         <lombok.version>1.18.42</lombok.version>
 
@@ -290,13 +283,6 @@
             </plugins>
         </pluginManagement>
 
-        <!--<plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
-            </plugin>
-        </plugins>-->
     </build>
 
 </project>

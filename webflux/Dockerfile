@@ -1,5 +1,5 @@
 # Stage 1: Build webflux module and its dependencies
-FROM maven:3.9.4-eclipse-temurin-21 AS builder
+FROM maven:3.9.11-eclipse-temurin-25 AS builder
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY . .
 RUN mvn clean package -pl webflux -am -DskipTests
 
 # Stage 2: Runtime image
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:25-jre
 
 WORKDIR /app
 

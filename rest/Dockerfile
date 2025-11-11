@@ -1,5 +1,6 @@
-# Stage 1: Build with Maven and Java 21
-FROM maven:3.9.4-eclipse-temurin-21 AS builder
+# Stage 1: Build with Maven and Java 25
+FROM maven:3.9.11-eclipse-temurin-25 AS builder
+
 
 WORKDIR /app
 
@@ -9,8 +10,9 @@ COPY . .
 # Build only the current module and its dependencies
 RUN mvn clean package -pl rest -am -DskipTests
 
-# Stage 2: Run with JDK 21
-FROM eclipse-temurin:21-jre
+# Stage 2: Run with JDK 25
+FROM eclipse-temurin:25-jre
+
 
 WORKDIR /app
 

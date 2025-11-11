@@ -1,5 +1,5 @@
-# Stage 1: Build with Maven and Java 21
-FROM maven:3.9.4-eclipse-temurin-21 AS builder
+# ---- Stage 1: Build with Maven and Java 25 ----
+FROM maven:3.9.11-eclipse-temurin-25 AS builder
 
 WORKDIR /app
 
@@ -9,10 +9,9 @@ COPY . .
 # Build vaadin-ui and run prepare-frontend in one step
 RUN mvn -pl vaadin-ui -am clean package -DskipTests
 
-# Stage 2: Run with JDK 21
-FROM eclipse-temurin:21-jre
+# ---- Stage 2: Run with JDK 25 ----
+FROM eclipse-temurin:25-jre
 
-# APP
 WORKDIR /app
 
 # Copy the built jar from the builder stage
