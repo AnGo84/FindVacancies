@@ -29,9 +29,11 @@ public final class JobScraperMain {
                 .maxPagesToScrape(2)
                 .build();
 
-        Set<JobSite> targetSites = Set.of(JobSite.DOU_UA);
-
         var jobService = new JobServiceBuilder().build();
+
+        //Set<JobSite> targetSites =  Set.of(JobSite.WORK_UA);
+        Set<JobSite> targetSites =  jobService.getAvailableJobSites();
+
         log.info("Running job scraping with criteria: {} and target sites: {}", criteria, targetSites);
         try {
             List<JobVacancy> vacancies = jobService.getJobs(criteria, targetSites);
