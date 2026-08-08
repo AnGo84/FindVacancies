@@ -51,7 +51,7 @@
         <hibernate-validator.version>9.1.0.Final</hibernate-validator.version>
 
         <!-- JSON parsing -->
-        <jsoup.version>1.21.2</jsoup.version>
+        <jsoup.version>1.23.1</jsoup.version>
         <json.version>20250517</json.version>
 
         <!-- XML -->
